@@ -1,0 +1,33 @@
+{
+  "name": "unexpected-express",
+  "version": "0.1.0",
+  "description": "Extend the unexpected assertion library with support for testing Express middleware",
+  "main": "lib/unexpectedExpress.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/papandreou/unexpected-express.git"
+  },
+  "keywords": [
+    "test",
+    "unexpected",
+    "middleware",
+    "express",
+    "http",
+    "mock"
+  ],
+  "author": "Andreas Lind Petersen <andreas@one.com>",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/papandreou/unexpected-express/issues"
+  },
+  "homepage": "https://github.com/papandreou/unexpected-express",
+  "devDependencies": {
+    "bufferedstream": "^1.6.0"
+  },
+  "dependencies": {
+    "underscore": "^1.6.0"
+  }
+}
