@@ -11,7 +11,7 @@ var expect = require('unexpected')
     .installPlugin(require('unexpected-express'));
 
 function myMiddleware(req, res, next) {
-    res.setHeader('Content-Type', req.headers['content-type']);
+    res.setHeader('Content-Type', req.headers['accept']);
     res.send('Here goes ' + req.url);
 }
 
