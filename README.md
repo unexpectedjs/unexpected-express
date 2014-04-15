@@ -86,7 +86,7 @@ describe('myMiddleware', function () {
 You'll get a nice diff when expectations aren't met:
 
 ```
-  1) myMiddleware return a /404 for /baz:
+  1) myMiddleware return a 404 for /baz:
 
       Error: expected [Function: app] to be middleware that processes { request: { url: '/baz', headers: {} },
   response: { statusCode: 404, body: 'I could not find /baz' } }, [Function]
