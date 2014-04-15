@@ -132,7 +132,7 @@ You'll get a nice diff when expectations aren't met:
 Additional features:
 
 * Normalizes headers names so you don't need to use the ugly lower-case form in the assertions
-* The expected response bodies can be specified as either strings or Buffer instances
+* The expected response bodies can be specified as either strings, objects (implies JSON), or Buffer instances
 
 License
 -------
