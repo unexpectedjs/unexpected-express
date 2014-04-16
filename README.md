@@ -45,7 +45,7 @@ describe('myMiddleware', function (done) {
 ```
 
 If you're going to test a piece of middleware extensively, you can create your
-own custom assertion around that to increase DRYness and puts the request
+own custom assertion around that to increase DRYness and put the request
 properties into the subject's spot:
 
 ```javascript
