@@ -58,7 +58,7 @@ expect.addAssertion('to yield a response of', function (expect, subject, value, 
 
 describe('myMiddleware', function () {
     it('should default to text/plain', function (done) {
-        expect({url: '/barf'}, 'to yield a response of', {body: 'Here goes /barf as text/plain'}, done);
+        expect('/barf', 'to yield a response of', {body: 'Here goes /barf as text/plain'}, done);
     });
 
     it('should support text/html', function (done) {
@@ -70,7 +70,7 @@ describe('myMiddleware', function () {
     });
 
     it('should not entitify in text/plain', function (done) {
-        expect({url: '/<hey'}, 'to yield a response of', {body: 'Here goes /<hey as text/plain'}, done);
+        expect('/<hey', 'to yield a response of', {body: 'Here goes /<hey as text/plain'}, done);
     });
 
     it('should return a 400 if asked for an unsupported Content-Type', function (done) {
@@ -78,7 +78,7 @@ describe('myMiddleware', function () {
     });
 
     it('should return a 404 for /baz', function (done) {
-        expect({url: '/baz'}, 'to yield a response of', {statusCode: 404, body: 'I could not find /baz'}, done);
+        expect('/baz', 'to yield a response of', {statusCode: 404, body: 'I could not find /baz'}, done);
     });
 });
 ```
