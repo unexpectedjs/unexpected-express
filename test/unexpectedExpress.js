@@ -107,4 +107,14 @@ describe('unexpectedExpress', function () {
             requestBodyStream.end(new Buffer('foo=bar&baz=quux', 'utf-8'));
         });
     });
+
+    it('should make req.protocol return "https" when request:{https:true} is specified', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.protocol, 'to equal', 'https');
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: {https: true},
+            response: 200
+        }, done);
+    });
 });
