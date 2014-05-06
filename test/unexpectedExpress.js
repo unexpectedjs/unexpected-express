@@ -177,4 +177,15 @@ describe('unexpectedExpress', function () {
             }
         }, done);
     });
+
+    it('should support a numerical status code passed to next', function (done) {
+        expect(express().use(function (req, res, next) {
+            next(404);
+        }), 'to be middleware that processes', {
+            response: {
+                statusCode: 404,
+                errorPassedToNext: true
+            }
+        }, done);
+    });
 });
