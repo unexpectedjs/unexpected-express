@@ -133,6 +133,8 @@ Additional features:
 
 * Normalizes headers names so you don't need to use the ugly lower-case form in the assertions
 * The expected response bodies can be specified as either strings, objects (implies JSON), or Buffer instances
+* Request bodies can be provided as either strings, objects (implies JSON), Buffer instances, or streams.
+* Request body streams that are instances of https://github.com/felixge/node-form-data are special cased to implicitly set the `Content-Type` header correctly.
 
 License
 -------
