@@ -4,7 +4,7 @@
   "description": "Extend the unexpected assertion library with support for testing Express middleware",
   "main": "lib/unexpectedExpress.js",
   "scripts": {
-    "test": "npm test"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -25,14 +25,12 @@
   },
   "homepage": "https://github.com/papandreou/unexpected-express",
   "devDependencies": {
+    "body-parser": "=1.0.2",
     "bufferedstream": "=1.6.0",
     "express": "=4.1.1",
     "unexpected": "=3.1.6"
   },
   "dependencies": {
     "underscore": "=1.6.0"
-  },
-  "scripts": {
-    "test": "mocha"
   }
 }
