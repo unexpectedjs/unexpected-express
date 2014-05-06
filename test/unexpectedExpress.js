@@ -125,4 +125,44 @@ describe('unexpectedExpress', function () {
             response: 200
         }, done);
     });
+
+    it('should allow an error to be thrown in the middleware when errorPassedToNext is true', function (done) {
+        expect(express().use(function (req, res, next) {
+            throw new Error('foobar');
+        }), 'to be middleware that processes', {
+            response: {
+                errorPassedToNext: true
+            }
+        }, done);
+    });
+
+    it('should allow an error to be passed to next when errorPassedToNext is true', function (done) {
+        expect(express().use(function (req, res, next) {
+            next(new Error('foobar'));
+        }), 'to be middleware that processes', {
+            response: {
+                errorPassedToNext: true
+            }
+        }, done);
+    });
+
+    it('should set errorPassedToNext to false when there is no error', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.send(200);
+        }), 'to be middleware that processes', {
+            response: {
+                errorPassedToNext: false
+            }
+        }, done);
+    });
+
+    it('should match a non-boolean errorPassedToNext against the actual error', function (done) {
+        expect(express().use(function (req, res, next) {
+            next('foo bar quux');
+        }), 'to be middleware that processes', {
+            response: {
+                errorPassedToNext: 'foo bar quux'
+            }
+        }, done);
+    });
 });
