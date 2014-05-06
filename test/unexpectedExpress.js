@@ -22,6 +22,18 @@ describe('unexpectedExpress', function () {
         }), 'to be middleware that processes', {request: '/foo/bar/', response: 404}, done);
     });
 
+    it('should interpret response given as a string as the expected response body', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.send('foobar');
+        }), 'to be middleware that processes', {request: '/foo/bar/', response: 'foobar'}, done);
+    });
+
+    it('should interpret response given as a Buffer as the expected response body', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.send('foobar');
+        }), 'to be middleware that processes', {request: '/foo/bar/', response: new Buffer('foobar', 'utf-8')}, done);
+    });
+
     it('supports the request body to be specified as a string', function (done) {
         expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
