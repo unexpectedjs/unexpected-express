@@ -14,6 +14,14 @@ describe('unexpectedExpress', function () {
         }), 'to be middleware that processes', {response: 404}, done);
     });
 
+    it('should interpret request given as a string as the request url', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.method, 'to equal', 'GET');
+            expect(req.url, 'to equal', '/foo/bar/');
+            next();
+        }), 'to be middleware that processes', {request: '/foo/bar/', response: 404}, done);
+    });
+
     it('supports the request body to be specified as a string', function (done) {
         expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
