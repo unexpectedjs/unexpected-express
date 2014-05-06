@@ -35,9 +35,9 @@ describe('myMiddleware', function (done) {
             response: {
                 statusCode: 200,
                 headers: {
-                    'Content-Type': 'foo/bar'
+                    'Content-Type': 'text/plain'
                 },
-                body: 'Here goes /blah as foo/bar'
+                body: 'Here goes /blah as text/plain'
             }
         }, done);
     });
@@ -58,23 +58,23 @@ expect.addAssertion('to yield a response of', function (expect, subject, value, 
 
 describe('myMiddleware', function () {
     it('should default to text/plain', function (done) {
-        expect('/barf', 'to yield a response of', {body: 'Here goes /barf as text/plain'}, done);
+        expect('/barf', 'to yield a response of', 'Here goes /barf as text/plain', done);
     });
 
     it('should support text/html', function (done) {
-        expect({url: '/quux', headers: {Accept: 'text/html'}}, 'to yield a response of', {body: '<html>Here goes /quux as text/html</html>'}, done);
+        expect({url: '/quux', headers: {Accept: 'text/html'}}, 'to yield a response of', '<html>Here goes /quux as text/html</html>', done);
     });
 
     it('should entitify less than and ampersand chars in text/html', function (done) {
-        expect({url: '/<h&ey<', headers: {Accept: 'text/html'}}, 'to yield a response of', {body: '<html>Here goes /&lt;h&amp;ey&lt; as text/html</html>'}, done);
+        expect({url: '/<h&ey<', headers: {Accept: 'text/html'}}, 'to yield a response of', '<html>Here goes /&lt;h&amp;ey&lt; as text/html</html>', done);
     });
 
     it('should not entitify in text/plain', function (done) {
-        expect('/<hey', 'to yield a response of', {body: 'Here goes /<hey as text/plain'}, done);
+        expect('/<hey', 'to yield a response of', 'Here goes /<hey as text/plain', done);
     });
 
     it('should return a 400 if asked for an unsupported Content-Type', function (done) {
-        expect({url: '/something', headers: {Accept: 'text/calendar'}}, 'to yield a response of', {statusCode: 400}, done);
+        expect({url: '/something', headers: {Accept: 'text/calendar'}}, 'to yield a response of', {statusCode: 400, errorPassedToNext: true}, done);
     });
 
     it('should return a 404 for /baz', function (done) {
