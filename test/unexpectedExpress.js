@@ -222,4 +222,20 @@ describe('unexpectedExpress', function () {
             }
         }, done);
     });
+
+    it('should consider a non-existent response body equal to an empty Buffer', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.end();
+        }), 'to be middleware that processes', {
+            response: new Buffer([])
+        }, done);
+    });
+
+    it('should consider a non-existent response body equal to an empty string', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.end();
+        }), 'to be middleware that processes', {
+            response: ''
+        }, done);
+    });
 });
