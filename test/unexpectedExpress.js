@@ -168,9 +168,43 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
-    it('should match a non-boolean errorPassedToNext against the actual error', function (done) {
+    it('should match against the error message when errorPassedToNext is a string', function (done) {
         expect(express().use(function (req, res, next) {
-            next('foo bar quux');
+            next(new Error('foo bar quux'));
+        }), 'to be middleware that processes', {
+            response: {
+                errorPassedToNext: 'foo bar quux'
+            }
+        }, done);
+    });
+
+    it('should match against the error message errorPassedToNext is an Error', function (done) {
+        expect(express().use(function (req, res, next) {
+            next(new Error('foo'));
+        }), 'to be middleware that processes', {
+            response: {
+                errorPassedToNext: new Error('foo')
+            }
+        }, done);
+    });
+
+    it('should fail when matching Error instances with different messages', function (done) {
+        expect(express().use(function (req, res, next) {
+            next(new Error('foo'));
+        }), 'to be middleware that processes', {
+            response: {
+                errorPassedToNext: new Error('bar')
+            }
+        }, function (err) {
+            expect(err, 'to be an', Error);
+            expect(err.message, 'to contain', 'to have properties {errorPassedToNext: [Error: bar]}');
+            done();
+        });
+    });
+
+    it('should match a non-boolean, non-string errorPassedToNext against the actual error', function (done) {
+        expect(express().use(function (req, res, next) {
+            next(new Error('foo bar quux'));
         }), 'to be middleware that processes', {
             response: {
                 errorPassedToNext: 'foo bar quux'
