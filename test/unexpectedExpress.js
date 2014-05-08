@@ -2,10 +2,33 @@ var unexpectedExpress = require('../lib/unexpectedExpress'),
     unexpected = require('unexpected'),
     bodyParser = require('body-parser'),
     BufferedStream = require('bufferedstream'),
+    FormData = require('form-data'),
+    passError = require('passerror'),
     express = require('express');
 
 describe('unexpectedExpress', function () {
-    var expect = unexpected.clone().installPlugin(unexpectedExpress);
+    var expect = unexpected.clone().installPlugin(unexpectedExpress)
+        .addAssertion('to be a readable stream that outputs', function (expect, subject, value, done) {
+            expect(done, 'to be a function');
+            var chunks = [];
+            subject.on('data', function (chunk) {
+                chunks.push(chunk);
+            }).on('end', function () {
+                var output = Buffer.concat(chunks),
+                    valueIsRegExp = Object.prototype.toString.call(value) === '[object RegExp]';
+                if (typeof value === 'string') {
+                    output = output.toString('utf-8');
+                }
+                if (valueIsRegExp) {
+                    expect(output, 'to match', value);
+                } else {
+                    expect(output, 'to equal', value);
+                }
+                if (typeof done === 'function') {
+                    done();
+                }
+            }).on('error', done);
+        });
 
     it('should default to GET when no method is provided', function (done) {
         expect(express().use(function (req, res, next) {
@@ -237,5 +260,64 @@ describe('unexpectedExpress', function () {
         }), 'to be middleware that processes', {
             response: ''
         }, done);
+    });
+
+    it('should make a request body provided as an object appear as application/json parsed in req.body when using the bodyParser middleware', function (done) {
+        expect(express().use(bodyParser()).use(function (req, res, next) {
+            expect(req.header('Content-Type'), 'to equal', 'application/json');
+            expect(req.body, 'to equal', {
+                foo: {
+                    bar: 'quux'
+                }
+            });
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: {
+                body: {
+                    foo: {
+                        bar: 'quux'
+                    }
+                }
+            },
+            response: 200
+        }, done);
+    });
+
+    it('should make a request body provided as a FormData instance appear as multipart/form-data', function (done) {
+        var formData = new FormData();
+        expect(express().use(bodyParser()).use(function (req, res, next) {
+            var contentTypeRegExp = /^multipart\/form-data; boundary=([\-\d]+)$/,
+                contentType = req.header('Content-Type');
+
+            expect(contentType, 'to match', contentTypeRegExp);
+
+            var boundary = contentType.match(contentTypeRegExp)[1];
+
+            expect(
+                req,
+                'to be a readable stream that outputs',
+                '--' + boundary + '\r\n' +
+                'Content-Disposition: form-data; name="foo"\r\n' +
+                '\r\n' +
+                'bar\r\n' +
+                '--' + boundary + '\r\n' +
+                'Content-Disposition: form-data; name="quux"\r\n' +
+                '\r\n' +
+                'æøå☺\r\n' +
+                '--' + boundary + '--',
+                passError(next, function () {
+                    res.send(200);
+                })
+            );
+        }), 'to be middleware that processes', {
+            request: {
+                body: formData
+            },
+            response: 200
+        }, done);
+
+        formData.append('foo', 'bar');
+        formData.append('quux', 'æøå☺');
+        formData.resume();
     });
 });
