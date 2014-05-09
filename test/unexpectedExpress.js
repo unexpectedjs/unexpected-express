@@ -320,4 +320,34 @@ describe('unexpectedExpress', function () {
         formData.append('quux', 'æøå☺');
         formData.resume();
     });
+
+    it('should mock the ip so that the req.ip getter installed by Express retrieves the correct value', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.ip, 'to equal', '127.0.0.1');
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: '/foo/',
+            response: 200
+        }, done);
+    });
+
+    it('should allow mocking a specific ip', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.ip, 'to equal', '99.88.77.66');
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: {remoteAddress: '99.88.77.66'},
+            response: 200
+        }, done);
+    });
+
+    it('should allow mocking a specific ip using the alias ip', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.ip, 'to equal', '99.88.77.66');
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: {ip: '99.88.77.66'},
+            response: 200
+        }, done);
+    });
 });
