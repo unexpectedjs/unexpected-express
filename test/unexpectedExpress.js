@@ -350,4 +350,41 @@ describe('unexpectedExpress', function () {
             response: 200
         }, done);
     });
+
+    it('should populate the Host header if an absolute url is specified', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.get('Host'), 'to equal', 'www.example.com:5432');
+            expect(req.url, 'to equal', '/foo/bar/?hey=there');
+            expect(req.originalUrl, 'to equal', '/foo/bar/?hey=there');
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: 'http://www.example.com:5432/foo/bar/?hey=there',
+            response: 200
+        }, done);
+    });
+
+    it('should not overwrite an explicit Host header when an absolute url is specified', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.get('Host'), 'to equal', 'blabla.com');
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: {
+                headers: {
+                    Host: 'blabla.com'
+                },
+                url: 'http://www.example.com:5432/foo/bar/?hey=there'
+            },
+            response: 200
+        }, done);
+    });
+
+    it('should mock an https request if an absolute url with a scheme of https is specified', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.secure, 'to be truthy');
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: 'https://www.example.com:5432/foo/bar/',
+            response: 200
+        }, done);
+    });
 });
