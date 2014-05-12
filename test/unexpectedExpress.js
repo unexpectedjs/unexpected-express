@@ -387,4 +387,17 @@ describe('unexpectedExpress', function () {
             response: 200
         }, done);
     });
+
+    it('should allow matching on the (rewritten) url in the response object', function (done) {
+        expect(express().use(function (req, res, next) {
+            req.url = '/bar';
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: '/foo',
+            response: {
+                url: '/bar',
+                statusCode: 200
+            }
+        }, done);
+    });
 });
