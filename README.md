@@ -1,7 +1,7 @@
 Unexpected-express
 ==================
 
-Plugin for [Unexpected](https://github.com/sunesimonsen/) that makes it easy to test [Express.js](https://github.com/visionmedia/express/) middleware.
+Plugin for [Unexpected](https://github.com/sunesimonsen/unexpected) that makes it easy to test [Express.js](https://github.com/visionmedia/express/) middleware.
 
 Example:
 
