@@ -1,6 +1,6 @@
 {
   "name": "unexpected-express",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Extend the unexpected assertion library with support for testing Express middleware",
   "main": "lib/unexpectedExpress.js",
   "scripts": {
