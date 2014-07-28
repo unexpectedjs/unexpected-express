@@ -16,7 +16,7 @@ describe('unexpectedExpress', function () {
             }).on('end', function () {
                 var output = Buffer.concat(chunks),
                     valueIsRegExp = Object.prototype.toString.call(value) === '[object RegExp]';
-                if (typeof value === 'string') {
+                if (typeof value === 'string' || valueIsRegExp) {
                     output = output.toString('utf-8');
                 }
                 if (valueIsRegExp) {
