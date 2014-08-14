@@ -363,6 +363,17 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
+    it('should populate the method if one is defined before the url', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.method, 'to equal', 'DELETE');
+            expect(req.url, 'to equal', '/foo/bar/');
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: 'DELETE /foo/bar/',
+            response: 200
+        }, done);
+    });
+
     it('should not overwrite an explicit Host header when an absolute url is specified', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.get('Host'), 'to equal', 'blabla.com');
