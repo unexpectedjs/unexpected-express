@@ -220,7 +220,7 @@ describe('unexpectedExpress', function () {
             }
         }, function (err) {
             expect(err, 'to be an', Error);
-            expect(err.message, 'to contain', 'to have properties {errorPassedToNext: [Error: bar]}');
+            expect(err.message, 'to match', /to have properties.*errorPassedToNext: \[Error/);
             done();
         });
     });
