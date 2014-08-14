@@ -1,3 +1,8 @@
+/*global describe, it, setImmediate:true*/
+
+if (typeof setImmediate === 'undefined') {
+    setImmediate = process.nextTick;
+}
 var unexpectedExpress = require('../lib/unexpectedExpress'),
     unexpected = require('unexpected'),
     bodyParser = require('body-parser'),

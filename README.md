@@ -3,6 +3,11 @@ Unexpected-express
 
 Plugin for [Unexpected](https://github.com/sunesimonsen/unexpected) that makes it easy to test [Express.js](https://github.com/visionmedia/express/) middleware.
 
+[![NPM version](https://badge.fury.io/js/unexpected-express.png)](http://badge.fury.io/js/unexpected-express)
+[![Build Status](https://travis-ci.org/papandreou/unexpected-express.png)](https://travis-ci.org/papandreou/unexpected-express)
+[![Coverage Status](https://coveralls.io/repos/papandreou/unexpected-express/badge.png)](https://coveralls.io/r/papandreou/unexpected-express)
+[![Dependency Status](https://david-dm.org/papandreou/unexpected-express.png)](https://david-dm.org/papandreou/unexpected-express)
+
 Example:
 
 ```javascript
