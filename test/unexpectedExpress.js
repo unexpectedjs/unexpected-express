@@ -523,7 +523,7 @@ describe('unexpectedExpress', function () {
                 }));
             });
 
-            it.skip('should keep it as a Buffer if it cannot be interpreted as utf-8', function (done) {
+            it('should keep it as a Buffer if it cannot be interpreted as utf-8', function (done) {
                 expect(express().use(function (req, res, next) {
                     res.setHeader('Content-Type', 'text/plain');
                     res.send(new Buffer([0xf8]));
