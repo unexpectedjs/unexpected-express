@@ -416,4 +416,175 @@ describe('unexpectedExpress', function () {
             }
         }, done);
     });
+
+    describe('with the response provided as a Buffer', function () {
+        it('should upgrade it to a string when matched against a string', function (done) {
+            expect(express().use(function (req, res, next) {
+                res.setHeader('Content-Type', 'text/plain');
+                res.send(new Buffer('blah', 'utf-8'));
+            }), 'to be middleware that processes', {
+                request: '/foo',
+                response: {
+                    body: 'blah',
+                    statusCode: 200
+                }
+            }, passError(done, function (context) {
+                expect(context.responseProperties.body, 'to be a string');
+                done();
+            }));
+        });
+
+        it('should upgrade it to a string when not matched against', function (done) {
+            expect(express().use(function (req, res, next) {
+                res.setHeader('Content-Type', 'text/plain');
+                res.send(new Buffer('blah', 'utf-8'));
+            }), 'to be middleware that processes', {
+                request: '/foo',
+                response: 200
+            }, passError(done, function (context) {
+                expect(context.responseProperties.body, 'to be a string');
+                done();
+            }));
+        });
+
+        describe('and a Content-Type of application/json', function () {
+            it('should keep it as a Buffer when matched against a Buffer', function (done) {
+                expect(express().use(function (req, res, next) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(new Buffer(JSON.stringify({foo: '123'}), 'utf-8'));
+                }), 'to be middleware that processes', {
+                    request: '/foo',
+                    response: {
+                        body: new Buffer(JSON.stringify({foo: '123'})),
+                        statusCode: 200
+                    }
+                }, passError(done, function (context) {
+                    expect(context.responseProperties.body, 'to be a', Buffer);
+                    done();
+                }));
+            });
+
+            it('should upgrade it to an object when matched against an object', function (done) {
+                expect(express().use(function (req, res, next) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(new Buffer('{"foo": 123}', 'utf-8'));
+                }), 'to be middleware that processes', {
+                    request: '/foo',
+                    response: {
+                        body: {
+                            foo: 123
+                        }
+                    }
+                }, passError(done, function (context) {
+                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    done();
+                }));
+            });
+
+            it('should upgrade it to an object when not matched against', function (done) {
+                expect(express().use(function (req, res, next) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(new Buffer('{"foo": 123}', 'utf-8'));
+                }), 'to be middleware that processes', {
+                    request: '/foo',
+                    response: 200
+                }, passError(done, function (context) {
+                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    done();
+                }));
+            });
+
+            it.skip('should keep it as a Buffer if it cannot be interpreted as utf-8', function (done) {
+                expect(express().use(function (req, res, next) {
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.send(new Buffer([0xf8]));
+                }), 'to be middleware that processes', {
+                    request: '/foo',
+                    response: 200
+                }, passError(done, function (context) {
+                    expect(context.responseProperties.body, 'to be a', Buffer);
+                    done();
+                }));
+            });
+        });
+    });
+
+    describe('with the response provided as a string', function () {
+        it('should downgrade it to a Buffer when matched against a Buffer', function (done) {
+            expect(express().use(function (req, res, next) {
+                res.setHeader('Content-Type', 'text/plain');
+                res.send('blah');
+            }), 'to be middleware that processes', {
+                request: '/foo',
+                response: {
+                    body: new Buffer('blah', 'utf-8'),
+                    statusCode: 200
+                }
+            }, passError(done, function (context) {
+                expect(context.responseProperties.body, 'to be a', Buffer);
+                done();
+            }));
+        });
+
+        it('should keep it as a string when not matched against', function (done) {
+            expect(express().use(function (req, res, next) {
+                res.setHeader('Content-Type', 'text/plain');
+                res.send('blah');
+            }), 'to be middleware that processes', {
+                request: '/foo',
+                response: 200
+            }, passError(done, function (context) {
+                expect(context.responseProperties.body, 'to be a string');
+                done();
+            }));
+        });
+
+        describe('and a Content-Type of application/json', function () {
+            it('should keep it as a string when matched against a string', function (done) {
+                expect(express().use(function (req, res, next) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send('{"foo": 123}');
+                }), 'to be middleware that processes', {
+                    request: '/foo',
+                    response: {
+                        body: '{"foo": 123}',
+                        statusCode: 200
+                    }
+                }, passError(done, function (context) {
+                    expect(context.responseProperties.body, 'to be a', Buffer);
+                    done();
+                }));
+            });
+
+            it('should upgrade it to an object when matched against an object', function (done) {
+                expect(express().use(function (req, res, next) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send('{"foo": 123}');
+                }), 'to be middleware that processes', {
+                    request: '/foo',
+                    response: {
+                        body: {
+                            foo: 123
+                        }
+                    }
+                }, passError(done, function (context) {
+                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    done();
+                }));
+            });
+
+            it('should upgrade it to an object when not matched against', function (done) {
+                expect(express().use(function (req, res, next) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send('{"foo": 123}');
+                }), 'to be middleware that processes', {
+                    request: '/foo',
+                    response: 200
+                }, passError(done, function (context) {
+                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    done();
+                }));
+            });
+        });
+    });
 });
