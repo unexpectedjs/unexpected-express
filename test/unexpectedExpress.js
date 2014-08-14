@@ -434,7 +434,23 @@ describe('unexpectedExpress', function () {
             }));
         });
 
-        it('should upgrade it to a string when not matched against', function (done) {
+        it('should upgrade it to a string when matched against a string, even when served as a non-textual Content-Type', function (done) {
+            expect(express().use(function (req, res, next) {
+                res.setHeader('Content-Type', 'image/png');
+                res.send(new Buffer('PNG...', 'utf-8'));
+            }), 'to be middleware that processes', {
+                request: '/foo',
+                response: {
+                    body: 'PNG...',
+                    statusCode: 200
+                }
+            }, passError(done, function (context) {
+                expect(context.responseProperties.body, 'to be a string');
+                done();
+            }));
+        });
+
+        it('should upgrade it to a string when not matched against and served with a textual Content-Type', function (done) {
             expect(express().use(function (req, res, next) {
                 res.setHeader('Content-Type', 'text/plain');
                 res.send(new Buffer('blah', 'utf-8'));
@@ -443,6 +459,19 @@ describe('unexpectedExpress', function () {
                 response: 200
             }, passError(done, function (context) {
                 expect(context.responseProperties.body, 'to be a string');
+                done();
+            }));
+        });
+
+        it('should not upgrade it to a string when not matched against and served with a non-textual Content-Type', function (done) {
+            expect(express().use(function (req, res, next) {
+                res.setHeader('Content-Type', 'image/png');
+                res.send(new Buffer('PNG....', 'utf-8'));
+            }), 'to be middleware that processes', {
+                request: '/foo',
+                response: 200
+            }, passError(done, function (context) {
+                expect(context.responseProperties.body, 'to be a', Buffer);
                 done();
             }));
         });
@@ -551,7 +580,7 @@ describe('unexpectedExpress', function () {
                         statusCode: 200
                     }
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to be a', Buffer);
+                    expect(context.responseProperties.body, 'to equal', '{"foo": 123}');
                     done();
                 }));
             });
