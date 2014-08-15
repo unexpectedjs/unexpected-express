@@ -156,6 +156,17 @@ describe('unexpectedExpress', function () {
         });
     });
 
+    it('provides a req object that emits end even though a request body is not specified', function (done) {
+        expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
+            req.on('end', function () {
+                res.send(200);
+            });
+        }), 'to be middleware that processes', {
+            request: 'PUT /',
+            response: 200
+        }, done);
+    });
+
     it('should make req.protocol return "https" when request:{https:true} is specified', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.protocol, 'to equal', 'https');
