@@ -5,7 +5,7 @@
   "main": "lib/unexpectedExpress.js",
   "scripts": {
     "lint": "jshint .",
-    "test": "npm run lint && mocha",
+    "test": "mocha && npm run lint",
     "travis": "npm test && npm run coverage && <coverage/lcov.info coveralls",
     "coverage": "NODE_ENV=development istanbul cover _mocha -- --reporter dot"
   },
