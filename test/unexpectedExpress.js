@@ -181,9 +181,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             throw new Error('foobar');
         }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: true
-            }
+            errorPassedToNext: true
         }, done);
     });
 
@@ -191,9 +189,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             next(new Error('foobar'));
         }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: true
-            }
+            errorPassedToNext: true
         }, done);
     });
 
@@ -201,9 +197,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             res.send(200);
         }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: false
-            }
+            errorPassedToNext: false
         }, done);
     });
 
@@ -211,9 +205,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             next(new Error('foo bar quux'));
         }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: 'foo bar quux'
-            }
+            errorPassedToNext: 'foo bar quux'
         }, done);
     });
 
@@ -221,9 +213,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             next(new Error('foo'));
         }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: new Error('foo')
-            }
+            errorPassedToNext: new Error('foo')
         }, done);
     });
 
@@ -231,9 +221,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             next(new Error('foo'));
         }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: new Error('bar')
-            }
+            errorPassedToNext: new Error('bar')
         }, function (err) {
             expect(err, 'to be an', Error);
             expect(err.message, 'to match', /to have properties.*errorPassedToNext: \[Error/);
@@ -245,9 +233,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             next(new Error('foo bar quux'));
         }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: 'foo bar quux'
-            }
+            errorPassedToNext: 'foo bar quux'
         }, done);
     });
 
@@ -255,9 +241,9 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             next(404);
         }), 'to be middleware that processes', {
+            errorPassedToNext: true,
             response: {
-                statusCode: 404,
-                errorPassedToNext: true
+                statusCode: 404
             }
         }, done);
     });
@@ -440,7 +426,7 @@ describe('unexpectedExpress', function () {
                     statusCode: 200
                 }
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a string');
+                expect(context.httpResponse.body, 'to be a string');
                 done();
             }));
         });
@@ -456,7 +442,7 @@ describe('unexpectedExpress', function () {
                     statusCode: 200
                 }
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a string');
+                expect(context.httpResponse.body, 'to be a string');
                 done();
             }));
         });
@@ -469,7 +455,7 @@ describe('unexpectedExpress', function () {
                 request: '/foo',
                 response: 200
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a string');
+                expect(context.httpResponse.body, 'to be a string');
                 done();
             }));
         });
@@ -482,7 +468,7 @@ describe('unexpectedExpress', function () {
                 request: '/foo',
                 response: 200
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a', Buffer);
+                expect(context.httpResponse.body, 'to be a', Buffer);
                 done();
             }));
         });
@@ -499,7 +485,7 @@ describe('unexpectedExpress', function () {
                         statusCode: 200
                     }
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to be a', Buffer);
+                    expect(context.httpResponse.body, 'to be a', Buffer);
                     done();
                 }));
             });
@@ -516,7 +502,7 @@ describe('unexpectedExpress', function () {
                         }
                     }
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    expect(context.httpResponse.body, 'to equal', {foo: 123});
                     done();
                 }));
             });
@@ -529,7 +515,7 @@ describe('unexpectedExpress', function () {
                     request: '/foo',
                     response: 200
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    expect(context.httpResponse.body, 'to equal', {foo: 123});
                     done();
                 }));
             });
@@ -542,7 +528,7 @@ describe('unexpectedExpress', function () {
                     request: '/foo',
                     response: 200
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to be a', Buffer);
+                    expect(context.httpResponse.body, 'to be a', Buffer);
                     done();
                 }));
             });
@@ -561,7 +547,7 @@ describe('unexpectedExpress', function () {
                     statusCode: 200
                 }
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a', Buffer);
+                expect(context.httpResponse.body, 'to be a', Buffer);
                 done();
             }));
         });
@@ -574,7 +560,7 @@ describe('unexpectedExpress', function () {
                 request: '/foo',
                 response: 200
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a string');
+                expect(context.httpResponse.body, 'to be a string');
                 done();
             }));
         });
@@ -591,7 +577,7 @@ describe('unexpectedExpress', function () {
                         statusCode: 200
                     }
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to equal', '{"foo": 123}');
+                    expect(context.httpResponse.body, 'to equal', '{"foo": 123}');
                     done();
                 }));
             });
@@ -608,7 +594,7 @@ describe('unexpectedExpress', function () {
                         }
                     }
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    expect(context.httpResponse.body, 'to equal', {foo: 123});
                     done();
                 }));
             });
@@ -621,7 +607,7 @@ describe('unexpectedExpress', function () {
                     request: '/foo',
                     response: 200
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    expect(context.httpResponse.body, 'to equal', {foo: 123});
                     done();
                 }));
             });
