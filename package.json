@@ -36,7 +36,7 @@
     "jshint": "=2.5.2",
     "mocha": "=1.21.4",
     "passerror": "=1.0.1",
-    "unexpected": "=4.0.5"
+    "unexpected": "=4.1.4"
   },
   "dependencies": {
     "bufferedstream": "=1.6.0",
