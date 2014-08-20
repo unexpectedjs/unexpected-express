@@ -35,6 +35,26 @@ describe('unexpectedExpress', function () {
             }).on('error', done);
         });
 
+    it('should populate req.headers with repeated headers like node.js', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.headers, 'to have properties', {
+                'content-type': 'text/html',
+                'set-cookie': ['foo=bar', 'baz=quux'],
+                'cache-control': 'public, no-cache'
+            });
+            next();
+        }), 'to be middleware that processes', {
+            request: {
+                headers: {
+                    'Content-Type': 'text/html',
+                    'Set-Cookie': ['foo=bar', 'baz=quux'],
+                    'Cache-Control': ['public', 'no-cache']
+                }
+            },
+            response: 404
+        }, done);
+    });
+
     it('should default to GET when no method is provided', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.method, 'to equal', 'GET');
