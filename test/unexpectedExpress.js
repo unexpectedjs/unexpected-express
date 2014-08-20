@@ -633,4 +633,23 @@ describe('unexpectedExpress', function () {
             });
         });
     });
+
+    it('should produce the correct diff when the expected headers do not match', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('ETag', '"abc123"');
+            res.send({foo: 123});
+        }), 'to be middleware that processes', {
+            request: '/',
+            response: {
+                headers: {
+                    ETag: '"foo456"'
+                }
+            }
+        }, function (err) {
+            expect(err, 'to be an', Error);
+            // expect(err.output.toString(), 'to equal', ...);
+            done();
+        });
+    });
 });
