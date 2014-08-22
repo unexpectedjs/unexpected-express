@@ -464,6 +464,40 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
+    it('should assert the absence of a header by specifying it as undefined', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.setHeader('X-Foo', 'bar');
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: '/foo',
+            response: {
+                headers: {
+                    'X-Foo': undefined
+                }
+            }
+        }, function (err) {
+            expect(err, 'to be an', Error);
+            done();
+        });
+    });
+
+    it('should assert the absence of a header by specifying it as undefined, even when using a different casing', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.setHeader('X-Foo', 'bar');
+            res.send(200);
+        }), 'to be middleware that processes', {
+            request: '/foo',
+            response: {
+                headers: {
+                    'x-fOO': undefined
+                }
+            }
+        }, function (err) {
+            expect(err, 'to be an', Error);
+            done();
+        });
+    });
+
     describe('with the response provided as a Buffer', function () {
         it('should upgrade it to a string when matched against a string', function (done) {
             expect(express().use(function (req, res, next) {
