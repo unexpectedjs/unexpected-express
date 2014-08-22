@@ -62,6 +62,36 @@ describe('unexpectedExpress', function () {
         }), 'to be middleware that processes', {response: 404}, done);
     });
 
+    it('should default to / when no url is provided', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.url, 'to equal', '/');
+            next();
+        }), 'to be middleware that processes', {response: 404}, done);
+    });
+
+    it('should set up req.httpVersion etc. correctly', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.httpVersion, 'to equal', '1.1');
+            expect(req.httpVersionMajor, 'to equal', 1);
+            expect(req.httpVersionMinor, 'to equal', 1);
+            next();
+        }), 'to be middleware that processes', {response: 404}, done);
+    });
+
+    it('should allow overriding the HTTP version', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.httpVersion, 'to equal', '2.0');
+            expect(req.httpVersionMajor, 'to equal', 2);
+            expect(req.httpVersionMinor, 'to equal', 0);
+            next();
+        }), 'to be middleware that processes', {
+            request: {
+                httpVersion: '2.0'
+            },
+            response: 404
+        }, done);
+    });
+
     it('should interpret request given as a string as the request url', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.method, 'to equal', 'GET');
