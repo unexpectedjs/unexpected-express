@@ -41,7 +41,7 @@
   "dependencies": {
     "bufferedstream": "=1.6.0",
     "jshint": "=2.5.2",
-    "messy": "=0.7.1",
+    "messy": "=0.7.2",
     "underscore": "=1.6.0"
   }
 }
