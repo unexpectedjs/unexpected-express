@@ -88,7 +88,7 @@ describe('unexpectedExpress', function () {
         }), 'to be middleware that processes', {
             request: {
                 headers: {
-                    'Content-Type': 'appalication/x-www-form-urlencoded'
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: 'foo=bar&baz=quux'
             },
