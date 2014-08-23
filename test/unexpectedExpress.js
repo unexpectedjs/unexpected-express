@@ -35,6 +35,8 @@ describe('unexpectedExpress', function () {
             }).on('error', done);
         });
 
+    expect.output.installPlugin(require('magicpen-prism'));
+
     it('should populate req.headers with repeated headers like node.js', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.headers, 'to have properties', {
