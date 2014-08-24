@@ -27,6 +27,9 @@
     "url": "https://github.com/papandreou/unexpected-express/issues"
   },
   "homepage": "https://github.com/papandreou/unexpected-express",
+  "peerDependencies": {
+    "unexpected": "~5.0"
+  },
   "devDependencies": {
     "body-parser": "=1.0.2",
     "coveralls": "=2.11.1",
@@ -37,12 +40,13 @@
     "magicpen-prism": "=0.1.2",
     "mocha": "=1.21.4",
     "passerror": "=1.0.1",
-    "unexpected": "=4.1.4"
+    "unexpected": "~5.0"
   },
   "dependencies": {
     "bufferedstream": "=1.6.0",
     "jshint": "=2.5.2",
     "messy": "=0.7.2",
-    "underscore": "=1.6.0"
+    "underscore": "=1.6.0",
+    "unexpected-messy": "=0.1.0"
   }
 }
