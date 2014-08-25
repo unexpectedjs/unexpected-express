@@ -276,7 +276,6 @@ describe('unexpectedExpress', function () {
             errorPassedToNext: new Error('bar')
         }, function (err) {
             expect(err, 'to be an', Error);
-            expect(err.message, 'to match', /to have properties.*errorPassedToNext: \[Error/);
             done();
         });
     });
