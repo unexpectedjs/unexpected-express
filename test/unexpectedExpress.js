@@ -15,6 +15,7 @@ describe('unexpectedExpress', function () {
     var expect = unexpected.clone().installPlugin(unexpectedExpress)
         .addAssertion('to be a readable stream that outputs', function (expect, subject, value, done) {
             expect(done, 'to be a function');
+            this.errorMode = 'bubble'; // Make sure we get a diff if the emitted output mismatches
             var chunks = [];
             subject.on('data', function (chunk) {
                 chunks.push(chunk);
