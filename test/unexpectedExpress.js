@@ -704,6 +704,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             res.setHeader('Content-Type', 'application/json');
             res.setHeader('ETag', '"abc123"');
+            res.setHeader('Date', 'Sat, 30 Aug 2014 23:41:13 GMT');
             res.send({foo: 123});
         }), 'to be middleware that processes', {
             request: '/',
@@ -714,6 +715,21 @@ describe('unexpectedExpress', function () {
             }
         }, function (err) {
             expect(err, 'to be an', Error);
+            expect(err.output.toString(), 'to equal',
+                'expected [Function] to be middleware that processes {}, [Function]\n' +
+                '  GET / HTTP/1.1\n' +
+                '  \n' +
+                '  HTTP/1.1 200 OK\n' +
+                '  X-Powered-By: Express\n' +
+                '  Content-Type: application/json\n' +
+                '  ETag: "abc123" // should be: "foo456"\n' +
+                '  Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
+                '  Content-Length: 11\n' +
+                '  Connection: keep-alive\n' +
+                '  \n' +
+                '  { foo: 123 }'
+            );
+
             // expect(err.output.toString(), 'to equal', ...);
             done();
         });
