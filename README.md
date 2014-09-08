@@ -30,7 +30,7 @@ function myMiddleware(req, res, next) {
 
 describe('myMiddleware', function (done) {
     it('should handle a simple request', function (done) {
-        expect(require('express')().use(myMiddleware), 'to be middleware that processes', {
+        expect(require('express')().use(myMiddleware), 'to yield exchange', {
             request: {
                 url: '/blah',
                 headers: {
@@ -55,7 +55,7 @@ properties into the subject's spot:
 
 ```javascript
 expect.addAssertion('to yield a response of', function (expect, subject, value, done) {
-    expect(require('express')().use(myMiddleware), 'to be middleware that processes', {
+    expect(require('express')().use(myMiddleware), 'to yield exchange', {
         request: subject,
         response: value
     }, done);
@@ -93,7 +93,7 @@ You'll get a nice diff when expectations aren't met:
 ```
   1) myMiddleware return a 404 for /baz:
 
-      Error: expected [Function: app] to be middleware that processes { request: { url: '/baz', headers: {} },
+      Error: expected [Function: app] to yield exchange { request: { url: '/baz', headers: {} },
   response: { statusCode: 404, body: 'I could not find /baz' } }, [Function]
       + expected - actual
 ```
