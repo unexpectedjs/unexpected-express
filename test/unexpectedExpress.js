@@ -716,7 +716,11 @@ describe('unexpectedExpress', function () {
         }, function (err) {
             expect(err, 'to be an', Error);
             expect(err.output.toString(), 'to equal',
-                'expected [Function] to yield exchange {}\n' +
+                'expected\n' +
+                'function (req, res, next) {\n' +
+                '  app.handle(req, res, next);\n' +
+                '}\n' +
+                'to yield exchange {}\n' +
                 '  GET / HTTP/1.1\n' +
                 '  \n' +
                 '  HTTP/1.1 200 OK\n' +
