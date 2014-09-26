@@ -230,6 +230,17 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
+    it('should treat an error with a statusCode property passed to next the same as an HTTP response with that as the status code', function (done) {
+        expect(express().use(function (req, res, next) {
+            var err = new Error('foobar');
+            err.statusCode = 412;
+            next(err);
+        }), 'to yield exchange', {
+            request: 'GET /',
+            response: 412
+        }, done);
+    });
+
     it('should allow an error to be thrown in the middleware when errorPassedToNext is true', function (done) {
         expect(express().use(function (req, res, next) {
             throw new Error('foobar');
