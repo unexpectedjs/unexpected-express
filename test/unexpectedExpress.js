@@ -230,15 +230,35 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
-    it('should treat an error with a statusCode property passed to next the same as an HTTP response with that as the status code', function (done) {
-        expect(express().use(function (req, res, next) {
-            var err = new Error('foobar');
-            err.statusCode = 412;
-            next(err);
-        }), 'to yield exchange', {
-            request: 'GET /',
-            response: 412
-        }, done);
+    describe('when an error with a statusCode property is passed to next', function () {
+
+        it('should treat it the same way as an HTTP response with that as the status code', function (done) {
+            expect(express().use(function (req, res, next) {
+                var err = new Error('foobar');
+                err.statusCode = 412;
+                next(err);
+            }), 'to yield exchange', {
+                request: 'GET /',
+                response: 412
+            }, done);
+        });
+
+        it('should not mess with headers that were already set', function (done) {
+            expect(express().use(function (req, res, next) {
+                res.setHeader('Foo', 'bar');
+                var err = new Error('foobar');
+                err.statusCode = 412;
+                next(err);
+            }), 'to yield exchange', {
+                request: 'GET /',
+                response: {
+                    statusCode: 412,
+                    headers: {
+                        Foo: 'bar'
+                    }
+                }
+            }, done);
+        });
     });
 
     it('should allow an error to be thrown in the middleware when errorPassedToNext is true', function (done) {
