@@ -15,6 +15,7 @@ describe('unexpectedExpress', function () {
     var expect = unexpected.clone().installPlugin(unexpectedExpress)
         .addAssertion('to be a readable stream that outputs', function (expect, subject, value, done) {
             expect(done, 'to be a function');
+            this.errorMode = 'bubble'; // Make sure we get a diff if the emitted output mismatches
             var chunks = [];
             subject.on('data', function (chunk) {
                 chunks.push(chunk);
@@ -35,11 +36,63 @@ describe('unexpectedExpress', function () {
             }).on('error', done);
         });
 
+    expect.output.installPlugin(require('magicpen-prism'));
+
+    it('should populate req.headers with repeated headers like node.js', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.headers, 'to have properties', {
+                'content-type': 'text/html',
+                'set-cookie': ['foo=bar', 'baz=quux'],
+                'cache-control': 'public, no-cache'
+            });
+            next();
+        }), 'to yield exchange', {
+            request: {
+                headers: {
+                    'Content-Type': 'text/html',
+                    'Set-Cookie': ['foo=bar', 'baz=quux'],
+                    'Cache-Control': ['public', 'no-cache']
+                }
+            },
+            response: 404
+        }, done);
+    });
+
     it('should default to GET when no method is provided', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.method, 'to equal', 'GET');
             next();
-        }), 'to be middleware that processes', {response: 404}, done);
+        }), 'to yield exchange', {response: 404}, done);
+    });
+
+    it('should default to / when no url is provided', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.url, 'to equal', '/');
+            next();
+        }), 'to yield exchange', {response: 404}, done);
+    });
+
+    it('should set up req.httpVersion etc. correctly', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.httpVersion, 'to equal', '1.1');
+            expect(req.httpVersionMajor, 'to equal', 1);
+            expect(req.httpVersionMinor, 'to equal', 1);
+            next();
+        }), 'to yield exchange', {response: 404}, done);
+    });
+
+    it('should allow overriding the HTTP version', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.httpVersion, 'to equal', '2.0');
+            expect(req.httpVersionMajor, 'to equal', 2);
+            expect(req.httpVersionMinor, 'to equal', 0);
+            next();
+        }), 'to yield exchange', {
+            request: {
+                httpVersion: '2.0'
+            },
+            response: 404
+        }, done);
     });
 
     it('should interpret request given as a string as the request url', function (done) {
@@ -47,25 +100,25 @@ describe('unexpectedExpress', function () {
             expect(req.method, 'to equal', 'GET');
             expect(req.url, 'to equal', '/foo/bar/');
             next();
-        }), 'to be middleware that processes', {request: '/foo/bar/', response: 404}, done);
+        }), 'to yield exchange', {request: '/foo/bar/', response: 404}, done);
     });
 
     it('should interpret response given as a string as the expected response body', function (done) {
         expect(express().use(function (req, res, next) {
             res.send('foobar');
-        }), 'to be middleware that processes', {request: '/foo/bar/', response: 'foobar'}, done);
+        }), 'to yield exchange', {request: '/foo/bar/', response: 'foobar'}, done);
     });
 
     it('should interpret response given as a Buffer as the expected response body', function (done) {
         expect(express().use(function (req, res, next) {
             res.send('foobar');
-        }), 'to be middleware that processes', {request: '/foo/bar/', response: new Buffer('foobar', 'utf-8')}, done);
+        }), 'to yield exchange', {request: '/foo/bar/', response: new Buffer('foobar', 'utf-8')}, done);
     });
 
     it('supports the request body to be specified as a string', function (done) {
         expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -82,7 +135,7 @@ describe('unexpectedExpress', function () {
     it('supports the request body to be specified as a Buffer', function (done) {
         expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -103,7 +156,7 @@ describe('unexpectedExpress', function () {
         });
         expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -121,7 +174,7 @@ describe('unexpectedExpress', function () {
         var requestBodyStream = new BufferedStream();
         expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -142,7 +195,7 @@ describe('unexpectedExpress', function () {
         var requestBodyStream = new BufferedStream();
         expect(express().use(bodyParser.json()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {
                 body: {foo: 'bar', baz: 'quux'}
             },
@@ -161,7 +214,7 @@ describe('unexpectedExpress', function () {
             req.on('end', function () {
                 res.send(200);
             });
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: 'PUT /',
             response: 200
         }, done);
@@ -171,7 +224,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             expect(req.protocol, 'to equal', 'https');
             res.send(200);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {https: true},
             response: 200
         }, done);
@@ -180,63 +233,50 @@ describe('unexpectedExpress', function () {
     it('should allow an error to be thrown in the middleware when errorPassedToNext is true', function (done) {
         expect(express().use(function (req, res, next) {
             throw new Error('foobar');
-        }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: true
-            }
+        }), 'to yield exchange', {
+            errorPassedToNext: true
         }, done);
     });
 
     it('should allow an error to be passed to next when errorPassedToNext is true', function (done) {
         expect(express().use(function (req, res, next) {
             next(new Error('foobar'));
-        }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: true
-            }
+        }), 'to yield exchange', {
+            errorPassedToNext: true
         }, done);
     });
 
     it('should set errorPassedToNext to false when there is no error', function (done) {
         expect(express().use(function (req, res, next) {
             res.send(200);
-        }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: false
-            }
+        }), 'to yield exchange', {
+            errorPassedToNext: false
         }, done);
     });
 
     it('should match against the error message when errorPassedToNext is a string', function (done) {
         expect(express().use(function (req, res, next) {
             next(new Error('foo bar quux'));
-        }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: 'foo bar quux'
-            }
+        }), 'to yield exchange', {
+            errorPassedToNext: 'foo bar quux'
         }, done);
     });
 
     it('should match against the error message errorPassedToNext is an Error', function (done) {
         expect(express().use(function (req, res, next) {
             next(new Error('foo'));
-        }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: new Error('foo')
-            }
+        }), 'to yield exchange', {
+            errorPassedToNext: new Error('foo')
         }, done);
     });
 
     it('should fail when matching Error instances with different messages', function (done) {
         expect(express().use(function (req, res, next) {
             next(new Error('foo'));
-        }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: new Error('bar')
-            }
+        }), 'to yield exchange', {
+            errorPassedToNext: new Error('bar')
         }, function (err) {
             expect(err, 'to be an', Error);
-            expect(err.message, 'to match', /to have properties.*errorPassedToNext: \[Error/);
             done();
         });
     });
@@ -244,20 +284,18 @@ describe('unexpectedExpress', function () {
     it('should match a non-boolean, non-string errorPassedToNext against the actual error', function (done) {
         expect(express().use(function (req, res, next) {
             next(new Error('foo bar quux'));
-        }), 'to be middleware that processes', {
-            response: {
-                errorPassedToNext: 'foo bar quux'
-            }
+        }), 'to yield exchange', {
+            errorPassedToNext: 'foo bar quux'
         }, done);
     });
 
     it('should support a numerical status code passed to next', function (done) {
         expect(express().use(function (req, res, next) {
             next(404);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
+            errorPassedToNext: true,
             response: {
-                statusCode: 404,
-                errorPassedToNext: true
+                statusCode: 404
             }
         }, done);
     });
@@ -265,7 +303,7 @@ describe('unexpectedExpress', function () {
     it('should consider a non-existent response body equal to an empty Buffer', function (done) {
         expect(express().use(function (req, res, next) {
             res.end();
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             response: new Buffer([])
         }, done);
     });
@@ -273,7 +311,7 @@ describe('unexpectedExpress', function () {
     it('should consider a non-existent response body equal to an empty string', function (done) {
         expect(express().use(function (req, res, next) {
             res.end();
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             response: ''
         }, done);
     });
@@ -287,7 +325,7 @@ describe('unexpectedExpress', function () {
                 }
             });
             res.send(200);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {
                 body: {
                     foo: {
@@ -325,7 +363,7 @@ describe('unexpectedExpress', function () {
                     res.send(200);
                 })
             );
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {
                 body: formData
             },
@@ -341,7 +379,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             expect(req.ip, 'to equal', '127.0.0.1');
             res.send(200);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: '/foo/',
             response: 200
         }, done);
@@ -351,7 +389,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             expect(req.ip, 'to equal', '99.88.77.66');
             res.send(200);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {remoteAddress: '99.88.77.66'},
             response: 200
         }, done);
@@ -361,7 +399,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             expect(req.ip, 'to equal', '99.88.77.66');
             res.send(200);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {ip: '99.88.77.66'},
             response: 200
         }, done);
@@ -373,7 +411,7 @@ describe('unexpectedExpress', function () {
             expect(req.url, 'to equal', '/foo/bar/?hey=there');
             expect(req.originalUrl, 'to equal', '/foo/bar/?hey=there');
             res.send(200);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: 'http://www.example.com:5432/foo/bar/?hey=there',
             response: 200
         }, done);
@@ -384,7 +422,7 @@ describe('unexpectedExpress', function () {
             expect(req.method, 'to equal', 'DELETE');
             expect(req.url, 'to equal', '/foo/bar/');
             res.send(200);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: 'DELETE /foo/bar/',
             response: 200
         }, done);
@@ -394,7 +432,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             expect(req.get('Host'), 'to equal', 'blabla.com');
             res.send(200);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: {
                 headers: {
                     Host: 'blabla.com'
@@ -409,7 +447,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             expect(req.secure, 'to be truthy');
             res.send(200);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: 'https://www.example.com:5432/foo/bar/',
             response: 200
         }, done);
@@ -419,7 +457,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             req.url = '/bar';
             res.send(200);
-        }), 'to be middleware that processes', {
+        }), 'to yield exchange', {
             request: '/foo',
             response: {
                 url: '/bar',
@@ -428,19 +466,53 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
+    it('should assert the absence of a header by specifying it as undefined', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.setHeader('X-Foo', 'bar');
+            res.send(200);
+        }), 'to yield exchange', {
+            request: '/foo',
+            response: {
+                headers: {
+                    'X-Foo': undefined
+                }
+            }
+        }, function (err) {
+            expect(err, 'to be an', Error);
+            done();
+        });
+    });
+
+    it('should assert the absence of a header by specifying it as undefined, even when using a different casing', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.setHeader('X-Foo', 'bar');
+            res.send(200);
+        }), 'to yield exchange', {
+            request: '/foo',
+            response: {
+                headers: {
+                    'x-fOO': undefined
+                }
+            }
+        }, function (err) {
+            expect(err, 'to be an', Error);
+            done();
+        });
+    });
+
     describe('with the response provided as a Buffer', function () {
         it('should upgrade it to a string when matched against a string', function (done) {
             expect(express().use(function (req, res, next) {
                 res.setHeader('Content-Type', 'text/plain');
                 res.send(new Buffer('blah', 'utf-8'));
-            }), 'to be middleware that processes', {
+            }), 'to yield exchange', {
                 request: '/foo',
                 response: {
                     body: 'blah',
                     statusCode: 200
                 }
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a string');
+                expect(context.httpResponse.body, 'to be a string');
                 done();
             }));
         });
@@ -449,14 +521,14 @@ describe('unexpectedExpress', function () {
             expect(express().use(function (req, res, next) {
                 res.setHeader('Content-Type', 'image/png');
                 res.send(new Buffer('PNG...', 'utf-8'));
-            }), 'to be middleware that processes', {
+            }), 'to yield exchange', {
                 request: '/foo',
                 response: {
                     body: 'PNG...',
                     statusCode: 200
                 }
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a string');
+                expect(context.httpResponse.body, 'to be a string');
                 done();
             }));
         });
@@ -465,11 +537,11 @@ describe('unexpectedExpress', function () {
             expect(express().use(function (req, res, next) {
                 res.setHeader('Content-Type', 'text/plain');
                 res.send(new Buffer('blah', 'utf-8'));
-            }), 'to be middleware that processes', {
+            }), 'to yield exchange', {
                 request: '/foo',
                 response: 200
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a string');
+                expect(context.httpResponse.body, 'to be a string');
                 done();
             }));
         });
@@ -478,11 +550,11 @@ describe('unexpectedExpress', function () {
             expect(express().use(function (req, res, next) {
                 res.setHeader('Content-Type', 'image/png');
                 res.send(new Buffer('PNG....', 'utf-8'));
-            }), 'to be middleware that processes', {
+            }), 'to yield exchange', {
                 request: '/foo',
                 response: 200
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a', Buffer);
+                expect(context.httpResponse.body, 'to be a', Buffer);
                 done();
             }));
         });
@@ -492,14 +564,14 @@ describe('unexpectedExpress', function () {
                 expect(express().use(function (req, res, next) {
                     res.setHeader('Content-Type', 'application/json');
                     res.send(new Buffer(JSON.stringify({foo: '123'}), 'utf-8'));
-                }), 'to be middleware that processes', {
+                }), 'to yield exchange', {
                     request: '/foo',
                     response: {
                         body: new Buffer(JSON.stringify({foo: '123'})),
                         statusCode: 200
                     }
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to be a', Buffer);
+                    expect(context.httpResponse.body, 'to be a', Buffer);
                     done();
                 }));
             });
@@ -508,7 +580,7 @@ describe('unexpectedExpress', function () {
                 expect(express().use(function (req, res, next) {
                     res.setHeader('Content-Type', 'application/json');
                     res.send(new Buffer('{"foo": 123}', 'utf-8'));
-                }), 'to be middleware that processes', {
+                }), 'to yield exchange', {
                     request: '/foo',
                     response: {
                         body: {
@@ -516,7 +588,7 @@ describe('unexpectedExpress', function () {
                         }
                     }
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    expect(context.httpResponse.body, 'to equal', {foo: 123});
                     done();
                 }));
             });
@@ -525,11 +597,11 @@ describe('unexpectedExpress', function () {
                 expect(express().use(function (req, res, next) {
                     res.setHeader('Content-Type', 'application/json');
                     res.send(new Buffer('{"foo": 123}', 'utf-8'));
-                }), 'to be middleware that processes', {
+                }), 'to yield exchange', {
                     request: '/foo',
                     response: 200
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    expect(context.httpResponse.body, 'to equal', {foo: 123});
                     done();
                 }));
             });
@@ -538,11 +610,11 @@ describe('unexpectedExpress', function () {
                 expect(express().use(function (req, res, next) {
                     res.setHeader('Content-Type', 'text/plain');
                     res.send(new Buffer([0xf8]));
-                }), 'to be middleware that processes', {
+                }), 'to yield exchange', {
                     request: '/foo',
                     response: 200
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to be a', Buffer);
+                    expect(context.httpResponse.body, 'to be a', Buffer);
                     done();
                 }));
             });
@@ -554,14 +626,14 @@ describe('unexpectedExpress', function () {
             expect(express().use(function (req, res, next) {
                 res.setHeader('Content-Type', 'text/plain');
                 res.send('blah');
-            }), 'to be middleware that processes', {
+            }), 'to yield exchange', {
                 request: '/foo',
                 response: {
                     body: new Buffer('blah', 'utf-8'),
                     statusCode: 200
                 }
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a', Buffer);
+                expect(context.httpResponse.body, 'to be a', Buffer);
                 done();
             }));
         });
@@ -570,11 +642,11 @@ describe('unexpectedExpress', function () {
             expect(express().use(function (req, res, next) {
                 res.setHeader('Content-Type', 'text/plain');
                 res.send('blah');
-            }), 'to be middleware that processes', {
+            }), 'to yield exchange', {
                 request: '/foo',
                 response: 200
             }, passError(done, function (context) {
-                expect(context.responseProperties.body, 'to be a string');
+                expect(context.httpResponse.body, 'to be a string');
                 done();
             }));
         });
@@ -584,14 +656,14 @@ describe('unexpectedExpress', function () {
                 expect(express().use(function (req, res, next) {
                     res.setHeader('Content-Type', 'application/json');
                     res.send('{"foo": 123}');
-                }), 'to be middleware that processes', {
+                }), 'to yield exchange', {
                     request: '/foo',
                     response: {
                         body: '{"foo": 123}',
                         statusCode: 200
                     }
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to equal', '{"foo": 123}');
+                    expect(context.httpResponse.body, 'to equal', '{"foo": 123}');
                     done();
                 }));
             });
@@ -600,7 +672,7 @@ describe('unexpectedExpress', function () {
                 expect(express().use(function (req, res, next) {
                     res.setHeader('Content-Type', 'application/json');
                     res.send('{"foo": 123}');
-                }), 'to be middleware that processes', {
+                }), 'to yield exchange', {
                     request: '/foo',
                     response: {
                         body: {
@@ -608,7 +680,7 @@ describe('unexpectedExpress', function () {
                         }
                     }
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    expect(context.httpResponse.body, 'to equal', {foo: 123});
                     done();
                 }));
             });
@@ -617,14 +689,53 @@ describe('unexpectedExpress', function () {
                 expect(express().use(function (req, res, next) {
                     res.setHeader('Content-Type', 'application/json');
                     res.send('{"foo": 123}');
-                }), 'to be middleware that processes', {
+                }), 'to yield exchange', {
                     request: '/foo',
                     response: 200
                 }, passError(done, function (context) {
-                    expect(context.responseProperties.body, 'to equal', {foo: 123});
+                    expect(context.httpResponse.body, 'to equal', {foo: 123});
                     done();
                 }));
             });
+        });
+    });
+
+    it('should produce the correct diff when the expected headers do not match', function (done) {
+        expect(express().use(function (req, res, next) {
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('ETag', '"abc123"');
+            res.setHeader('Date', 'Sat, 30 Aug 2014 23:41:13 GMT');
+            res.send({foo: 123});
+        }), 'to yield exchange', {
+            request: '/',
+            response: {
+                headers: {
+                    ETag: '"foo456"'
+                }
+            }
+        }, function (err) {
+            expect(err, 'to be an', Error);
+            expect(err.output.toString(), 'to equal',
+                'expected\n' +
+                'function (req, res, next) {\n' +
+                '  app.handle(req, res, next);\n' +
+                '}\n' +
+                'to yield exchange {}\n' +
+                '  GET / HTTP/1.1\n' +
+                '  \n' +
+                '  HTTP/1.1 200 OK\n' +
+                '  X-Powered-By: Express\n' +
+                '  Content-Type: application/json\n' +
+                '  ETag: "abc123" // should be: "foo456"\n' +
+                '  Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
+                '  Content-Length: 11\n' +
+                '  Connection: keep-alive\n' +
+                '  \n' +
+                '  { foo: 123 }'
+            );
+
+            // expect(err.output.toString(), 'to equal', ...);
+            done();
         });
     });
 });
