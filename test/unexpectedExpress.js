@@ -58,6 +58,50 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
+    it('should add parameters from the query option to the url', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.url, 'to equal', '/foo?bar=hey%C3%A6%C3%B8%C3%A5&baz=blah&baz=yeah');
+            res.send(200);
+        }), 'to yield exchange', {
+            request: {
+                url: '/foo',
+                query: {
+                    bar: 'heyæøå',
+                    baz: ['blah', 'yeah']
+                }
+            },
+            response: 200
+        }, done);
+    });
+
+    it('should preserve an existing query string when adding parameters from the query option to the url', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.url, 'to equal', '/foo?hey=there&bar=hey');
+            res.send(200);
+        }), 'to yield exchange', {
+            request: {
+                url: '/foo?hey=there',
+                query: {
+                    bar: 'hey'
+                }
+            },
+            response: 200
+        }, done);
+    });
+
+    it('should support a query string given as a string', function (done) {
+        expect(express().use(function (req, res, next) {
+            expect(req.url, 'to equal', '/foo?foo=bar%F8');
+            res.send(200);
+        }), 'to yield exchange', {
+            request: {
+                url: '/foo',
+                query: 'foo=bar%F8'
+            },
+            response: 200
+        }, done);
+    });
+
     it('should default to GET when no method is provided', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.method, 'to equal', 'GET');
