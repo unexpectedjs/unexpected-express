@@ -775,6 +775,34 @@ describe('unexpectedExpress', function () {
         });
     });
 
+    it('should show an error if the request does not match any route', function (done) {
+        expect(express().get('/foo', function (req, res) {
+            res.send(200);
+        }), 'to yield exchange', {
+            request: '/',
+            response: 200
+        }, function (err, response) {
+            expect(err, 'to be an', Error);
+            expect(err.output.toString(), 'to equal',
+                'expected\n' +
+                'function (req, res, next) {\n' +
+                '  app.handle(req, res, next);\n' +
+                '}\n' +
+                'to yield exchange {}\n' +
+                '  GET / HTTP/1.1\n' +
+                '  \n' +
+                '  HTTP/1.1 404 Not Found\n' +
+                '  X-Powered-By: Express\n' +
+                '  Content-Type: application/json\n' +
+                '  Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
+                '  Connection: keep-alive'
+            );
+
+            // expect(err.output.toString(), 'to equal', ...);
+            done();
+        });
+    });
+
     it('should produce the correct diff when the expected headers do not match', function (done) {
         expect(express().use(function (req, res, next) {
             res.setHeader('Content-Type', 'application/json');
