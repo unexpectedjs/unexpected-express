@@ -791,11 +791,7 @@ describe('unexpectedExpress', function () {
                 'to yield exchange {}\n' +
                 '  GET / HTTP/1.1\n' +
                 '  \n' +
-                '  HTTP/1.1 404 Not Found\n' +
-                '  X-Powered-By: Express\n' +
-                '  Content-Type: application/json\n' +
-                '  Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
-                '  Connection: keep-alive'
+                '  404 // should be 200'
             );
 
             // expect(err.output.toString(), 'to equal', ...);
