@@ -31,22 +31,22 @@
     "unexpected": ">=5.0.0-beta1"
   },
   "devDependencies": {
-    "body-parser": "=1.0.2",
-    "coveralls": "=2.11.1",
-    "express": "=4.1.1",
-    "form-data": "=0.1.2",
-    "istanbul": "=0.3.0",
-    "jshint": "=2.5.2",
-    "magicpen-prism": "=0.2.0",
-    "mocha": "=1.21.4",
-    "passerror": "=1.0.1",
-    "unexpected": "=5.0.0-beta9"
+    "body-parser": "1.0.2",
+    "coveralls": "2.11.1",
+    "express": "4.1.1",
+    "form-data": "0.1.2",
+    "istanbul": "0.3.0",
+    "jshint": "2.5.2",
+    "magicpen-prism": "0.2.0",
+    "mocha": "1.21.4",
+    "passerror": "1.0.1",
+    "unexpected": "5.0.0-beta9"
   },
   "dependencies": {
-    "bufferedstream": "=1.6.0",
-    "jshint": "=2.5.2",
+    "bufferedstream": "1.6.0",
+    "jshint": "2.5.2",
     "messy": "1.2.2",
-    "underscore": "=1.6.0",
+    "underscore": "1.6.0",
     "unexpected-messy": "1.1.0"
   }
 }
