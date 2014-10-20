@@ -61,7 +61,7 @@ describe('unexpectedExpress', function () {
     it('should add parameters from the query option to the url', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.url, 'to equal', '/foo?bar=hey%C3%A6%C3%B8%C3%A5&baz=blah&baz=yeah');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: {
                 url: '/foo',
@@ -77,7 +77,7 @@ describe('unexpectedExpress', function () {
     it('should preserve an existing query string when adding parameters from the query option to the url', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.url, 'to equal', '/foo?hey=there&bar=hey');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: {
                 url: '/foo?hey=there',
@@ -92,7 +92,7 @@ describe('unexpectedExpress', function () {
     it('should support a query string given as a string', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.url, 'to equal', '/foo?foo=bar%F8');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: {
                 url: '/foo',
@@ -777,7 +777,7 @@ describe('unexpectedExpress', function () {
 
     it('should show an error if the request does not match any route', function (done) {
         expect(express().get('/foo', function (req, res) {
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: '/',
             response: 200
