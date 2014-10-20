@@ -256,7 +256,7 @@ describe('unexpectedExpress', function () {
     it('provides a req object that emits end even though a request body is not specified', function (done) {
         expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             req.on('end', function () {
-                res.send(200);
+                res.status(200).end();
             });
         }), 'to yield exchange', {
             request: 'PUT /',
@@ -267,7 +267,7 @@ describe('unexpectedExpress', function () {
     it('should make req.protocol return "https" when request:{https:true} is specified', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.protocol, 'to equal', 'https');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: {https: true},
             response: 200
@@ -323,7 +323,7 @@ describe('unexpectedExpress', function () {
 
     it('should set errorPassedToNext to false when there is no error', function (done) {
         expect(express().use(function (req, res, next) {
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             errorPassedToNext: false
         }, done);
@@ -399,7 +399,7 @@ describe('unexpectedExpress', function () {
                     bar: 'quux'
                 }
             });
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: {
                 body: {
@@ -435,7 +435,7 @@ describe('unexpectedExpress', function () {
                 'æøå☺\r\n' +
                 '--' + boundary + '--',
                 passError(next, function () {
-                    res.send(200);
+                    res.status(200).end();
                 })
             );
         }), 'to yield exchange', {
@@ -453,7 +453,7 @@ describe('unexpectedExpress', function () {
     it('should mock the ip so that the req.ip getter installed by Express retrieves the correct value', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.ip, 'to equal', '127.0.0.1');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: '/foo/',
             response: 200
@@ -463,7 +463,7 @@ describe('unexpectedExpress', function () {
     it('should allow mocking a specific ip', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.ip, 'to equal', '99.88.77.66');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: {remoteAddress: '99.88.77.66'},
             response: 200
@@ -473,7 +473,7 @@ describe('unexpectedExpress', function () {
     it('should allow mocking a specific ip using the alias ip', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.ip, 'to equal', '99.88.77.66');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: {ip: '99.88.77.66'},
             response: 200
@@ -485,7 +485,7 @@ describe('unexpectedExpress', function () {
             expect(req.get('Host'), 'to equal', 'www.example.com:5432');
             expect(req.url, 'to equal', '/foo/bar/?hey=there');
             expect(req.originalUrl, 'to equal', '/foo/bar/?hey=there');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: 'http://www.example.com:5432/foo/bar/?hey=there',
             response: 200
@@ -496,7 +496,7 @@ describe('unexpectedExpress', function () {
         expect(express().use(function (req, res, next) {
             expect(req.method, 'to equal', 'DELETE');
             expect(req.url, 'to equal', '/foo/bar/');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: 'DELETE /foo/bar/',
             response: 200
@@ -506,7 +506,7 @@ describe('unexpectedExpress', function () {
     it('should not overwrite an explicit Host header when an absolute url is specified', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.get('Host'), 'to equal', 'blabla.com');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: {
                 headers: {
@@ -521,7 +521,7 @@ describe('unexpectedExpress', function () {
     it('should mock an https request if an absolute url with a scheme of https is specified', function (done) {
         expect(express().use(function (req, res, next) {
             expect(req.secure, 'to be truthy');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: 'https://www.example.com:5432/foo/bar/',
             response: 200
@@ -531,7 +531,7 @@ describe('unexpectedExpress', function () {
     it('should allow matching on the (rewritten) url in the response object', function (done) {
         expect(express().use(function (req, res, next) {
             req.url = '/bar';
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: '/foo',
             response: {
@@ -544,7 +544,7 @@ describe('unexpectedExpress', function () {
     it('should assert the absence of a header by specifying it as undefined', function (done) {
         expect(express().use(function (req, res, next) {
             res.setHeader('X-Foo', 'bar');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: '/foo',
             response: {
@@ -561,7 +561,7 @@ describe('unexpectedExpress', function () {
     it('should assert the absence of a header by specifying it as undefined, even when using a different casing', function (done) {
         expect(express().use(function (req, res, next) {
             res.setHeader('X-Foo', 'bar');
-            res.send(200);
+            res.status(200).end();
         }), 'to yield exchange', {
             request: '/foo',
             response: {
