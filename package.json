@@ -47,6 +47,6 @@
     "jshint": "2.5.2",
     "messy": "1.2.2",
     "underscore": "1.6.0",
-    "unexpected-messy": "1.2.0"
+    "unexpected-messy": "1.4.0"
   }
 }
