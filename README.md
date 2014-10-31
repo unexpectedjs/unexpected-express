@@ -90,49 +90,7 @@ describe('myMiddleware', function () {
 
 You'll get a nice diff when expectations aren't met:
 
-```
-  1) myMiddleware return a 404 for /baz:
-
-      Error: expected [Function: app] to yield exchange { request: { url: '/baz', headers: {} },
-  response: { statusCode: 404, body: 'I could not find /baz' } }, [Function]
-      + expected - actual
-```
-```diff
-{
-+  "body": "I could not find /baz",
--  "body": "Here goes /baz as text/plain",
-   "isDestroyed": false,
-   "nextCalled": false,
-+  "statusCode": 404
--  "statusCode": 200
-}
-```
-```
-      at ServerResponse.res.(anonymous function) [as end] (/path/to/unexpected-express/lib/unexpectedExpress.js:99:25)
-      at ServerResponse.res.send (/path/to/unexpected-express/node_modules/express/lib/response.js:154:8)
-      at Object.myMiddleware [as handle] (/path/to/unexpected-express/hey.js:8:9)
-      at next (/path/to/unexpected-express/node_modules/express/node_modules/connect/lib/proto.js:193:15)
-      at Object.expressInit [as handle] (/path/to/unexpected-express/node_modules/express/lib/middleware.js:30:5)
-      at next (/path/to/unexpected-express/node_modules/express/node_modules/connect/lib/proto.js:193:15)
-      at Object.query [as handle] (/path/to/unexpected-express/node_modules/express/node_modules/connect/lib/middleware/query.js:45:5)
-      at next (/path/to/unexpected-express/node_modules/express/node_modules/connect/lib/proto.js:193:15)
-      at Function.app.handle (/path/to/unexpected-express/node_modules/express/node_modules/connect/lib/proto.js:201:3)
-      at app (/path/to/unexpected-express/node_modules/express/node_modules/connect/lib/connect.js:65:37)
-      at Assertion.<anonymous> (/path/to/unexpected-express/lib/unexpectedExpress.js:108:9)
-      at Unexpected.expect (unexpected-core.js:338:25)
-      at wrappedExpect (unexpected-core.js:313:33)
-      at Assertion.expect.url (/path/to/unexpected-express/hey.js:32:5)
-      at Unexpected.expect (unexpected-core.js:338:25)
-      at Context.<anonymous> (/path/to/unexpected-express/hey.js:48:9)
-      at Test.Runnable.run (/path/to/mocha/lib/runnable.js:196:15)
-      at Runner.runTest (/path/to/mocha/lib/runner.js:374:10)
-      at /path/to/mocha/lib/runner.js:452:12
-      at next (/path/to/mocha/lib/runner.js:299:14)
-      at /path/to/mocha/lib/runner.js:309:7
-      at next (/path/to/mocha/lib/runner.js:247:23)
-      at Object._onImmediate (/path/to/mocha/lib/runner.js:276:5)
-      at processImmediate [as _immediateCallback] (timers.js:330:15)
-```
+![Diff example](diffExample.png)
 
 Additional features:
 
