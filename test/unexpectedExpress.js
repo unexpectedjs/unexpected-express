@@ -813,7 +813,7 @@ describe('unexpectedExpress', function () {
                 'HTTP/1.1 200 OK\n' +
                 'X-Powered-By: Express\n' +
                 'Content-Type: application/json\n' +
-                'ETag: "abc123" // should be "foo456"\n' +
+                'ETag: "abc123" // should equal "foo456"\n' +
                 'Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
                 'Content-Length: 11\n' +
                 'Connection: keep-alive\n' +
