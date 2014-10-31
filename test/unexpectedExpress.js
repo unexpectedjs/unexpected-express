@@ -784,17 +784,10 @@ describe('unexpectedExpress', function () {
         }, function (err, response) {
             expect(err, 'to be an', Error);
             expect(err.output.toString(), 'to equal',
-                'expected\n' +
-                'function (req, res, next) {\n' +
-                '  app.handle(req, res, next);\n' +
-                '}\n' +
-                'to yield exchange {}\n' +
-                '  GET / HTTP/1.1\n' +
-                '  \n' +
-                '  404 // should be 200'
+                'GET / HTTP/1.1\n' +
+                '\n' +
+                '404 // should be 200'
             );
-
-            // expect(err.output.toString(), 'to equal', ...);
             done();
         });
     });
@@ -815,25 +808,18 @@ describe('unexpectedExpress', function () {
         }, function (err) {
             expect(err, 'to be an', Error);
             expect(err.output.toString(), 'to equal',
-                'expected\n' +
-                'function (req, res, next) {\n' +
-                '  app.handle(req, res, next);\n' +
-                '}\n' +
-                'to yield exchange {}\n' +
-                '  GET / HTTP/1.1\n' +
-                '  \n' +
-                '  HTTP/1.1 200 OK\n' +
-                '  X-Powered-By: Express\n' +
-                '  Content-Type: application/json\n' +
-                '  ETag: "abc123" // should be: "foo456"\n' +
-                '  Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
-                '  Content-Length: 11\n' +
-                '  Connection: keep-alive\n' +
-                '  \n' +
-                '  { foo: 123 }'
+                'GET / HTTP/1.1\n' +
+                '\n' +
+                'HTTP/1.1 200 OK\n' +
+                'X-Powered-By: Express\n' +
+                'Content-Type: application/json\n' +
+                'ETag: "abc123" // should be "foo456"\n' +
+                'Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
+                'Content-Length: 11\n' +
+                'Connection: keep-alive\n' +
+                '\n' +
+                '{ foo: 123 }'
             );
-
-            // expect(err.output.toString(), 'to equal', ...);
             done();
         });
     });
