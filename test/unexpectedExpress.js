@@ -604,6 +604,37 @@ describe('unexpectedExpress', function () {
         });
     });
 
+    it('should allow using locals on the response object', function (done) {
+        expect(function (req, res, next) {
+            res.locals.foo = 'bar';
+            next();
+        }, 'to yield exchange', {
+            request: 'GET /',
+            response: {
+                locals: {
+                    foo: 'bar'
+                }
+            }
+        }, done);
+    });
+
+    it('should allow using locals on the response object', function (done) {
+        expect(function (req, res, next) {
+            res.locals.foo = 'baz';
+            next();
+        }, 'to yield exchange', {
+            request: 'GET /',
+            response: {
+                locals: {
+                    foo: 'bar'
+                }
+            }
+        }, function (err) {
+            expect(err, 'to be an', Error);
+            done();
+        });
+    });
+
     describe('with the response provided as a Buffer', function () {
         it('should upgrade it to a string when matched against a string', function (done) {
             expect(express().use(function (req, res, next) {
