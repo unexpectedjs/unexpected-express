@@ -575,6 +575,35 @@ describe('unexpectedExpress', function () {
         });
     });
 
+    it('should throw an error when a nonexistent property is added on the response object', function (done) {
+        expect(function (req, res, next) { next(); }, 'to yield exchange', {
+            request: '/foo',
+            response: {
+                fooBar: 'quux'
+            }
+        }, function (err) {
+            expect(err, 'to be an', Error);
+            expect(err, 'to satisfy', {
+                message: /Property "fooBar" does not exist on the response object/
+            });
+            done();
+        });
+    });
+
+    it('should throw an error when a nonexistent property is added on the request object', function (done) {
+        expect(function (req, res, next) { next(); }, 'to yield exchange', {
+            request: {
+                fooBar: 'quuuux'
+            }
+        }, function (err) {
+            expect(err, 'to be an', Error);
+            expect(err, 'to satisfy', {
+                message: /Property "fooBar" does not exist on the request object/
+            });
+            done();
+        });
+    });
+
     describe('with the response provided as a Buffer', function () {
         it('should upgrade it to a string when matched against a string', function (done) {
             expect(express().use(function (req, res, next) {
