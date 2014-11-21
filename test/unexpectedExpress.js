@@ -274,6 +274,24 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
+    it('should make req.path return the path of the requested url', function (done) {
+        expect(function (req, res, next) {
+            expect(req.path, 'to equal', '/foo');
+            next();
+        }, 'to yield exchange', {
+            request: 'GET /foo?bar=baz'
+        }, done);
+    });
+
+    it('should allow calls to status from res when testing a middleware directly', function (done) {
+        expect(function (req, res, next) {
+            res.status(200).end();
+        }, 'to yield exchange', {
+            request: 'GET /',
+            response: 200
+        }, done);
+    });
+
     describe('when an error with a statusCode property is passed to next', function () {
 
         it('should treat it the same way as an HTTP response with that as the status code', function (done) {

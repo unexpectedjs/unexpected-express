@@ -28,7 +28,8 @@
   },
   "homepage": "https://github.com/papandreou/unexpected-express",
   "peerDependencies": {
-    "unexpected": ">=5.0.0-beta14"
+    "unexpected": ">=5.0.0-beta14",
+    "express": "*"
   },
   "devDependencies": {
     "body-parser": "1.0.2",
