@@ -635,6 +635,21 @@ describe('unexpectedExpress', function () {
         });
     });
 
+    it('should allow using locals on the request object', function (done) {
+        expect(function (req, res, next) {
+            expect(res.locals.foo, 'to equal', 'bar');
+            next();
+        }, 'to yield exchange', {
+            request: {
+                res: {
+                    locals: {
+                        foo: 'bar'
+                    }
+                }
+            }
+        }, done);
+    });
+
     describe('with the response provided as a Buffer', function () {
         it('should upgrade it to a string when matched against a string', function (done) {
             expect(express().use(function (req, res, next) {
