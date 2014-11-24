@@ -47,6 +47,6 @@
     "bufferedstream": "1.6.0",
     "messy": "1.4.0",
     "underscore": "1.6.0",
-    "unexpected-messy": "1.5.0"
+    "unexpected-messy": "1.5.1"
   }
 }
