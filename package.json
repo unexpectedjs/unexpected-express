@@ -45,8 +45,8 @@
   },
   "dependencies": {
     "bufferedstream": "1.6.0",
-    "messy": "1.4.0",
+    "messy": "3.0.1",
     "underscore": "1.6.0",
-    "unexpected-messy": "2.0.1"
+    "unexpected-messy": "2.2.3"
   }
 }
