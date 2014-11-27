@@ -927,7 +927,7 @@ describe('unexpectedExpress', function () {
         }, function (err) {
             expect(err, 'to equal', new Error('done/next called more than once'));
             done();
-        })
+        });
     });
 
     it('should fail if the middleware calls the next method, continues with the next middleware and calls next again', function (done) {
@@ -946,6 +946,6 @@ describe('unexpectedExpress', function () {
         }, function (err) {
             expect(err, 'to equal', new Error('done/next called more than once'));
             done();
-        })
+        });
     });
 });
