@@ -916,4 +916,36 @@ describe('unexpectedExpress', function () {
             done();
         });
     });
+
+    it('should fail if the middleware calls the next method more than once', function (done) {
+        expect(function (req, res, next) {
+            next();
+            next();
+        }, 'to yield exchange', {
+            request: {},
+            response: {}
+        }, function (err) {
+            expect(err, 'to equal', new Error('done/next called more than once'));
+            done();
+        })
+    });
+
+    it('should fail if the middleware calls the next method, continues with the next middleware and calls next again', function (done) {
+        var app = express();
+        app.use(function (req, res, next) {
+            next();
+            next(new Error('wat'));
+        });
+        app.get(/.*/, function (req, res) {
+            res.send('Send some data');
+        });
+
+        expect(app, 'to yield exchange', {
+            request: {},
+            response: {}
+        }, function (err) {
+            expect(err, 'to equal', new Error('done/next called more than once'));
+            done();
+        })
+    });
 });
