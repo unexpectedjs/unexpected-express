@@ -8,6 +8,8 @@ Plugin for [Unexpected](https://github.com/sunesimonsen/unexpected) that makes i
 [![Coverage Status](https://coveralls.io/repos/papandreou/unexpected-express/badge.png)](https://coveralls.io/r/papandreou/unexpected-express)
 [![Dependency Status](https://david-dm.org/papandreou/unexpected-express.png)](https://david-dm.org/papandreou/unexpected-express)
 
+![Unexpected Express (train)](http://upload.wikimedia.org/wikipedia/commons/1/19/Train_wreck_at_Montparnasse_1895.jpg)
+
 Example:
 
 ```javascript
