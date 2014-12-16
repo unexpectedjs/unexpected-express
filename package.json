@@ -41,7 +41,7 @@
     "magicpen-prism": "0.2.0",
     "mocha": "1.21.4",
     "passerror": "1.0.1",
-    "unexpected": "5.0.0-beta14"
+    "unexpected": "5.0.0-beta27"
   },
   "dependencies": {
     "bufferedstream": "1.6.0",
