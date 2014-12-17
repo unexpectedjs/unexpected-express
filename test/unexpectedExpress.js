@@ -608,18 +608,15 @@ describe('unexpectedExpress', function () {
         });
     });
 
-    it('should throw an error when a nonexistent property is added on the request object', function (done) {
-        expect(function (req, res, next) { next(); }, 'to yield exchange', {
+    it('should extend the req object with any additional properties set on the request object', function (done) {
+        expect(function (req, res, next) {
+            expect(req, 'to have property', 'fooBar', 'quuuux');
+            next();
+        }, 'to yield exchange', {
             request: {
                 fooBar: 'quuuux'
             }
-        }, function (err) {
-            expect(err, 'to be an', Error);
-            expect(err, 'to satisfy', {
-                message: /Property "fooBar" does not exist on the request object/
-            });
-            done();
-        });
+        }, done);
     });
 
     it('should allow using locals on the response object', function (done) {
