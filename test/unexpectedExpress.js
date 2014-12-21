@@ -4,6 +4,7 @@ if (typeof setImmediate === 'undefined') {
     setImmediate = process.nextTick;
 }
 var unexpectedExpress = require('../lib/unexpectedExpress'),
+    unexpectedMessy = require('unexpected-messy'),
     unexpected = require('unexpected'),
     bodyParser = require('body-parser'),
     BufferedStream = require('bufferedstream'),
@@ -12,7 +13,9 @@ var unexpectedExpress = require('../lib/unexpectedExpress'),
     express = require('express');
 
 describe('unexpectedExpress', function () {
-    var expect = unexpected.clone().installPlugin(unexpectedExpress)
+    var expect = unexpected.clone()
+        .installPlugin(unexpectedMessy)
+        .installPlugin(unexpectedExpress)
         .addAssertion('to be a readable stream that outputs', function (expect, subject, value, done) {
             expect(done, 'to be a function');
             this.errorMode = 'bubble'; // Make sure we get a diff if the emitted output mismatches
