@@ -37,7 +37,28 @@ describe('unexpectedExpress', function () {
                     done();
                 }
             }).on('error', done);
+        })
+        .addType({
+            name: 'magicpen',
+            identify: function (obj) {
+                return obj && obj.isMagicPen;
+            },
+            inspect: function (pen, depth, output) {
+                return output.append(pen);
+            },
+            equal: function (a, b) {
+                return a.toString() === b.toString() &&
+                    a.toString('ansi') === b.toString('ansi') &&
+                    a.toString('html') === b.toString('html');
+            }
+        })
+        .addAssertion('Error', 'to have message', function (expect, subject, value) {
+            // Copied from https://github.com/sindresorhus/ansi-regex
+            var ansiRegex = /(?:(?:\u001b\[)|\u009b)(?:(?:[0-9]{1,3})?(?:(?:;[0-9]{0,3})*)?[A-M|f-m])|\u001b[A-M]/g;
+            expect(subject.output.toString(), 'to equal', value);
+            expect(subject.message.replace(ansiRegex, ''), 'to equal', '\n' + value);
         });
+
 
     expect.output.installPlugin(require('magicpen-prism'));
 
@@ -875,8 +896,7 @@ describe('unexpectedExpress', function () {
             request: '/',
             response: 200
         }, function (err, response) {
-            expect(err, 'to be an', Error);
-            expect(err.output.toString(), 'to equal',
+            expect(err, 'to have message',
                 'GET / HTTP/1.1\n' +
                 '\n' +
                 '404 // should be 200'
@@ -899,8 +919,44 @@ describe('unexpectedExpress', function () {
                 }
             }
         }, function (err) {
-            expect(err, 'to be an', Error);
-            expect(err.output.toString(), 'to equal',
+            expect(err, 'to have message',
+                'GET / HTTP/1.1\n' +
+                '\n' +
+                'HTTP/1.1 200 OK\n' +
+                'X-Powered-By: Express\n' +
+                'Content-Type: application/json\n' +
+                'ETag: "abc123" // should equal "foo456"\n' +
+                'Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
+                'Content-Length: 11\n' +
+                'Connection: keep-alive\n' +
+                '\n' +
+                '{ foo: 123 }'
+            );
+            done();
+        });
+    });
+
+    it('can be used inside a custom assertion', function (done) {
+        var middleware = function (req, res, next) {
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('ETag', '"abc123"');
+            res.setHeader('Date', 'Sat, 30 Aug 2014 23:41:13 GMT');
+            res.send({foo: 123});
+        };
+        expect = expect.clone()
+            .addAssertion('to yield a response of', function (expect, subject, value, next) {
+                expect(express().use(middleware), 'to yield exchange', {
+                    request: subject,
+                    response: value
+                }, next);
+            });
+
+        expect('/', 'to yield a response of', {
+            headers: {
+                ETag: '"foo456"'
+            }
+        }, function (err) {
+            expect(err, 'to have message',
                 'GET / HTTP/1.1\n' +
                 '\n' +
                 'HTTP/1.1 200 OK\n' +
