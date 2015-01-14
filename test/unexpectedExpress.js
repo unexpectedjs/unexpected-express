@@ -4,7 +4,6 @@ if (typeof setImmediate === 'undefined') {
     setImmediate = process.nextTick;
 }
 var unexpectedExpress = require('../lib/unexpectedExpress'),
-    unexpectedMessy = require('unexpected-messy'),
     unexpected = require('unexpected'),
     bodyParser = require('body-parser'),
     BufferedStream = require('bufferedstream'),
