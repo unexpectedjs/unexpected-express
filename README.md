@@ -1,7 +1,7 @@
 Unexpected-express
 ==================
 
-Plugin for [Unexpected](https://github.com/sunesimonsen/unexpected) that makes it easy to test [Express.js](https://github.com/visionmedia/express/) middleware. Requires the [unexpected-messy](https://github.com/papandreou/unexpected-messy) plugin.
+Plugin for [Unexpected](https://github.com/sunesimonsen/unexpected) that makes it easy to test [Express.js](https://github.com/visionmedia/express/) middleware. Uses the [unexpected-messy](https://github.com/papandreou/unexpected-messy) plugin to do most of the heavy lifting.
 
 [![NPM version](https://badge.fury.io/js/unexpected-express.png)](http://badge.fury.io/js/unexpected-express)
 [![Build Status](https://travis-ci.org/papandreou/unexpected-express.png?branch=master)](https://travis-ci.org/papandreou/unexpected-express)
@@ -15,7 +15,6 @@ Example:
 ```javascript
 var expect = require('unexpected')
     .clone()
-    .installPlugin(require('unexpected-messy'))
     .installPlugin(require('unexpected-express'));
 
 function myMiddleware(req, res, next) {

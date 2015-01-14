@@ -14,7 +14,6 @@ var unexpectedExpress = require('../lib/unexpectedExpress'),
 
 describe('unexpectedExpress', function () {
     var expect = unexpected.clone()
-        .installPlugin(unexpectedMessy)
         .installPlugin(unexpectedExpress)
         .addAssertion('to be a readable stream that outputs', function (expect, subject, value, done) {
             expect(done, 'to be a function');
