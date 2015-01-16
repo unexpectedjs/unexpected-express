@@ -1,4 +1,4 @@
-/*global describe, it, setImmediate:true*/
+    /*global describe, it, setImmediate:true*/
 
 if (typeof setImmediate === 'undefined') {
     setImmediate = process.nextTick;
@@ -568,17 +568,40 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
-    it('should allow matching on the (rewritten) url in the response object', function (done) {
-        expect(express().use(function (req, res, next) {
-            req.url = '/bar';
-            res.status(200).end();
-        }), 'to yield exchange', {
-            request: '/foo',
-            response: {
-                url: '/bar',
-                statusCode: 200
-            }
-        }, done);
+    describe('with a response.url for matching the (rewritten) request url', function () {
+        it('should succeed', function (done) {
+            expect(express().use(function (req, res, next) {
+                req.url = '/bar';
+                res.status(200).end();
+            }), 'to yield exchange', {
+                request: '/foo',
+                response: {
+                    url: '/bar',
+                    statusCode: 200
+                }
+            }, done);
+        });
+
+        it('should fail when the assertion fails', function (done) {
+            expect(express().use(function (req, res, next) {
+                req.url = '/bar';
+                res.status(200).end();
+            }), 'to yield exchange', {
+                request: '/foo',
+                response: {
+                    url: '/barbar',
+                    statusCode: 200
+                }
+            }, function (err) {
+                expect(err, 'to be an', Error);
+                expect(err.output.toString('text'), 'to equal',
+                    "expected '/bar' to satisfy '/barbar'\n" +
+                    '\n' +
+                    '-/bar\n' +
+                    '+/barbar');
+                done();
+            });
+        });
     });
 
     it('should assert the absence of a header by specifying it as undefined', function (done) {
