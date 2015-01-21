@@ -1025,4 +1025,57 @@ describe('unexpectedExpress', function () {
             done();
         });
     });
+
+    it('should not remove the origin of an uncaught exceptions from middleware', function (done) {
+        var app = express();
+        app.use(function (req, res, next) {
+            JSON.parse('INVALIDJSON');
+        });
+
+        expect(app, 'to yield exchange', {
+            request: {},
+            response: {}
+        }, function (err) {
+            expect(err.stack.split('\n'), 'to satisfy', {
+                2: /test\/unexpectedExpress\.js/
+            });
+            done();
+        });
+    });
+
+    it('should not remove the origin of an Error passed asynchronously to next', function (done) {
+        var app = express();
+        app.use(function (req, res, next) {
+            setImmediate(function () {
+                next(new Error('MockError'));
+            });
+        });
+
+        expect(app, 'to yield exchange', {
+            request: {},
+            response: {}
+        }, function (err) {
+            expect(err.stack.split('\n'), 'to satisfy', {
+                1: /test\/unexpectedExpress\.js/
+            });
+            done();
+        });
+    });
+
+    it('should not remove the origin of an Error passed asynchronously to next', function (done) {
+        var app = express();
+        app.use(function (req, res, next) {
+            return next(new Error('MockError'));
+        });
+
+        expect(app, 'to yield exchange', {
+            request: {},
+            response: {}
+        }, function (err) {
+            expect(err.stack.split('\n'), 'to satisfy', {
+                1: /test\/unexpectedExpress\.js/
+            });
+            done();
+        });
+    });
 });
