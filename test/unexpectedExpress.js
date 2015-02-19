@@ -1078,4 +1078,45 @@ describe('unexpectedExpress', function () {
             done();
         });
     });
+
+    describe('with errorPassedToNext set to an object', function () {
+        it('should report if the test failed due to no error being passed to next', function (done) {
+            var app = express();
+            app.use(function (req, res, next) {
+                return next(null);
+            });
+
+            expect(app, 'to yield exchange', {
+                request: {},
+                response: {
+                    errorPassedToNext: {
+                        foo: 'bar'
+                    }
+                }
+            }, function (err) {
+                expect(err, 'to be an object');
+                done();
+            });
+        });
+
+        it('should remove errorPassedToNext from expectedResponseProperties in time', function (done) {
+            var app = express();
+            app.use(function (req, res, next) {
+                return next({foo: 'bar'});
+            });
+
+            expect(app, 'to yield exchange', {
+                request: {},
+                response: {
+                    errorPassedToNext: {
+                        foo: 'bar'
+                    }
+                }
+            }, function (err) {
+                expect(err, 'to be null');
+
+                done();
+            });
+        });
+    });
 });
