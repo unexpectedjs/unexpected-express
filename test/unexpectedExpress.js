@@ -186,6 +186,7 @@ describe('unexpectedExpress', function () {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
         }), 'to yield exchange', {
             request: {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
