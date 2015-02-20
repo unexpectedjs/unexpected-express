@@ -1,4 +1,4 @@
-    /*global describe, it, setImmediate:true*/
+/*global describe, it, setImmediate:true*/
 
 if (typeof setImmediate === 'undefined') {
     setImmediate = process.nextTick;
@@ -1118,5 +1118,34 @@ describe('unexpectedExpress', function () {
                 done();
             });
         });
+    });
+
+    it('should not double the chunk passed to res.end', function (done) {
+        var app = express();
+        app.use(function (req, res, next) {
+            res.write('<');
+            res.end('>');
+        });
+
+        expect(app, 'to yield exchange', {
+            request: {},
+            response: {
+                body: '<>'
+            }
+        }, done);
+    });
+
+    it('should work when a single response chunk body is passed to end', function (done) {
+        var app = express();
+        app.use(function (req, res, next) {
+            res.end('>');
+        });
+
+        expect(app, 'to yield exchange', {
+            request: {},
+            response: {
+                body: '>'
+            }
+        }, done);
     });
 });
