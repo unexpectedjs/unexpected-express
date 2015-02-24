@@ -452,6 +452,66 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
+    it('should support sending a multipart/form-data request via formData: {...}', function (done) {
+        expect(express().use(function (req, res, next) {
+            var contentTypeRegExp = /^multipart\/form-data; boundary=([\-\d]+)$/,
+                contentType = req.header('Content-Type');
+
+            expect(contentType, 'to match', contentTypeRegExp);
+
+            var boundary = contentType.match(contentTypeRegExp)[1];
+
+            expect(
+                req,
+                'to be a readable stream that outputs',
+                '--' + boundary + '\r\n' +
+                'Content-Disposition: form-data; name="abc"\r\n' +
+                '\r\n' +
+                'def\r\n' +
+                '--' + boundary + '\r\n' +
+                'Content-Disposition: form-data; name="attachment"; filename="blabla"\r\n' +
+                'Content-Type: foo/bar\r\n' +
+                '\r\n' +
+                '\x00\x01\r\n' +
+                '--' + boundary + '\r\n' +
+                'Content-Disposition: form-data; name="attachment2"; filename="yay"\r\n' +
+                'Content-Type: quux/baz\r\n' +
+                '\r\n' +
+                '\x02\x03\r\n' +
+                '--' + boundary + '--',
+                passError(next, function () {
+                    res.status(200).end();
+                })
+            );
+        }), 'to yield exchange', {
+            request: {
+                formData: {
+                    abc: 'def',
+                    attachment: {
+                        value: new Buffer([0x00, 0x01]),
+                        contentType: 'foo/bar',
+                        filename: 'blabla'
+                    },
+                    attachment2: {
+                        value: new Buffer([0x02, 0x03]),
+                        contentType: 'quux/baz',
+                        fileName: 'yay'
+                    }
+                }
+            }
+        }, done);
+    });
+
+    it('should complain if the body and formData request options occur together', function (done) {
+        expect(express().use(function () {}), 'to yield exchange', {
+            request: { body: 'abc', formData: {} },
+            response: 200
+        }, function (err) {
+            expect(err, 'to equal', new Error('unexpected-express: The "body" and "formData" options are not supported together'));
+            done();
+        });
+    });
+
     it('should make a request body provided as a FormData instance appear as multipart/form-data', function (done) {
         var formData = new FormData();
         expect(express().use(bodyParser()).use(function (req, res, next) {
