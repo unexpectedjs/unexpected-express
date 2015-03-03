@@ -1,12 +1,12 @@
 Unexpected-express
 ==================
 
-Plugin for [Unexpected](https://github.com/sunesimonsen/unexpected) that makes it easy to test [Express.js](https://github.com/visionmedia/express/) middleware. Uses the [unexpected-messy](https://github.com/papandreou/unexpected-messy) plugin to do most of the heavy lifting.
+Plugin for [Unexpected](https://github.com/unexpectedjs/unexpected) that makes it easy to test [Express.js](https://github.com/visionmedia/express/) middleware. Uses the [unexpected-messy](https://github.com/unexpectedjs/unexpected-messy) plugin to do most of the heavy lifting.
 
 [![NPM version](https://badge.fury.io/js/unexpected-express.png)](http://badge.fury.io/js/unexpected-express)
-[![Build Status](https://travis-ci.org/papandreou/unexpected-express.png?branch=master)](https://travis-ci.org/papandreou/unexpected-express)
-[![Coverage Status](https://coveralls.io/repos/papandreou/unexpected-express/badge.png)](https://coveralls.io/r/papandreou/unexpected-express)
-[![Dependency Status](https://david-dm.org/papandreou/unexpected-express.png)](https://david-dm.org/papandreou/unexpected-express)
+[![Build Status](https://travis-ci.org/unexpectedjs/unexpected-express.png?branch=master)](https://travis-ci.org/unexpectedjs/unexpected-express)
+[![Coverage Status](https://coveralls.io/repos/unexpectedjs/unexpected-express/badge.png)](https://coveralls.io/r/unexpectedjs/unexpected-express)
+[![Dependency Status](https://david-dm.org/unexpectedjs/unexpected-express.png)](https://david-dm.org/unexpectedjs/unexpected-express)
 
 ![Unexpected Express (train)](http://upload.wikimedia.org/wikipedia/commons/1/19/Train_wreck_at_Montparnasse_1895.jpg)
 

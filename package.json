@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/papandreou/unexpected-express.git"
+    "url": "git://github.com/unexpectedjs/unexpected-express.git"
   },
   "keywords": [
     "test",
@@ -24,9 +24,9 @@
   "author": "Andreas Lind Petersen <andreas@one.com>",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/papandreou/unexpected-express/issues"
+    "url": "https://github.com/unexpectedjs/unexpected-express/issues"
   },
-  "homepage": "https://github.com/papandreou/unexpected-express",
+  "homepage": "https://github.com/unexpectedjs/unexpected-express",
   "peerDependencies": {
     "unexpected": "5 || 6",
     "express": "*"
