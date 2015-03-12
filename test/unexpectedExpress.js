@@ -980,7 +980,7 @@ describe('unexpectedExpress', function () {
             expect(err, 'to have message',
                 'GET / HTTP/1.1\n' +
                 '\n' +
-                '404 // should be 200'
+                '404 // should be 200\n'
             );
             done();
         });
