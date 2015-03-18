@@ -1,4 +1,4 @@
-/*global describe, it, setImmediate:true*/
+/*global describe, it, setImmediate:true, setTimeout*/
 
 if (typeof setImmediate === 'undefined') {
     setImmediate = process.nextTick;
