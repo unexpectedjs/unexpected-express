@@ -1208,4 +1208,26 @@ describe('unexpectedExpress', function () {
             }
         }, done);
     });
+
+    it('should not emit the request body until there is a listener', function (done) {
+        var app = express();
+        app.use(function (req, res, next) {
+            setTimeout(function () {
+                var chunks = [];
+                req.on('data', function (chunk) {
+                    chunks.push(chunk);
+                }).on('end', function () {
+                    expect(Buffer.concat(chunks), 'to equal', new Buffer([1, 2, 3, 4]));
+                    res.send(200);
+                });
+            }, 10);
+        });
+
+        expect(app, 'to yield exchange', {
+            request: {
+                body: new Buffer([1, 2, 3, 4])
+            },
+            response: 200
+        }, done);
+    });
 });
