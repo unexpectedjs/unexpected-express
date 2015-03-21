@@ -876,9 +876,9 @@ describe('unexpectedExpress', function () {
                 }));
             });
 
-            it('should keep it as a Buffer if it cannot be interpreted as utf-8', function (done) {
+            it('should keep it as a Buffer if the charset cannot be understood', function (done) {
                 expect(express().use(function (req, res, next) {
-                    res.setHeader('Content-Type', 'text/plain');
+                    res.setHeader('Content-Type', 'text/plain; charset=blabla');
                     res.send(new Buffer([0xf8]));
                 }), 'to yield exchange', {
                     request: '/foo',
@@ -1007,6 +1007,8 @@ describe('unexpectedExpress', function () {
                 'X-Powered-By: Express\n' +
                 'Content-Type: application/json\n' +
                 'ETag: "abc123" // should equal "foo456"\n' +
+                '               // -"abc123"\n' +
+                '               // +"foo456"\n' +
                 'Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
                 'Content-Length: 11\n' +
                 'Connection: keep-alive\n' +
@@ -1044,6 +1046,8 @@ describe('unexpectedExpress', function () {
                 'X-Powered-By: Express\n' +
                 'Content-Type: application/json\n' +
                 'ETag: "abc123" // should equal "foo456"\n' +
+                '               // -"abc123"\n' +
+                '               // +"foo456"\n' +
                 'Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
                 'Content-Length: 11\n' +
                 'Connection: keep-alive\n' +
