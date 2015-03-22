@@ -181,6 +181,49 @@ describe('unexpectedExpress', function () {
         }), 'to yield exchange', {request: '/foo/bar/', response: new Buffer('foobar', 'utf-8')}, done);
     });
 
+    describe('when matching the raw body', function () {
+        it('should succeed', function (done) {
+            expect(express().use(function (req, res, next) {
+                res.send('foobar');
+            }), 'to yield exchange', {
+                request: '/foo/bar/',
+                response: {
+                    rawBody: new Buffer('foobar', 'utf-8')
+                }
+            }, done);
+        });
+
+        it('should fail with a diff', function (done) {
+            expect(express().use(function (req, res, next) {
+                res.setHeader('Date', 'Sun, 22 Mar 2015 17:11:22 GMT');
+                res.send('foobar');
+            }), 'to yield exchange', {
+                request: '/foo/bar/',
+                response: {
+                    rawBody: new Buffer('barfoo', 'utf-8')
+                }
+            }, function (err) {
+                expect(err, 'to be an', Error);
+                expect(err.output.toString('text'), 'to equal',
+                    'GET /foo/bar/ HTTP/1.1\n' +
+                    '\n' +
+                    'HTTP/1.1 200 OK\n' +
+                    'X-Powered-By: Express\n' +
+                    'Date: Sun, 22 Mar 2015 17:11:22 GMT\n' +
+                    'Content-Type: text/html; charset=utf-8\n' +
+                    'Content-Length: 6\n' +
+                    'Etag: "-1628037227"\n' +
+                    'Connection: keep-alive\n' +
+                    '\n' +
+                    'foobar\n' +
+                    '// should have raw body satisfying Buffer([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F])\n' +
+                    '// -66 6F 6F 62 61 72                                │foobar│\n' +
+                    '// +62 61 72 66 6F 6F                                │barfoo│');
+                done();
+            });
+        });
+    });
+
     it('supports the request body to be specified as a string', function (done) {
         expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
