@@ -177,8 +177,9 @@ describe('unexpectedExpress', function () {
 
     it('should interpret response given as a Buffer as the expected response body', function (done) {
         expect(express().use(function (req, res, next) {
-            res.send('foobar');
-        }), 'to yield exchange', {request: '/foo/bar/', response: new Buffer('foobar', 'utf-8')}, done);
+            res.header('Content-Type', 'application/octet-stream');
+            res.send(new Buffer([1, 2]));
+        }), 'to yield exchange', {request: '/foo/bar/', response: new Buffer([1, 2])}, done);
     });
 
     describe('when matching the raw body', function () {
@@ -468,6 +469,7 @@ describe('unexpectedExpress', function () {
 
     it('should consider a non-existent response body equal to an empty string', function (done) {
         expect(express().use(function (req, res, next) {
+            res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
             res.end();
         }), 'to yield exchange', {
             response: ''
@@ -813,206 +815,6 @@ describe('unexpectedExpress', function () {
         }, done);
     });
 
-    describe('with the response provided as a Buffer', function () {
-        it('should upgrade it to a string when matched against a string', function (done) {
-            expect(express().use(function (req, res, next) {
-                res.setHeader('Content-Type', 'text/plain');
-                res.send(new Buffer('blah', 'utf-8'));
-            }), 'to yield exchange', {
-                request: '/foo',
-                response: {
-                    body: 'blah',
-                    statusCode: 200
-                }
-            }, passError(done, function (context) {
-                expect(context.httpResponse.body, 'to be a string');
-                done();
-            }));
-        });
-
-        it('should upgrade it to a string when matched against a string, even when served as a non-textual Content-Type', function (done) {
-            expect(express().use(function (req, res, next) {
-                res.setHeader('Content-Type', 'image/png');
-                res.send(new Buffer('PNG...', 'utf-8'));
-            }), 'to yield exchange', {
-                request: '/foo',
-                response: {
-                    body: 'PNG...',
-                    statusCode: 200
-                }
-            }, passError(done, function (context) {
-                expect(context.httpResponse.body, 'to be a string');
-                done();
-            }));
-        });
-
-        it('should upgrade it to a string when not matched against and served with a textual Content-Type', function (done) {
-            expect(express().use(function (req, res, next) {
-                res.setHeader('Content-Type', 'text/plain');
-                res.send(new Buffer('blah', 'utf-8'));
-            }), 'to yield exchange', {
-                request: '/foo',
-                response: 200
-            }, passError(done, function (context) {
-                expect(context.httpResponse.body, 'to be a string');
-                done();
-            }));
-        });
-
-        it('should not upgrade it to a string when not matched against and served with a non-textual Content-Type', function (done) {
-            expect(express().use(function (req, res, next) {
-                res.setHeader('Content-Type', 'image/png');
-                res.send(new Buffer('PNG....', 'utf-8'));
-            }), 'to yield exchange', {
-                request: '/foo',
-                response: 200
-            }, passError(done, function (context) {
-                expect(context.httpResponse.body, 'to be a', Buffer);
-                done();
-            }));
-        });
-
-        describe('and a Content-Type of application/json', function () {
-            it('should keep it as a Buffer when matched against a Buffer', function (done) {
-                expect(express().use(function (req, res, next) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(new Buffer(JSON.stringify({foo: '123'}), 'utf-8'));
-                }), 'to yield exchange', {
-                    request: '/foo',
-                    response: {
-                        body: new Buffer(JSON.stringify({foo: '123'})),
-                        statusCode: 200
-                    }
-                }, passError(done, function (context) {
-                    expect(context.httpResponse.body, 'to be a', Buffer);
-                    done();
-                }));
-            });
-
-            it('should upgrade it to an object when matched against an object', function (done) {
-                expect(express().use(function (req, res, next) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(new Buffer('{"foo": 123}', 'utf-8'));
-                }), 'to yield exchange', {
-                    request: '/foo',
-                    response: {
-                        body: {
-                            foo: 123
-                        }
-                    }
-                }, passError(done, function (context) {
-                    expect(context.httpResponse.body, 'to equal', {foo: 123});
-                    done();
-                }));
-            });
-
-            it('should upgrade it to an object when not matched against', function (done) {
-                expect(express().use(function (req, res, next) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(new Buffer('{"foo": 123}', 'utf-8'));
-                }), 'to yield exchange', {
-                    request: '/foo',
-                    response: 200
-                }, passError(done, function (context) {
-                    expect(context.httpResponse.body, 'to equal', {foo: 123});
-                    done();
-                }));
-            });
-
-            it('should keep it as a Buffer if the charset cannot be understood', function (done) {
-                expect(express().use(function (req, res, next) {
-                    res.setHeader('Content-Type', 'text/plain; charset=blabla');
-                    res.send(new Buffer([0xf8]));
-                }), 'to yield exchange', {
-                    request: '/foo',
-                    response: 200
-                }, passError(done, function (context) {
-                    expect(context.httpResponse.body, 'to be a', Buffer);
-                    done();
-                }));
-            });
-        });
-    });
-
-    describe('with the response provided as a string', function () {
-        it('should downgrade it to a Buffer when matched against a Buffer', function (done) {
-            expect(express().use(function (req, res, next) {
-                res.setHeader('Content-Type', 'text/plain');
-                res.send('blah');
-            }), 'to yield exchange', {
-                request: '/foo',
-                response: {
-                    body: new Buffer('blah', 'utf-8'),
-                    statusCode: 200
-                }
-            }, passError(done, function (context) {
-                expect(context.httpResponse.body, 'to be a', Buffer);
-                done();
-            }));
-        });
-
-        it('should keep it as a string when not matched against', function (done) {
-            expect(express().use(function (req, res, next) {
-                res.setHeader('Content-Type', 'text/plain');
-                res.send('blah');
-            }), 'to yield exchange', {
-                request: '/foo',
-                response: 200
-            }, passError(done, function (context) {
-                expect(context.httpResponse.body, 'to be a string');
-                done();
-            }));
-        });
-
-        describe('and a Content-Type of application/json', function () {
-            it('should keep it as a string when matched against a string', function (done) {
-                expect(express().use(function (req, res, next) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send('{"foo": 123}');
-                }), 'to yield exchange', {
-                    request: '/foo',
-                    response: {
-                        body: '{"foo": 123}',
-                        statusCode: 200
-                    }
-                }, passError(done, function (context) {
-                    expect(context.httpResponse.body, 'to equal', '{"foo": 123}');
-                    done();
-                }));
-            });
-
-            it('should upgrade it to an object when matched against an object', function (done) {
-                expect(express().use(function (req, res, next) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send('{"foo": 123}');
-                }), 'to yield exchange', {
-                    request: '/foo',
-                    response: {
-                        body: {
-                            foo: 123
-                        }
-                    }
-                }, passError(done, function (context) {
-                    expect(context.httpResponse.body, 'to equal', {foo: 123});
-                    done();
-                }));
-            });
-
-            it('should upgrade it to an object when not matched against', function (done) {
-                expect(express().use(function (req, res, next) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send('{"foo": 123}');
-                }), 'to yield exchange', {
-                    request: '/foo',
-                    response: 200
-                }, passError(done, function (context) {
-                    expect(context.httpResponse.body, 'to equal', {foo: 123});
-                    done();
-                }));
-            });
-        });
-    });
-
     it('should show an error if the request does not match any route', function (done) {
         expect(express().get('/foo', function (req, res) {
             res.status(200).end();
@@ -1230,6 +1032,7 @@ describe('unexpectedExpress', function () {
     it('should not double the chunk passed to res.end', function (done) {
         var app = express();
         app.use(function (req, res, next) {
+            res.header('Content-Type', 'text/plain');
             res.write('<');
             res.end('>');
         });
@@ -1245,6 +1048,7 @@ describe('unexpectedExpress', function () {
     it('should work when a single response chunk body is passed to end', function (done) {
         var app = express();
         app.use(function (req, res, next) {
+            res.header('Content-Type', 'text/plain');
             res.end('>');
         });
 
