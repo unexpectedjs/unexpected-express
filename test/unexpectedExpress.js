@@ -53,6 +53,14 @@ describe('unexpectedExpress', function () {
         .addAssertion('Error', 'to have message', function (expect, subject, value) {
             this.errorMode = 'nested';
             return expect(subject._isUnexpected ? subject.output.toString() : subject.message, 'to satisfy', value);
+        })
+        .addAssertion('when delayed a little bit', function (expect, subject) {
+            var that = this;
+            return expect.promise(function (run) {
+                setTimeout(run(function () {
+                    return that.shift(expect, subject, 0);
+                }), 1);
+            });
         });
 
     expect.output.installPlugin(require('magicpen-prism'));
@@ -1087,6 +1095,48 @@ describe('unexpectedExpress', function () {
                 body: new Buffer([1, 2, 3, 4])
             },
             response: 200
+        });
+    });
+
+    describe('with a promise-returning assertion inside the satisfy spec', function () {
+        it('should succeed', function () {
+            return expect(express().use(function (req, res, next) {
+                res.send({foo: 123});
+            }), 'to yield exchange', {
+                response: {
+                    body: expect.it('when delayed a little bit', 'to equal', { foo: 123 })
+                }
+            });
+        });
+
+        it('should fail with a diff', function () {
+            return expect(
+                expect(express().use(function (req, res, next) {
+                    res.setHeader('Date', 'Sun, 05 Apr 2015 22:56:35 GMT');
+                    res.send({foo: 123});
+                }), 'to yield exchange', {
+                    response: {
+                        body: expect.it('when delayed a little bit', 'to equal', { foo: 789 })
+                    }
+                }),
+                'when rejected',
+                'to have message',
+                    "GET / HTTP/1.1\n" +
+                    "\n" +
+                    "HTTP/1.1 200 OK\n" +
+                    "X-Powered-By: Express\n" +
+                    "Date: Sun, 05 Apr 2015 22:56:35 GMT\n" +
+                    "Content-Type: application/json\n" +
+                    "Content-Length: 11\n" +
+                    "Etag: \"-1305345262\"\n" +
+                    "Connection: keep-alive\n" +
+                    "\n" +
+                    "expected { foo: 123 } when delayed a little bit to equal { foo: 789 }\n" +
+                    "\n" +
+                    "{\n" +
+                    "  foo: 123 // should equal 789\n" +
+                    "}"
+            );
         });
     });
 });
