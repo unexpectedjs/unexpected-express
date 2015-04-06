@@ -212,6 +212,14 @@ describe('unexpectedExpress', function () {
                 }),
                 'when rejected',
                 'to have message',
+                    "expected express app to yield exchange\n" +
+                    "{\n" +
+                    "  request: '/foo/bar/',\n" +
+                    "  response: {\n" +
+                    "    rawBody: Buffer([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F])\n" +
+                    "  }\n" +
+                    "}\n" +
+                    "\n" +
                     'GET /foo/bar/ HTTP/1.1\n' +
                     '\n' +
                     'HTTP/1.1 200 OK\n' +
@@ -710,10 +718,11 @@ describe('unexpectedExpress', function () {
                 }),
                 'when rejected',
                 'to have message',
-                    "expected '/bar' to satisfy '/barbar'\n" +
-                    '\n' +
-                    '-/bar\n' +
-                    '+/barbar'
+                    "expected IncomingMessage to have url satisfying '/barbar'\n" +
+                    "  expected '/bar' to satisfy '/barbar'\n" +
+                    "\n" +
+                    "  -/bar\n" +
+                    "  +/barbar"
             );
         });
     });
@@ -833,6 +842,8 @@ describe('unexpectedExpress', function () {
             }),
             'when rejected',
             'to have message',
+                "expected express app to yield exchange { request: '/', response: 200 }\n" +
+                '\n' +
                 'GET / HTTP/1.1\n' +
                 '\n' +
                 '404 // should be 200\n'
@@ -856,6 +867,12 @@ describe('unexpectedExpress', function () {
             }),
             'when rejected',
             'to have message',
+                "expected express app to yield exchange\n" +
+                "{\n" +
+                "  request: '/',\n" +
+                "  response: { headers: { ETag: '\"foo456\"' } }\n" +
+                "}\n" +
+                "\n" +
                 'GET / HTTP/1.1\n' +
                 '\n' +
                 'HTTP/1.1 200 OK\n' +
@@ -894,6 +911,8 @@ describe('unexpectedExpress', function () {
             }),
             'when rejected',
             'to have message',
+                "expected '/' to yield a response of { headers: { ETag: '\"foo456\"' } }\n" +
+                "\n" +
                 'GET / HTTP/1.1\n' +
                 '\n' +
                 'HTTP/1.1 200 OK\n' +
@@ -1121,6 +1140,13 @@ describe('unexpectedExpress', function () {
                 }),
                 'when rejected',
                 'to have message',
+                    "expected express app to yield exchange\n" +
+                    "{\n" +
+                    "  response: {\n" +
+                    "    body: expect.it('when delayed a little bit', 'to equal', ...)\n" +
+                    "  }\n" +
+                    "}\n" +
+                    "\n" +
                     "GET / HTTP/1.1\n" +
                     "\n" +
                     "HTTP/1.1 200 OK\n" +
