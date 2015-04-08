@@ -50,10 +50,6 @@ describe('unexpectedExpress', function () {
                     a.toString('html') === b.toString('html');
             }
         })
-        .addAssertion('Error', 'to have message', function (expect, subject, value) {
-            this.errorMode = 'nested';
-            return expect(subject._isUnexpected ? subject.output.toString() : subject.message, 'to satisfy', value);
-        })
         .addAssertion('when delayed a little bit', function (expect, subject) {
             var that = this;
             return expect.promise(function (run) {
