@@ -43,7 +43,8 @@
     "mocha": "2.0.1",
     "passerror": "1.0.1",
     "unexpected": "7.0.0",
-    "unexpected-messy": "3.0.0"
+    "unexpected-messy": "3.0.0",
+    "unexpected-promise": "1.1.1"
   },
   "dependencies": {
     "bufferedstream": "1.6.0",
