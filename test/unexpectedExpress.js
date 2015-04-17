@@ -7,35 +7,13 @@ var unexpected = require('unexpected'),
     bodyParser = require('body-parser'),
     BufferedStream = require('bufferedstream'),
     FormData = require('form-data'),
-    passError = require('passerror'),
     express = require('express');
 
 describe('unexpectedExpress', function () {
     var expect = unexpected.clone()
+        .installPlugin(require('unexpected-stream'))
         .installPlugin(require('../lib/unexpectedExpress'))
         .installPlugin(require('unexpected-promise'))
-        .addAssertion('to be a readable stream that outputs', function (expect, subject, value, done) {
-            expect(done, 'to be a function');
-            this.errorMode = 'bubble'; // Make sure we get a diff if the emitted output mismatches
-            var chunks = [];
-            subject.on('data', function (chunk) {
-                chunks.push(chunk);
-            }).on('end', function () {
-                var output = Buffer.concat(chunks),
-                    valueIsRegExp = Object.prototype.toString.call(value) === '[object RegExp]';
-                if (typeof value === 'string' || valueIsRegExp) {
-                    output = output.toString('utf-8');
-                }
-                if (valueIsRegExp) {
-                    expect(output, 'to match', value);
-                } else {
-                    expect(output, 'to equal', value);
-                }
-                if (typeof done === 'function') {
-                    done();
-                }
-            }).on('error', done);
-        })
         .addType({
             name: 'magicpen',
             identify: function (obj) {
@@ -516,7 +494,9 @@ describe('unexpectedExpress', function () {
 
             expect(
                 req,
-                'to be a readable stream that outputs',
+                'to yield output satisfying',
+                'when decoded as', 'utf-8',
+                'to equal',
                 '--' + boundary + '\r\n' +
                 'Content-Disposition: form-data; name="abc"\r\n' +
                 '\r\n' +
@@ -531,11 +511,10 @@ describe('unexpectedExpress', function () {
                 'Content-Type: quux/baz\r\n' +
                 '\r\n' +
                 '\x02\x03\r\n' +
-                '--' + boundary + '--',
-                passError(next, function () {
-                    res.status(200).end();
-                })
-            );
+                '--' + boundary + '--'
+            ).then(function () {
+                res.status(200).end();
+            }).caught(next);
         }), 'to yield exchange', {
             request: {
                 formData: {
@@ -582,7 +561,9 @@ describe('unexpectedExpress', function () {
 
             expect(
                 req,
-                'to be a readable stream that outputs',
+                'to yield output satisfying',
+                'when decoded as', 'utf-8',
+                'to equal',
                 '--' + boundary + '\r\n' +
                 'Content-Disposition: form-data; name="foo"\r\n' +
                 '\r\n' +
@@ -591,11 +572,10 @@ describe('unexpectedExpress', function () {
                 'Content-Disposition: form-data; name="quux"\r\n' +
                 '\r\n' +
                 'æøå☺\r\n' +
-                '--' + boundary + '--',
-                passError(next, function () {
-                    res.status(200).end();
-                })
-            );
+                '--' + boundary + '--'
+            ).then(function () {
+                res.status(200).end();
+            }).caught(next);
         }), 'to yield exchange', {
             request: {
                 body: formData

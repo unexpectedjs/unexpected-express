@@ -41,10 +41,10 @@
     "magicpen": "4.1.0",
     "magicpen-prism": "1.0.0",
     "mocha": "2.2.4",
-    "passerror": "1.0.1",
     "unexpected": "7.0.0",
     "unexpected-messy": "3.0.1",
-    "unexpected-promise": "1.1.1"
+    "unexpected-promise": "1.1.1",
+    "unexpected-stream": "1.0.0"
   },
   "dependencies": {
     "bufferedstream": "1.6.0",
