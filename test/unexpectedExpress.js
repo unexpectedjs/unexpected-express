@@ -59,6 +59,8 @@ describe('unexpectedExpress', function () {
             });
         });
 
+    expect.output.preferredWidth = 80;
+
     expect.output.installPlugin(require('magicpen-prism'));
 
     it('should populate req.headers with repeated headers like node.js', function () {
@@ -211,9 +213,7 @@ describe('unexpectedExpress', function () {
                     "expected express app to yield exchange\n" +
                     "{\n" +
                     "  request: '/foo/bar/',\n" +
-                    "  response: {\n" +
-                    "    rawBody: Buffer([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F])\n" +
-                    "  }\n" +
+                    "  response: { rawBody: Buffer([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F]) }\n"  +
                     "}\n" +
                     "\n" +
                     'GET /foo/bar/ HTTP/1.1\n' +
@@ -863,11 +863,7 @@ describe('unexpectedExpress', function () {
             }),
             'when rejected',
             'to have message',
-                "expected express app to yield exchange\n" +
-                "{\n" +
-                "  request: '/',\n" +
-                "  response: { headers: { ETag: '\"foo456\"' } }\n" +
-                "}\n" +
+                "expected express app to yield exchange { request: '/', response: { headers: { ETag: '\"foo456\"' } } }\n" +
                 "\n" +
                 'GET / HTTP/1.1\n' +
                 '\n' +
@@ -1136,12 +1132,7 @@ describe('unexpectedExpress', function () {
                 }),
                 'when rejected',
                 'to have message',
-                    "expected express app to yield exchange\n" +
-                    "{\n" +
-                    "  response: {\n" +
-                    "    body: expect.it('when delayed a little bit', 'to equal', ...)\n" +
-                    "  }\n" +
-                    "}\n" +
+                    "expected express app to yield exchange { response: { body: expect.it('when delayed a little bit', 'to equal', ...) } }\n" +
                     "\n" +
                     "GET / HTTP/1.1\n" +
                     "\n" +
