@@ -30,9 +30,9 @@ function myMiddleware(req, res, next) {
     res.send(body);
 }
 
-describe('myMiddleware', function (done) {
-    it('should handle a simple request', function (done) {
-        expect(require('express')().use(myMiddleware), 'to yield exchange', {
+describe('myMiddleware', function () {
+    it('should handle a simple request', function () {
+        return expect(require('express')().use(myMiddleware), 'to yield exchange', {
             request: {
                 url: '/blah',
                 headers: {
@@ -46,7 +46,7 @@ describe('myMiddleware', function (done) {
                 },
                 body: 'Here goes /blah as text/plain'
             }
-        }, done);
+        });
     });
 });
 ```
@@ -56,36 +56,36 @@ own custom assertion around that to increase DRYness and put the request
 properties into the subject's spot:
 
 ```javascript
-expect.addAssertion('to yield a response of', function (expect, subject, value, done) {
-    expect(require('express')().use(myMiddleware), 'to yield exchange', {
+expect.addAssertion('to yield a response of', function (expect, subject, value) {
+    return expect(require('express')().use(myMiddleware), 'to yield exchange', {
         request: subject,
         response: value
-    }, done);
+    });
 });
 
 describe('myMiddleware', function () {
-    it('should default to text/plain', function (done) {
-        expect('/barf', 'to yield a response of', 'Here goes /barf as text/plain', done);
+    it('should default to text/plain', function () {
+        return expect('/barf', 'to yield a response of', 'Here goes /barf as text/plain');
     });
 
-    it('should support text/html', function (done) {
-        expect({url: '/quux', headers: {Accept: 'text/html'}}, 'to yield a response of', '<html>Here goes /quux as text/html</html>', done);
+    it('should support text/html', function () {
+        return expect({url: '/quux', headers: {Accept: 'text/html'}}, 'to yield a response of', '<html>Here goes /quux as text/html</html>');
     });
 
-    it('should entitify less than and ampersand chars in text/html', function (done) {
-        expect({url: '/<h&ey<', headers: {Accept: 'text/html'}}, 'to yield a response of', '<html>Here goes /&lt;h&amp;ey&lt; as text/html</html>', done);
+    it('should entitify less than and ampersand chars in text/html', function () {
+        return expect({url: '/<h&ey<', headers: {Accept: 'text/html'}}, 'to yield a response of', '<html>Here goes /&lt;h&amp;ey&lt; as text/html</html>');
     });
 
-    it('should not entitify in text/plain', function (done) {
-        expect('/<hey', 'to yield a response of', 'Here goes /<hey as text/plain', done);
+    it('should not entitify in text/plain', function () {
+        return expect('/<hey', 'to yield a response of', 'Here goes /<hey as text/plain');
     });
 
-    it('should return a 400 if asked for an unsupported Content-Type', function (done) {
-        expect({url: '/something', headers: {Accept: 'text/calendar'}}, 'to yield a response of', {statusCode: 400, errorPassedToNext: true}, done);
+    it('should return a 400 if asked for an unsupported Content-Type', function () {
+        return expect({url: '/something', headers: {Accept: 'text/calendar'}}, 'to yield a response of', {statusCode: 400, errorPassedToNext: true});
     });
 
-    it('should return a 404 for /baz', function (done) {
-        expect('/baz', 'to yield a response of', {statusCode: 404, body: 'I could not find /baz'}, done);
+    it('should return a 404 for /baz', function () {
+        return expect('/baz', 'to yield a response of', {statusCode: 404, body: 'I could not find /baz'});
     });
 });
 ```
