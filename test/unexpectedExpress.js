@@ -569,12 +569,8 @@ describe('unexpectedExpress', function () {
 
     it('should make a request body provided as a FormData instance appear as multipart/form-data', function () {
         var formData = new FormData();
-
-        setImmediate(function () {
-            formData.append('foo', 'bar');
-            formData.append('quux', 'æøå☺');
-            formData.resume();
-        });
+        formData.append('foo', 'bar');
+        formData.append('quux', 'æøå☺');
 
         return expect(express().use(bodyParser()).use(function (req, res, next) {
             var contentTypeRegExp = /^multipart\/form-data; boundary=([\-\d]+)$/,
