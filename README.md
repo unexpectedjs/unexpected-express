@@ -10,7 +10,12 @@ Plugin for [Unexpected](https://github.com/unexpectedjs/unexpected) that makes i
 
 ![Unexpected Express (train)](http://upload.wikimedia.org/wikipedia/commons/1/19/Train_wreck_at_Montparnasse_1895.jpg)
 
-Example:
+Example
+-------
+
+Assert that a particular request specified in the *request* property to
+myMiddleware results in a response whose values match those in the properties
+listed in the *response* property:
 
 ```javascript
 var expect = require('unexpected')
@@ -51,6 +56,9 @@ describe('myMiddleware', function () {
 });
 ```
 
+Extensive testing
+-----------------
+
 If you're going to test a piece of middleware extensively, you can create your
 own custom assertion around that to increase DRYness and put the request
 properties into the subject's spot:
@@ -90,11 +98,15 @@ describe('myMiddleware', function () {
 });
 ```
 
+Reporting
+---------
+
 You'll get a nice diff when expectations aren't met:
 
 ![Diff example](diffExample.png)
 
 Additional features:
+--------------------
 
 * Normalizes header names so you don't need to use the ugly lower-case form in the assertions
 * The expected response bodies can be specified as either strings, objects (implies JSON), or Buffer instances
