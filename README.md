@@ -56,6 +56,65 @@ describe('myMiddleware', function () {
 });
 ```
 
+Extended assertions
+-------------------
+
+Sometimes you may want to make additional assertions on the response after the
+primary comparisons are completed by 'to yield exchange'. This is possible by
+attaching another function to the promise that is returned and executing further
+assertions.
+
+For example, imagine a middleware that generates a timestamp on returned requests
+and while you may not know what the value will be, you wish to assert it's presence:
+
+```javascript
+function secondMiddleware(req, res, next) {
+    var contentType = req.headers['accept'] || 'text/plain';
+    if (contentType !== 'application/json') {
+        return next(400);
+    }
+
+    var body = req.body;
+
+    body.timestamp = Date.now();
+
+    res.send(body);
+}
+
+describe('secondMiddleware', function () {
+    it('should attach a timestamp to responses, function () {
+        return expect(require('express')().use(secondMiddleware), 'to yield exchange', {
+            request: {
+                url: '/other',
+                body: {
+                    foo: 'bar'
+                }
+            },
+            response: {
+                statusCode: 200
+                body: {
+                    foo: 'bar'
+                }
+            }
+        }).then(function (context) {
+            // retrieve the response body
+            var body = context.httpResponse.body;
+
+            expect(body.timestamp, 'to be defined');
+        });
+    });
+});
+
+```
+
+The context object provided to the then() callback will be provided a context
+object exposes the following properties on which assertions can be made:
+
+- httpRequest
+- httpResponse
+- res
+- req
+
 Extensive testing
 -----------------
 
