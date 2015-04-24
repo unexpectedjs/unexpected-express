@@ -98,6 +98,9 @@ describe('myMiddleware', function () {
 });
 ```
 
+To read more about adding custom assertions please see the unexpected
+documentation [here](http://unexpectedjs.github.io/api/addAssertion/).
+
 Reporting
 ---------
 
