@@ -82,7 +82,7 @@ function secondMiddleware(req, res, next) {
 }
 
 describe('secondMiddleware', function () {
-    it('should attach a timestamp to responses, function () {
+    it('should attach a timestamp to responses', function () {
         return expect(require('express')().use(secondMiddleware), 'to yield exchange', {
             request: {
                 url: '/other',
