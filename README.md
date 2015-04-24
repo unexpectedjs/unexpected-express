@@ -10,7 +10,12 @@ Plugin for [Unexpected](https://github.com/unexpectedjs/unexpected) that makes i
 
 ![Unexpected Express (train)](http://upload.wikimedia.org/wikipedia/commons/1/19/Train_wreck_at_Montparnasse_1895.jpg)
 
-Example:
+Example
+-------
+
+Assert that a particular request specified in the *request* property to
+myMiddleware results in a response whose values match those in the properties
+listed in the *response* property:
 
 ```javascript
 var expect = require('unexpected')
@@ -51,6 +56,68 @@ describe('myMiddleware', function () {
 });
 ```
 
+Extended assertions
+-------------------
+
+Sometimes you may want to make additional assertions on the response after the
+primary comparisons are completed by 'to yield exchange'. This is possible by
+attaching another function to the promise that is returned and executing further
+assertions.
+
+For example, imagine a middleware that generates a timestamp on returned requests
+and while you may not know what the value will be, you wish to assert it's presence:
+
+```javascript
+function secondMiddleware(req, res, next) {
+    var contentType = req.headers['accept'] || 'text/plain';
+    if (contentType !== 'application/json') {
+        return next(400);
+    }
+
+    var body = req.body;
+
+    body.timestamp = Date.now();
+
+    res.send(body);
+}
+
+describe('secondMiddleware', function () {
+    it('should attach a timestamp to responses, function () {
+        return expect(require('express')().use(secondMiddleware), 'to yield exchange', {
+            request: {
+                url: '/other',
+                body: {
+                    foo: 'bar'
+                }
+            },
+            response: {
+                statusCode: 200
+                body: {
+                    foo: 'bar'
+                }
+            }
+        }).then(function (context) {
+            // retrieve the response body
+            var body = context.httpResponse.body;
+
+            expect(body.timestamp, 'to be defined');
+        });
+    });
+});
+
+```
+
+The context object provided to the then() callback will be provided a context
+object exposes the following properties on which assertions can be made:
+
+- httpRequest
+- httpResponse
+- res
+- req
+
+Extensive testing
+-----------------
+
 If you're going to test a piece of middleware extensively, you can create your
 own custom assertion around that to increase DRYness and put the request
 properties into the subject's spot:
@@ -90,11 +157,18 @@ describe('myMiddleware', function () {
 });
 ```
 
+To read more about adding custom assertions please see the unexpected
+documentation [here](http://unexpectedjs.github.io/api/addAssertion/).
+
+Reporting
+---------
+
 You'll get a nice diff when expectations aren't met:
 
 ![Diff example](diffExample.png)
 
 Additional features:
+--------------------
 
 * Normalizes header names so you don't need to use the ugly lower-case form in the assertions
 * The expected response bodies can be specified as either strings, objects (implies JSON), or Buffer instances
