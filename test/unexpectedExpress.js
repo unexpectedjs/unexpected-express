@@ -878,7 +878,7 @@ describe('unexpectedExpress', function () {
         );
     });
 
-    it('should fail if the middleware calls the next method more than once', function () {
+    it('should fail if the middleware calls the next function more than once', function () {
         expect(function () {
             expect(function (req, res, next) {
                 next();
