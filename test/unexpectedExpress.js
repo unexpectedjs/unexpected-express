@@ -178,8 +178,10 @@ describe('unexpectedExpress', function () {
         it('should fail with a diff', function () {
             return expect(
                 expect(express().use(function (req, res, next) {
-                    res.setHeader('Date', 'Sun, 22 Mar 2015 17:11:22 GMT');
-                    res.send('foobar');
+                    setImmediate(function () {
+                        res.setHeader('Date', 'Sun, 22 Mar 2015 17:11:22 GMT');
+                        res.send('foobar');
+                    });
                 }), 'to yield exchange', {
                     request: '/foo/bar/',
                     response: {
@@ -418,7 +420,9 @@ describe('unexpectedExpress', function () {
     it('should fail when matching Error instances with different messages', function () {
         return expect(
             expect(express().use(function (req, res, next) {
-                next(new Error('foo'));
+                setImmediate(function () {
+                    next(new Error('foo'));
+                });
             }), 'to yield exchange', {
                 errorPassedToNext: new Error('bar')
             }),
@@ -535,15 +539,12 @@ describe('unexpectedExpress', function () {
     });
 
     it('should complain if the body and formData request options occur together', function () {
-        return expect(
+        expect(function () {
             expect(express().use(function () {}), 'to yield exchange', {
                 request: { body: 'abc', formData: {} },
                 response: 200
-            }),
-            'when rejected',
-            'to have message',
-                'unexpected-express: The "body" and "formData" options are not supported together'
-        );
+            });
+        }, 'to throw', 'unexpected-express: The "body" and "formData" options are not supported together');
     });
 
     it('should make a request body provided as a FormData instance appear as multipart/form-data', function () {
@@ -677,7 +678,7 @@ describe('unexpectedExpress', function () {
         });
 
         it('should fail when the assertion fails', function () {
-            return expect(
+            expect(function () {
                 expect(express().use(function (req, res, next) {
                     req.url = '/bar';
                     res.status(200).end();
@@ -687,23 +688,24 @@ describe('unexpectedExpress', function () {
                         url: '/barbar',
                         statusCode: 200
                     }
-                }),
-                'when rejected',
-                'to have message',
-                    "expected IncomingMessage to have url satisfying '/barbar'\n" +
-                    "  expected '/bar' to satisfy '/barbar'\n" +
-                    "\n" +
-                    "  -/bar\n" +
-                    "  +/barbar"
+                });
+            }, 'to throw',
+                "expected IncomingMessage to have url satisfying '/barbar'\n" +
+                "  expected '/bar' to satisfy '/barbar'\n" +
+                "\n" +
+                "  -/bar\n" +
+                "  +/barbar"
             );
         });
     });
 
     it('should assert the absence of a header by specifying it as undefined', function () {
-        return expect(
+        expect(
             expect(express().use(function (req, res, next) {
-                res.setHeader('X-Foo', 'bar');
-                res.status(200).end();
+                setImmediate(function () {
+                    res.setHeader('X-Foo', 'bar');
+                    res.status(200).end();
+                });
             }), 'to yield exchange', {
                 request: '/foo',
                 response: {
@@ -719,8 +721,10 @@ describe('unexpectedExpress', function () {
     it('should assert the absence of a header by specifying it as undefined, even when using a different casing', function () {
         return expect(
             expect(express().use(function (req, res, next) {
-                res.setHeader('X-Foo', 'bar');
-                res.status(200).end();
+                setImmediate(function () {
+                    res.setHeader('X-Foo', 'bar');
+                    res.status(200).end();
+                });
             }), 'to yield exchange', {
                 request: '/foo',
                 response: {
@@ -734,17 +738,14 @@ describe('unexpectedExpress', function () {
     });
 
     it('should throw an error when a nonexistent property is added on the response object', function () {
-        return expect(
+        expect(function () {
             expect(function (req, res, next) { next(); }, 'to yield exchange', {
                 request: '/foo',
                 response: {
                     fooBar: 'quux'
                 }
-            }),
-            'when rejected',
-            'to have message',
-                /Property "fooBar" does not exist on the response object/
-        );
+            });
+        }, 'to throw', /Property "fooBar" does not exist on the response object/);
     });
 
     it('should extend the req object with any additional properties set on the request object', function () {
@@ -761,7 +762,7 @@ describe('unexpectedExpress', function () {
     it('should allow using locals on the response object', function () {
         return expect(function (req, res, next) {
             res.locals.foo = 'bar';
-            next();
+            setImmediate(next);
         }, 'to yield exchange', {
             request: 'GET /',
             response: {
@@ -770,23 +771,6 @@ describe('unexpectedExpress', function () {
                 }
             }
         });
-    });
-
-    it('should allow using locals on the response object', function () {
-        return expect(
-            expect(function (req, res, next) {
-                res.locals.foo = 'baz';
-                next();
-            }, 'to yield exchange', {
-                request: 'GET /',
-                response: {
-                    locals: {
-                        foo: 'bar'
-                    }
-                }
-            }),
-            'to be rejected'
-        );
     });
 
     it('should allow using locals on the request object', function () {
@@ -805,26 +789,25 @@ describe('unexpectedExpress', function () {
     });
 
     it('should show an error if the request does not match any route', function () {
-        return expect(
-            expect(express().get('/foo', function (req, res) {
+        expect(function () {
+            return expect(express().get('/foo', function (req, res) {
                 res.status(200).end();
             }), 'to yield exchange', {
                 request: '/',
                 response: 200
-            }),
-            'when rejected',
-            'to have message',
-                "expected express app to yield exchange { request: '/', response: 200 }\n" +
-                '\n' +
-                'GET / HTTP/1.1\n' +
-                '\n' +
-                '404 // should be 200\n'
+            });
+        }, 'to throw',
+            "expected express app to yield exchange { request: '/', response: 200 }\n" +
+            "\n" +
+            "GET / HTTP/1.1\n" +
+            "\n" +
+            "404 // should be 200\n"
         );
     });
 
     it('should produce the correct diff when the expected headers do not match', function () {
-        return expect(
-            expect(express().use(function (req, res, next) {
+        expect(function () {
+            return expect(express().use(function (req, res, next) {
                 res.setHeader('Content-Type', 'application/json');
                 res.setHeader('ETag', '"abc123"');
                 res.setHeader('Date', 'Sat, 30 Aug 2014 23:41:13 GMT');
@@ -836,24 +819,23 @@ describe('unexpectedExpress', function () {
                         ETag: '"foo456"'
                     }
                 }
-            }),
-            'when rejected',
-            'to have message',
-                "expected express app to yield exchange { request: '/', response: { headers: { ETag: '\"foo456\"' } } }\n" +
-                "\n" +
-                'GET / HTTP/1.1\n' +
-                '\n' +
-                'HTTP/1.1 200 OK\n' +
-                'X-Powered-By: Express\n' +
-                'Content-Type: application/json\n' +
-                'ETag: "abc123" // should equal "foo456"\n' +
-                '               // -"abc123"\n' +
-                '               // +"foo456"\n' +
-                'Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
-                'Content-Length: 11\n' +
-                'Connection: keep-alive\n' +
-                '\n' +
-                '{ foo: 123 }'
+            });
+        }, 'to throw',
+            "expected express app to yield exchange { request: '/', response: { headers: { ETag: '\"foo456\"' } } }\n" +
+            "\n" +
+            'GET / HTTP/1.1\n' +
+            '\n' +
+            'HTTP/1.1 200 OK\n' +
+            'X-Powered-By: Express\n' +
+            'Content-Type: application/json\n' +
+            'ETag: "abc123" // should equal "foo456"\n' +
+            '               // -"abc123"\n' +
+            '               // +"foo456"\n' +
+            'Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
+            'Content-Length: 11\n' +
+            'Connection: keep-alive\n' +
+            '\n' +
+            '{ foo: 123 }'
         );
     });
 
@@ -871,48 +853,44 @@ describe('unexpectedExpress', function () {
             });
         });
 
-        return expect(
+        expect(function () {
             expect('/', 'to yield a response of', {
                 headers: {
                     ETag: '"foo456"'
                 }
-            }),
-            'when rejected',
-            'to have message',
-                "expected '/' to yield a response of { headers: { ETag: '\"foo456\"' } }\n" +
-                "\n" +
-                'GET / HTTP/1.1\n' +
-                '\n' +
-                'HTTP/1.1 200 OK\n' +
-                'X-Powered-By: Express\n' +
-                'Content-Type: application/json\n' +
-                'ETag: "abc123" // should equal "foo456"\n' +
-                '               // -"abc123"\n' +
-                '               // +"foo456"\n' +
-                'Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
-                'Content-Length: 11\n' +
-                'Connection: keep-alive\n' +
-                '\n' +
-                '{ foo: 123 }'
+            });
+        }, 'to throw',
+            "expected '/' to yield a response of { headers: { ETag: '\"foo456\"' } }\n" +
+            "\n" +
+            'GET / HTTP/1.1\n' +
+            '\n' +
+            'HTTP/1.1 200 OK\n' +
+            'X-Powered-By: Express\n' +
+            'Content-Type: application/json\n' +
+            'ETag: "abc123" // should equal "foo456"\n' +
+            '               // -"abc123"\n' +
+            '               // +"foo456"\n' +
+            'Date: Sat, 30 Aug 2014 23:41:13 GMT\n' +
+            'Content-Length: 11\n' +
+            'Connection: keep-alive\n' +
+            '\n' +
+            '{ foo: 123 }'
         );
     });
 
     it('should fail if the middleware calls the next method more than once', function () {
-        return expect(
+        expect(function () {
             expect(function (req, res, next) {
                 next();
                 next();
             }, 'to yield exchange', {
                 request: {},
                 response: {}
-            }),
-            'when rejected',
-            'to have message',
-                'done/next called more than once'
-        );
+            });
+        }, 'to throw', 'next called more than once');
     });
 
-    it('should fail if the middleware calls the next method, continues with the next middleware and calls next again', function () {
+    it('should fail if the middleware calls the next function, continues with the next middleware and calls next again', function () {
         var app = express();
         app.use(function (req, res, next) {
             next();
@@ -922,26 +900,23 @@ describe('unexpectedExpress', function () {
             res.send('Send some data');
         });
 
-        return expect(
+        expect(function () {
             expect(app, 'to yield exchange', {
                 request: {},
                 response: {}
-            }),
-            'when rejected',
-            'to have message',
-                'done/next called more than once'
-        );
+            });
+        }, 'to throw', 'wat');
     });
 
     it('should not remove the origin of uncaught exceptions from middleware', function () {
-        return expect(
+        expect(function () {
             expect(express().use(function (req, res, next) {
                 JSON.parse('INVALIDJSON');
             }), 'to yield exchange', {
                 request: {},
                 response: {}
-            }),
-            'to be rejected with',
+            });
+        }, 'to throw',
             function (err) {
                 expect(err.stack.split('\n'), 'to satisfy', {
                     2: /test\/unexpectedExpress\.js/
@@ -975,7 +950,9 @@ describe('unexpectedExpress', function () {
     it('should not remove the origin of an Error passed asynchronously to next', function () {
         var app = express();
         app.use(function (req, res, next) {
-            return next(new Error('MockError'));
+            setImmediate(function () {
+                next(new Error('MockError'));
+            });
         });
 
         return expect(
@@ -996,7 +973,9 @@ describe('unexpectedExpress', function () {
         it('should report if the test failed due to no error being passed to next', function () {
             var app = express();
             app.use(function (req, res, next) {
-                return next(null);
+                setImmediate(function () {
+                    next(null);
+                });
             });
 
             return expect(
