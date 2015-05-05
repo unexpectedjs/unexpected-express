@@ -203,7 +203,7 @@ describe('unexpectedExpress', function () {
                     'Date: Sun, 22 Mar 2015 17:11:22 GMT\n' +
                     'Content-Type: text/html; charset=utf-8\n' +
                     'Content-Length: 6\n' +
-                    'Etag: "-1628037227"\n' +
+                    'ETag: "-1628037227"\n' +
                     'Connection: keep-alive\n' +
                     '\n' +
                     'foobar\n' +
@@ -1096,7 +1096,7 @@ describe('unexpectedExpress', function () {
                     "Date: Sun, 05 Apr 2015 22:56:35 GMT\n" +
                     "Content-Type: application/json\n" +
                     "Content-Length: 11\n" +
-                    "Etag: \"-1305345262\"\n" +
+                    "ETag: \"-1305345262\"\n" +
                     "Connection: keep-alive\n" +
                     "\n" +
                     "expected { foo: 123 } when delayed a little bit to equal { foo: 789 }\n" +
