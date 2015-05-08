@@ -290,6 +290,36 @@ describe('unexpectedExpress', function () {
         });
     });
 
+    it('supports the unchunked request body to be specified', function () {
+        return expect(express().use(bodyParser.json()).use(function (req, res, next) {
+            expect(req.body, 'to equal', {foo: 123});
+            res.send(200);
+        }), 'to yield exchange', {
+            request: {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                unchunkedBody: new Buffer(JSON.stringify({foo: 123}), 'utf-8')
+            },
+            response: 200
+        });
+    });
+
+    it('supports the raw request body to be specified', function () {
+        return expect(express().use(bodyParser.json()).use(function (req, res, next) {
+            expect(req.body, 'to equal', {foo: 123});
+            res.send(200);
+        }), 'to yield exchange', {
+            request: {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                rawBody: new Buffer(JSON.stringify({foo: 123}), 'utf-8')
+            },
+            response: 200
+        });
+    });
+
     it('supports the request body to be specified as an object (JSON)', function () {
         var requestBodyStream = new BufferedStream();
         setImmediate(function () {
