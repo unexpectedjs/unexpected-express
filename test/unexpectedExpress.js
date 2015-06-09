@@ -730,7 +730,7 @@ describe('unexpectedExpress', function () {
     });
 
     it('should assert the absence of a header by specifying it as undefined', function () {
-        expect(
+        return expect(
             expect(express().use(function (req, res, next) {
                 setImmediate(function () {
                     res.setHeader('X-Foo', 'bar');
