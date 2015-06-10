@@ -44,7 +44,7 @@
     "unexpected": "8.0.0",
     "unexpected-messy": "4.0.0",
     "unexpected-promise": "1.2.0",
-    "unexpected-stream": "1.1.1"
+    "unexpected-stream": "1.1.2"
   },
   "dependencies": {
     "bufferedstream": "1.6.0",
