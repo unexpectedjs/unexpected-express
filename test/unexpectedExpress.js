@@ -13,7 +13,6 @@ describe('unexpectedExpress', function () {
     var expect = unexpected.clone()
         .installPlugin(require('unexpected-stream'))
         .installPlugin(require('../lib/unexpectedExpress'))
-        .installPlugin(require('unexpected-promise'))
         .addType({
             name: 'magicpen',
             identify: function (obj) {
@@ -721,7 +720,7 @@ describe('unexpectedExpress', function () {
                 });
             }, 'to throw',
                 "expected IncomingMessage to have url satisfying '/barbar'\n" +
-                "  expected '/bar' to satisfy '/barbar'\n" +
+                "  expected '/bar' to equal '/barbar'\n" +
                 "\n" +
                 "  -/bar\n" +
                 "  +/barbar"
