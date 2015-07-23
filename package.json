@@ -4,22 +4,22 @@
   "description": "Extend the unexpected assertion library with support for testing Express middleware",
   "main": "lib/unexpectedExpress.js",
   "scripts": {
+    "coverage": "NODE_ENV=development istanbul cover _mocha -- --reporter dot",
     "lint": "jshint .",
     "test": "mocha && npm run lint",
-    "travis": "npm test && npm run coverage && (<coverage/lcov.info coveralls || true)",
-    "coverage": "NODE_ENV=development istanbul cover _mocha -- --reporter dot"
+    "travis": "npm test && npm run coverage && (<coverage/lcov.info coveralls || true)"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/unexpectedjs/unexpected-express.git"
   },
   "keywords": [
-    "test",
-    "unexpected",
-    "middleware",
     "express",
     "http",
-    "mock"
+    "middleware",
+    "mock",
+    "test",
+    "unexpected"
   ],
   "author": "Andreas Lind Petersen <andreas@one.com>",
   "license": "BSD",
@@ -28,9 +28,9 @@
   },
   "homepage": "https://github.com/unexpectedjs/unexpected-express",
   "peerDependencies": {
+    "express": "*",
     "unexpected": "8 || 9",
-    "unexpected-messy": "^4.2.0",
-    "express": "*"
+    "unexpected-messy": "^4.2.0"
   },
   "devDependencies": {
     "body-parser": "1.0.2",
