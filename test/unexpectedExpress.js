@@ -76,6 +76,16 @@ describe('unexpectedExpress', function () {
         });
     });
 
+    it.skip('should add a leading slash to the request url if not present', function () {
+        return expect(express().use(function (req, res, next) {
+            expect(req.url, 'to equal', '/foo');
+            res.status(200).end();
+        }), 'to yield exchange', {
+            request: 'foo',
+            response: 200
+        });
+    });
+
     it('should preserve an existing query string when adding parameters from the query option to the url', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.url, 'to equal', '/foo?hey=there&bar=hey');
