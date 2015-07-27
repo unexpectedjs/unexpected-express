@@ -965,7 +965,7 @@ describe('unexpectedExpress', function () {
         }, 'to throw',
             function (err) {
                 expect(err.stack.split('\n'), 'to satisfy', {
-                    2: /test\/unexpectedExpress\.js/
+                    8: /test\/unexpectedExpress\.js/
                 });
             }
         );
