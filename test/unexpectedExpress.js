@@ -1170,6 +1170,6 @@ describe('unexpectedExpress', function () {
             }
         }).then(function (context) {
             expect(context.res.headersSent, 'to be true');
-        });;
+        });
     });
 });
