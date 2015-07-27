@@ -829,7 +829,10 @@ describe('unexpectedExpress', function () {
 
     it('should show an error if the request does not match any route', function () {
         expect(function () {
-            return expect(express().get('/foo', function (req, res) {
+            return expect(express().use(function (req, res, next) {
+                res.setHeader('Date', 'Mon, 27 Jul 2015 15:08:52 GMT');
+                next();
+            }).get('/foo', function (req, res) {
                 res.status(200).end();
             }), 'to yield exchange', {
                 request: '/',
@@ -840,7 +843,11 @@ describe('unexpectedExpress', function () {
             "\n" +
             "GET / HTTP/1.1\n" +
             "\n" +
-            "404 // should be 200\n"
+            "HTTP/1.1 404 Not Found // should be 200 OK\n" +
+            "X-Powered-By: Express\n" +
+            "Date: Mon, 27 Jul 2015 15:08:52 GMT\n" +
+            "Connection: keep-alive\n" +
+            "Transfer-Encoding: chunked"
         );
     });
 
@@ -1145,5 +1152,24 @@ describe('unexpectedExpress', function () {
                     "}"
             );
         });
+    });
+
+    it('should pick up the response headers despite express sending back a 404 due to no matching route', function () {
+        return expect(
+            express()
+                .use(function (req, res, next) {
+                    res.setHeader('Foo', 'bar');
+                    next();
+                }),
+            'to yield exchange', {
+            response: {
+                statusCode: 404,
+                headers: {
+                    Foo: 'bar'
+                }
+            }
+        }).then(function (context) {
+            expect(context.res.headersSent, 'to be true');
+        });;
     });
 });
