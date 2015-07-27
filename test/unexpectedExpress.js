@@ -962,13 +962,9 @@ describe('unexpectedExpress', function () {
                 request: {},
                 response: {}
             });
-        }, 'to throw',
-            function (err) {
-                expect(err.stack.split('\n'), 'to satisfy', {
-                    8: /test\/unexpectedExpress\.js/
-                });
-            }
-        );
+        }, 'to throw', function (err) {
+            expect(err.stack, 'to contain', 'test/unexpectedExpress.js');
+        });
     });
 
     it('should not remove the origin of an Error passed asynchronously to next', function () {
