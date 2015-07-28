@@ -720,6 +720,7 @@ describe('unexpectedExpress', function () {
             expect(function () {
                 expect(express().use(function (req, res, next) {
                     req.url = '/bar';
+                    res.setHeader('Date', 'Tue, 28 Jul 2015 14:29:49 GMT');
                     res.status(200).end();
                 }), 'to yield exchange', {
                     request: '/foo',
@@ -729,11 +730,19 @@ describe('unexpectedExpress', function () {
                     }
                 });
             }, 'to throw',
-                "expected IncomingMessage to have url satisfying '/barbar'\n" +
-                "  expected '/bar' to equal '/barbar'\n" +
+                "expected express app to yield exchange { request: '/foo', response: { url: '/barbar', statusCode: 200 } }\n" +
                 "\n" +
-                "  -/bar\n" +
-                "  +/barbar"
+                "GET /foo HTTP/1.1\n" +
+                "\n" +
+                "HTTP/1.1 200 OK\n" +
+                "X-Powered-By: Express\n" +
+                "Date: Tue, 28 Jul 2015 14:29:49 GMT\n" +
+                "Connection: keep-alive\n" +
+                "Transfer-Encoding: chunked\n" +
+                "// url: expected '/bar' to equal '/barbar'\n" +
+                "//\n" +
+                "// -/bar\n" +
+                "// +/barbar"
             );
         });
     });
@@ -1167,5 +1176,48 @@ describe('unexpectedExpress', function () {
         }).then(function (context) {
             expect(context.res.headersSent, 'to be true');
         });
+    });
+
+    it('should display metadata alongside with the exchange diff', function () {
+        return expect(
+            expect.promise(function () {
+                return expect(
+                    express()
+                        .use(function (req, res, next) {
+                            res.setHeader('Date', 'Tue, 28 Jul 2015 13:33:28 GMT');
+                            res.locals.foo = 'quux';
+                            next();
+                        }),
+                    'to yield exchange', {
+                    response: {
+                        statusCode: 200,
+                        headers: {
+                            Foo: 'bar'
+                        },
+                        locals: {
+                            foo: 'baz'
+                        }
+                    }
+                });
+            }),
+            'to be rejected with',
+                "expected express app to yield exchange { response: { statusCode: 200, headers: { Foo: 'bar' }, locals: { foo: 'baz' } } }\n" +
+                "\n" +
+                "GET / HTTP/1.1\n" +
+                "\n" +
+                "HTTP/1.1 404 Not Found // should be 200 OK\n" +
+                "X-Powered-By: Express\n" +
+                "Date: Tue, 28 Jul 2015 13:33:28 GMT\n" +
+                "Connection: keep-alive\n" +
+                "Transfer-Encoding: chunked\n" +
+                "// missing Foo: bar\n" +
+                "// locals: expected { foo: 'quux' } to satisfy { foo: 'baz' }\n" +
+                "//\n" +
+                "// {\n" +
+                "//   foo: 'quux' // should equal 'baz'\n" +
+                "//               // -quux\n" +
+                "//               // +baz\n" +
+                "// }"
+        );
     });
 });
