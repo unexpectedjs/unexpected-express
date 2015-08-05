@@ -30,7 +30,7 @@
   "peerDependencies": {
     "express": "*",
     "unexpected": "8 || 9",
-    "unexpected-messy": "^4.7.0"
+    "unexpected-messy": "^4.2.0"
   },
   "devDependencies": {
     "body-parser": "1.0.2",
@@ -42,13 +42,13 @@
     "magicpen-prism": "1.0.0",
     "mocha": "2.2.5",
     "unexpected": "9.4.0",
+    "unexpected-messy": "4.6.0",
     "unexpected-stream": "1.2.0"
   },
   "dependencies": {
     "bufferedstream": "1.6.0",
     "form-data": "0.2.0",
-    "messy": "^6.6.1",
-    "underscore": "1.6.0",
-    "unexpected-messy": "^4.7.0"
+    "messy": "6.6.1",
+    "underscore": "1.6.0"
   }
 }
