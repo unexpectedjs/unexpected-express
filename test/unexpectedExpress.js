@@ -13,20 +13,6 @@ describe('unexpectedExpress', function () {
     var expect = unexpected.clone()
         .installPlugin(require('unexpected-stream'))
         .installPlugin(require('../lib/unexpectedExpress'))
-        .addType({
-            name: 'magicpen',
-            identify: function (obj) {
-                return obj && obj.isMagicPen;
-            },
-            inspect: function (pen, depth, output) {
-                return output.append(pen);
-            },
-            equal: function (a, b) {
-                return a.toString() === b.toString() &&
-                    a.toString('ansi') === b.toString('ansi') &&
-                    a.toString('html') === b.toString('html');
-            }
-        })
         .addAssertion('when delayed a little bit', function (expect, subject) {
             var that = this;
             return expect.promise(function (run) {
