@@ -62,7 +62,7 @@ describe('unexpectedExpress', function () {
         });
     });
 
-    it.skip('should add a leading slash to the request url if not present', function () {
+    it('should add a leading slash to the request url if not present', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.url, 'to equal', '/foo');
             res.status(200).end();
