@@ -334,13 +334,26 @@ describe('unexpectedExpress', function () {
     });
 
     it('provides a req object that emits end even though a request body is not specified', function () {
-        return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
+        return expect(express().use(function (req, res, next) {
             req.on('end', function () {
                 res.status(200).end();
             });
+            req.resume();
         }), 'to yield exchange', {
             request: 'PUT /',
             response: 200
+        });
+    });
+
+    it('sets requestDestroyed', function () {
+        return expect(express().use(function (req, res, next) {
+            req.connection.destroy();
+            res.end();
+        }), 'to yield exchange', {
+            request: 'PUT /',
+            response: {
+                requestDestroyed: true
+            }
         });
     });
 
