@@ -729,7 +729,8 @@ describe('unexpectedExpress', function () {
                     }
                 });
             }, 'to throw',
-                "expected express app to yield exchange { request: '/foo', response: { url: '/barbar', statusCode: 200 } }\n" +
+                "expected express app\n" +
+                "to yield exchange { request: '/foo', response: { url: '/barbar', statusCode: 200 } }\n" +
                 "\n" +
                 "GET /foo HTTP/1.1\n" +
                 "\n" +
@@ -875,7 +876,8 @@ describe('unexpectedExpress', function () {
                 }
             });
         }, 'to throw',
-            "expected express app to yield exchange { request: '/', response: { headers: { ETag: '\"foo456\"' } } }\n" +
+            "expected express app\n" +
+            "to yield exchange { request: '/', response: { headers: { ETag: '\"foo456\"' } } }\n" +
             "\n" +
             'GET / HTTP/1.1\n' +
             '\n' +
@@ -1137,7 +1139,8 @@ describe('unexpectedExpress', function () {
                 }),
                 'when rejected',
                 'to have message',
-                    "expected express app to yield exchange { response: { body: expect.it('when delayed a little bit', 'to equal', ...) } }\n" +
+                    "expected express app\n" +
+                    "to yield exchange { response: { body: expect.it('when delayed a little bit', 'to equal', ...) } }\n" +
                     "\n" +
                     "GET / HTTP/1.1\n" +
                     "\n" +
@@ -1200,7 +1203,8 @@ describe('unexpectedExpress', function () {
                 });
             }),
             'to be rejected with',
-                "expected express app to yield exchange { response: { statusCode: 200, headers: { Foo: 'bar' }, locals: { foo: 'baz' } } }\n" +
+                "expected express app\n" +
+                "to yield exchange { response: { statusCode: 200, headers: { Foo: 'bar' }, locals: { foo: 'baz' } } }\n" +
                 "\n" +
                 "GET / HTTP/1.1\n" +
                 "\n" +
