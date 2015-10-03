@@ -11,8 +11,8 @@ var unexpected = require('unexpected'),
 
 describe('unexpectedExpress', function () {
     var expect = unexpected.clone()
-        .installPlugin(require('unexpected-stream'))
         .installPlugin(require('../lib/unexpectedExpress'))
+        .installPlugin(require('unexpected-stream'))
         .addAssertion('when delayed a little bit', function (expect, subject) {
             var that = this;
             return expect.promise(function (run) {
