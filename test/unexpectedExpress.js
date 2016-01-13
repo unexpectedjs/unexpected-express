@@ -853,6 +853,9 @@ describe('unexpectedExpress', function () {
             "GET / HTTP/1.1\n" +
             "\n" +
             "HTTP/1.1 404 Not Found // should be 200 OK\n" +
+            "                       //\n" +
+            "                       // -HTTP/1.1 404 Not Found\n" +
+            "                       // +HTTP/1.1 200 OK\n" +
             "X-Powered-By: Express\n" +
             "Date: Mon, 27 Jul 2015 15:08:52 GMT\n" +
             "Connection: keep-alive\n" +
@@ -1209,6 +1212,9 @@ describe('unexpectedExpress', function () {
                 "GET / HTTP/1.1\n" +
                 "\n" +
                 "HTTP/1.1 404 Not Found // should be 200 OK\n" +
+                "                       //\n" +
+                "                       // -HTTP/1.1 404 Not Found\n" +
+                "                       // +HTTP/1.1 200 OK\n" +
                 "X-Powered-By: Express\n" +
                 "Date: Tue, 28 Jul 2015 13:33:28 GMT\n" +
                 "Connection: keep-alive\n" +
