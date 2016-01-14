@@ -413,6 +413,24 @@ describe('unexpectedExpress', function () {
                 }
             });
         });
+
+        it('should not attempt to write headers if they have already been flushed', function () {
+            var app = express();
+            var err = new Error('foo');
+            err.statusCode = 502;
+            app.use(function (req, res, next) {
+                res.status(200);
+                res.write('Data');
+                next(err);
+            });
+
+            return expect(function () {
+                expect(app, 'to yield exchange', {
+                    response: 200,
+                    errorPassedToNext: err
+                });
+            }, 'not to throw'); // not to throw "Can't render headers after they are sent to the client."
+        });
     });
 
     it('should allow an error to be thrown in the middleware when errorPassedToNext is true', function () {
