@@ -34,7 +34,7 @@ describe('unexpectedExpress', function () {
                 'cache-control': 'public, no-cache'
             });
             next();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 headers: {
                     'Content-Type': 'text/html',
@@ -50,7 +50,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.url, 'to equal', '/foo?bar=hey%C3%A6%C3%B8%C3%A5&baz=blah&baz=yeah');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 url: '/foo',
                 query: {
@@ -66,7 +66,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.url, 'to equal', '/foo');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: 'foo',
             response: 200
         });
@@ -76,7 +76,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.url, 'to equal', '/foo?hey=there&bar=hey');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 url: '/foo?hey=there',
                 query: {
@@ -91,7 +91,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.url, 'to equal', '/foo?foo=bar%F8');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 url: '/foo',
                 query: 'foo=bar%F8'
@@ -104,14 +104,14 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.method, 'to equal', 'GET');
             next();
-        }), 'to yield exchange', {response: 404});
+        }), 'to yield exchange satisfying', {response: 404});
     });
 
     it('should default to / when no url is provided', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.url, 'to equal', '/');
             next();
-        }), 'to yield exchange', {response: 404});
+        }), 'to yield exchange satisfying', {response: 404});
     });
 
     it('should set up req.httpVersion etc. correctly', function () {
@@ -120,7 +120,7 @@ describe('unexpectedExpress', function () {
             expect(req.httpVersionMajor, 'to equal', 1);
             expect(req.httpVersionMinor, 'to equal', 1);
             next();
-        }), 'to yield exchange', {response: 404});
+        }), 'to yield exchange satisfying', {response: 404});
     });
 
     it('should allow overriding the HTTP version', function () {
@@ -129,7 +129,7 @@ describe('unexpectedExpress', function () {
             expect(req.httpVersionMajor, 'to equal', 2);
             expect(req.httpVersionMinor, 'to equal', 0);
             next();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 httpVersion: '2.0'
             },
@@ -142,27 +142,27 @@ describe('unexpectedExpress', function () {
             expect(req.method, 'to equal', 'GET');
             expect(req.url, 'to equal', '/foo/bar/');
             next();
-        }), 'to yield exchange', {request: '/foo/bar/', response: 404});
+        }), 'to yield exchange satisfying', {request: '/foo/bar/', response: 404});
     });
 
     it('should interpret response given as a string as the expected response body', function () {
         return expect(express().use(function (req, res, next) {
             res.send('foobar');
-        }), 'to yield exchange', {request: '/foo/bar/', response: 'foobar'});
+        }), 'to yield exchange satisfying', {request: '/foo/bar/', response: 'foobar'});
     });
 
     it('should interpret response given as a Buffer as the expected response body', function () {
         return expect(express().use(function (req, res, next) {
             res.header('Content-Type', 'application/octet-stream');
             res.send(new Buffer([1, 2]));
-        }), 'to yield exchange', {request: '/foo/bar/', response: new Buffer([1, 2])});
+        }), 'to yield exchange satisfying', {request: '/foo/bar/', response: new Buffer([1, 2])});
     });
 
     describe('when matching the raw body', function () {
         it('should succeed', function () {
             return expect(express().use(function (req, res, next) {
                 res.send('foobar');
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 request: '/foo/bar/',
                 response: {
                     rawBody: new Buffer('foobar', 'utf-8')
@@ -177,7 +177,7 @@ describe('unexpectedExpress', function () {
                         res.setHeader('Date', 'Sun, 22 Mar 2015 17:11:22 GMT');
                         res.send('foobar');
                     });
-                }), 'to yield exchange', {
+                }), 'to yield exchange satisfying', {
                     request: '/foo/bar/',
                     response: {
                         rawBody: new Buffer('barfoo', 'utf-8')
@@ -185,7 +185,7 @@ describe('unexpectedExpress', function () {
                 }),
                 'when rejected',
                 'to have message',
-                    "expected express app to yield exchange\n" +
+                    "expected express app to yield exchange satisfying\n" +
                     "{\n" +
                     "  request: '/foo/bar/',\n" +
                     "  response: { rawBody: Buffer([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F]) }\n"  +
@@ -212,7 +212,7 @@ describe('unexpectedExpress', function () {
     it('supports the request body to be specified as a string', function () {
         return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -229,7 +229,7 @@ describe('unexpectedExpress', function () {
     it('supports the request body to be specified as a Buffer', function () {
         return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -250,7 +250,7 @@ describe('unexpectedExpress', function () {
         });
         return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -271,7 +271,7 @@ describe('unexpectedExpress', function () {
         });
         return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -289,7 +289,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(bodyParser.json()).use(function (req, res, next) {
             expect(req.body, 'to equal', {foo: 123});
             res.send(200);
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 headers: {
                     'Content-Type': 'application/json'
@@ -304,7 +304,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(bodyParser.json()).use(function (req, res, next) {
             expect(req.body, 'to equal', {foo: 123});
             res.send(200);
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 headers: {
                     'Content-Type': 'application/json'
@@ -322,7 +322,7 @@ describe('unexpectedExpress', function () {
         });
         return expect(express().use(bodyParser.json()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 body: {foo: 'bar', baz: 'quux'}
             },
@@ -339,7 +339,7 @@ describe('unexpectedExpress', function () {
                 res.status(200).end();
             });
             req.resume();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: 'PUT /',
             response: 200
         });
@@ -349,7 +349,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             req.connection.destroy();
             res.end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: 'PUT /',
             response: {
                 requestDestroyed: true
@@ -361,7 +361,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.protocol, 'to equal', 'https');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {https: true},
             response: 200
         });
@@ -371,7 +371,7 @@ describe('unexpectedExpress', function () {
         return expect(function (req, res, next) {
             expect(req.path, 'to equal', '/foo');
             next();
-        }, 'to yield exchange', {
+        }, 'to yield exchange satisfying', {
             request: 'GET /foo?bar=baz'
         });
     });
@@ -379,7 +379,7 @@ describe('unexpectedExpress', function () {
     it('should allow calls to status from res when testing a middleware directly', function () {
         return expect(function (req, res, next) {
             res.status(200).end();
-        }, 'to yield exchange', {
+        }, 'to yield exchange satisfying', {
             request: 'GET /',
             response: 200
         });
@@ -391,7 +391,7 @@ describe('unexpectedExpress', function () {
                 var err = new Error('foobar');
                 err.statusCode = 412;
                 next(err);
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 request: 'GET /',
                 response: 412
             });
@@ -403,7 +403,7 @@ describe('unexpectedExpress', function () {
                 var err = new Error('foobar');
                 err.statusCode = 412;
                 next(err);
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 request: 'GET /',
                 response: {
                     statusCode: 412,
@@ -425,7 +425,7 @@ describe('unexpectedExpress', function () {
             });
 
             return expect(function () {
-                expect(app, 'to yield exchange', {
+                expect(app, 'to yield exchange satisfying', {
                     response: 200,
                     errorPassedToNext: err
                 });
@@ -436,7 +436,7 @@ describe('unexpectedExpress', function () {
     it('should allow an error to be thrown in the middleware when errorPassedToNext is true', function () {
         return expect(express().use(function (req, res, next) {
             throw new Error('foobar');
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             errorPassedToNext: true
         });
     });
@@ -444,7 +444,7 @@ describe('unexpectedExpress', function () {
     it('should allow an error to be passed to next when errorPassedToNext is true', function () {
         return expect(express().use(function (req, res, next) {
             next(new Error('foobar'));
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             errorPassedToNext: true
         });
     });
@@ -452,7 +452,7 @@ describe('unexpectedExpress', function () {
     it('should set errorPassedToNext to false when there is no error', function () {
         return expect(express().use(function (req, res, next) {
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             errorPassedToNext: false
         });
     });
@@ -460,7 +460,7 @@ describe('unexpectedExpress', function () {
     it('should match against the error message when errorPassedToNext is a string', function () {
         return expect(express().use(function (req, res, next) {
             next(new Error('foo bar quux'));
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             errorPassedToNext: 'foo bar quux'
         });
     });
@@ -468,7 +468,7 @@ describe('unexpectedExpress', function () {
     it('should match against the error message errorPassedToNext is an Error', function () {
         return expect(express().use(function (req, res, next) {
             next(new Error('foo'));
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             errorPassedToNext: new Error('foo')
         });
     });
@@ -479,7 +479,7 @@ describe('unexpectedExpress', function () {
                 setImmediate(function () {
                     next(new Error('foo'));
                 });
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 errorPassedToNext: new Error('bar')
             }),
             'to be rejected'
@@ -489,7 +489,7 @@ describe('unexpectedExpress', function () {
     it('should match a non-boolean, non-string errorPassedToNext against the actual error', function () {
         return expect(express().use(function (req, res, next) {
             next(new Error('foo bar quux'));
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             errorPassedToNext: 'foo bar quux'
         });
     });
@@ -497,7 +497,7 @@ describe('unexpectedExpress', function () {
     it('should support a numerical status code passed to next', function () {
         return expect(express().use(function (req, res, next) {
             next(404);
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             errorPassedToNext: true,
             response: {
                 statusCode: 404
@@ -508,7 +508,7 @@ describe('unexpectedExpress', function () {
     it('should consider a non-existent response body equal to an empty Buffer', function () {
         return expect(express().use(function (req, res, next) {
             res.end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             response: new Buffer([])
         });
     });
@@ -517,7 +517,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
             res.end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             response: ''
         });
     });
@@ -531,7 +531,7 @@ describe('unexpectedExpress', function () {
                 }
             });
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 body: {
                     foo: {
@@ -575,7 +575,7 @@ describe('unexpectedExpress', function () {
             ).then(function () {
                 res.status(200).end();
             }).caught(next);
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 formData: {
                     abc: 'def',
@@ -596,7 +596,7 @@ describe('unexpectedExpress', function () {
 
     it('should complain if the body and formData request options occur together', function () {
         expect(function () {
-            expect(express().use(function () {}), 'to yield exchange', {
+            expect(express().use(function () {}), 'to yield exchange satisfying', {
                 request: { body: 'abc', formData: {} },
                 response: 200
             });
@@ -633,7 +633,7 @@ describe('unexpectedExpress', function () {
             ).then(function () {
                 res.status(200).end();
             }).caught(next);
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 body: formData
             },
@@ -645,7 +645,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.ip, 'to equal', '127.0.0.1');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: '/foo/',
             response: 200
         });
@@ -655,7 +655,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.ip, 'to equal', '99.88.77.66');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {remoteAddress: '99.88.77.66'},
             response: 200
         });
@@ -665,7 +665,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.ip, 'to equal', '99.88.77.66');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {ip: '99.88.77.66'},
             response: 200
         });
@@ -677,7 +677,7 @@ describe('unexpectedExpress', function () {
             expect(req.url, 'to equal', '/foo/bar/?hey=there');
             expect(req.originalUrl, 'to equal', '/foo/bar/?hey=there');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: 'http://www.example.com:5432/foo/bar/?hey=there',
             response: 200
         });
@@ -688,7 +688,7 @@ describe('unexpectedExpress', function () {
             expect(req.method, 'to equal', 'DELETE');
             expect(req.url, 'to equal', '/foo/bar/');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: 'DELETE /foo/bar/',
             response: 200
         });
@@ -698,7 +698,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.get('Host'), 'to equal', 'blabla.com');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: {
                 headers: {
                     Host: 'blabla.com'
@@ -713,7 +713,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.secure, 'to be truthy');
             res.status(200).end();
-        }), 'to yield exchange', {
+        }), 'to yield exchange satisfying', {
             request: 'https://www.example.com:5432/foo/bar/',
             response: 200
         });
@@ -724,7 +724,7 @@ describe('unexpectedExpress', function () {
             return expect(express().use(function (req, res, next) {
                 req.url = '/bar';
                 res.status(200).end();
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 request: '/foo',
                 response: {
                     url: '/bar',
@@ -739,7 +739,7 @@ describe('unexpectedExpress', function () {
                     req.url = '/bar';
                     res.setHeader('Date', 'Tue, 28 Jul 2015 14:29:49 GMT');
                     res.status(200).end();
-                }), 'to yield exchange', {
+                }), 'to yield exchange satisfying', {
                     request: '/foo',
                     response: {
                         url: '/barbar',
@@ -748,7 +748,7 @@ describe('unexpectedExpress', function () {
                 });
             }, 'to throw',
                 "expected express app\n" +
-                "to yield exchange { request: '/foo', response: { url: '/barbar', statusCode: 200 } }\n" +
+                "to yield exchange satisfying { request: '/foo', response: { url: '/barbar', statusCode: 200 } }\n" +
                 "\n" +
                 "GET /foo HTTP/1.1\n" +
                 "\n" +
@@ -772,7 +772,7 @@ describe('unexpectedExpress', function () {
                     res.setHeader('X-Foo', 'bar');
                     res.status(200).end();
                 });
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 request: '/foo',
                 response: {
                     headers: {
@@ -791,7 +791,7 @@ describe('unexpectedExpress', function () {
                     res.setHeader('X-Foo', 'bar');
                     res.status(200).end();
                 });
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 request: '/foo',
                 response: {
                     headers: {
@@ -805,7 +805,7 @@ describe('unexpectedExpress', function () {
 
     it('should throw an error when a nonexistent property is added on the response object', function () {
         expect(function () {
-            expect(function (req, res, next) { next(); }, 'to yield exchange', {
+            expect(function (req, res, next) { next(); }, 'to yield exchange satisfying', {
                 request: '/foo',
                 response: {
                     fooBar: 'quux'
@@ -818,7 +818,7 @@ describe('unexpectedExpress', function () {
         return expect(function (req, res, next) {
             expect(req, 'to have property', 'fooBar', 'quuuux');
             next();
-        }, 'to yield exchange', {
+        }, 'to yield exchange satisfying', {
             request: {
                 fooBar: 'quuuux'
             }
@@ -829,7 +829,7 @@ describe('unexpectedExpress', function () {
         return expect(function (req, res, next) {
             res.locals.foo = 'bar';
             setImmediate(next);
-        }, 'to yield exchange', {
+        }, 'to yield exchange satisfying', {
             request: 'GET /',
             response: {
                 locals: {
@@ -843,7 +843,7 @@ describe('unexpectedExpress', function () {
         return expect(function (req, res, next) {
             expect(res.locals.foo, 'to equal', 'bar');
             next();
-        }, 'to yield exchange', {
+        }, 'to yield exchange satisfying', {
             request: {
                 res: {
                     locals: {
@@ -861,12 +861,12 @@ describe('unexpectedExpress', function () {
                 next();
             }).get('/foo', function (req, res) {
                 res.status(200).end();
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 request: '/',
                 response: 200
             });
         }, 'to throw',
-            "expected express app to yield exchange { request: '/', response: 200 }\n" +
+            "expected express app to yield exchange satisfying { request: '/', response: 200 }\n" +
             "\n" +
             "GET / HTTP/1.1\n" +
             "\n" +
@@ -888,7 +888,7 @@ describe('unexpectedExpress', function () {
                 res.setHeader('ETag', '"abc123"');
                 res.setHeader('Date', 'Sat, 30 Aug 2014 23:41:13 GMT');
                 res.send({foo: 123});
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 request: '/',
                 response: {
                     headers: {
@@ -898,7 +898,7 @@ describe('unexpectedExpress', function () {
             });
         }, 'to throw',
             "expected express app\n" +
-            "to yield exchange { request: '/', response: { headers: { ETag: '\"foo456\"' } } }\n" +
+            "to yield exchange satisfying { request: '/', response: { headers: { ETag: '\"foo456\"' } } }\n" +
             "\n" +
             'GET / HTTP/1.1\n' +
             '\n' +
@@ -924,7 +924,7 @@ describe('unexpectedExpress', function () {
             res.send({foo: 123});
         };
         expect.addAssertion('to yield a response of', function (expect, subject, value) {
-            return expect(express().use(middleware), 'to yield exchange', {
+            return expect(express().use(middleware), 'to yield exchange satisfying', {
                 request: subject,
                 response: value
             });
@@ -960,7 +960,7 @@ describe('unexpectedExpress', function () {
             expect(function (req, res, next) {
                 next();
                 next();
-            }, 'to yield exchange', {
+            }, 'to yield exchange satisfying', {
                 request: {},
                 response: {}
             });
@@ -978,7 +978,7 @@ describe('unexpectedExpress', function () {
         });
 
         expect(function () {
-            expect(app, 'to yield exchange', {
+            expect(app, 'to yield exchange satisfying', {
                 request: {},
                 response: {}
             });
@@ -989,7 +989,7 @@ describe('unexpectedExpress', function () {
         expect(function () {
             expect(express().use(function (req, res, next) {
                 JSON.parse('INVALIDJSON');
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 request: {},
                 response: {}
             });
@@ -1007,7 +1007,7 @@ describe('unexpectedExpress', function () {
         });
 
         return expect(
-            expect(app, 'to yield exchange', {
+            expect(app, 'to yield exchange satisfying', {
                 request: {},
                 response: {}
             }),
@@ -1029,7 +1029,7 @@ describe('unexpectedExpress', function () {
         });
 
         return expect(
-            expect(app, 'to yield exchange', {
+            expect(app, 'to yield exchange satisfying', {
                 request: {},
                 response: {}
             }),
@@ -1052,7 +1052,7 @@ describe('unexpectedExpress', function () {
             });
 
             return expect(
-                expect(app, 'to yield exchange', {
+                expect(app, 'to yield exchange satisfying', {
                     request: {},
                     response: {
                         errorPassedToNext: {
@@ -1073,7 +1073,7 @@ describe('unexpectedExpress', function () {
                 return next({foo: 'bar'});
             });
 
-            return expect(app, 'to yield exchange', {
+            return expect(app, 'to yield exchange satisfying', {
                 request: {},
                 response: {
                     errorPassedToNext: {
@@ -1092,7 +1092,7 @@ describe('unexpectedExpress', function () {
             res.end('>');
         });
 
-        return expect(app, 'to yield exchange', {
+        return expect(app, 'to yield exchange satisfying', {
             request: {},
             response: {
                 body: '<>'
@@ -1107,7 +1107,7 @@ describe('unexpectedExpress', function () {
             res.end('>');
         });
 
-        return expect(app, 'to yield exchange', {
+        return expect(app, 'to yield exchange satisfying', {
             request: {},
             response: {
                 body: '>'
@@ -1129,7 +1129,7 @@ describe('unexpectedExpress', function () {
             }, 10);
         });
 
-        return expect(app, 'to yield exchange', {
+        return expect(app, 'to yield exchange satisfying', {
             request: {
                 body: new Buffer([1, 2, 3, 4])
             },
@@ -1141,7 +1141,7 @@ describe('unexpectedExpress', function () {
         it('should succeed', function () {
             return expect(express().use(function (req, res, next) {
                 res.send({foo: 123});
-            }), 'to yield exchange', {
+            }), 'to yield exchange satisfying', {
                 response: {
                     body: expect.it('when delayed a little bit', 'to equal', { foo: 123 })
                 }
@@ -1153,7 +1153,7 @@ describe('unexpectedExpress', function () {
                 expect(express().use(function (req, res, next) {
                     res.setHeader('Date', 'Sun, 05 Apr 2015 22:56:35 GMT');
                     res.send({foo: 123});
-                }), 'to yield exchange', {
+                }), 'to yield exchange satisfying', {
                     response: {
                         body: expect.it('when delayed a little bit', 'to equal', { foo: 789 })
                     }
@@ -1161,7 +1161,7 @@ describe('unexpectedExpress', function () {
                 'when rejected',
                 'to have message',
                     "expected express app\n" +
-                    "to yield exchange { response: { body: expect.it('when delayed a little bit', 'to equal', ...) } }\n" +
+                    "to yield exchange satisfying { response: { body: expect.it('when delayed a little bit', 'to equal', ...) } }\n" +
                     "\n" +
                     "GET / HTTP/1.1\n" +
                     "\n" +
@@ -1189,7 +1189,7 @@ describe('unexpectedExpress', function () {
                     res.setHeader('Foo', 'bar');
                     next();
                 }),
-            'to yield exchange', {
+            'to yield exchange satisfying', {
             response: {
                 statusCode: 404,
                 headers: {
@@ -1211,7 +1211,7 @@ describe('unexpectedExpress', function () {
                             res.locals.foo = 'quux';
                             next();
                         }),
-                    'to yield exchange', {
+                    'to yield exchange satisfying', {
                     response: {
                         statusCode: 200,
                         headers: {
@@ -1225,7 +1225,7 @@ describe('unexpectedExpress', function () {
             }),
             'to be rejected with',
                 "expected express app\n" +
-                "to yield exchange { response: { statusCode: 200, headers: { Foo: 'bar' }, locals: { foo: 'baz' } } }\n" +
+                "to yield exchange satisfying { response: { statusCode: 200, headers: { Foo: 'bar' }, locals: { foo: 'baz' } } }\n" +
                 "\n" +
                 "GET / HTTP/1.1\n" +
                 "\n" +
