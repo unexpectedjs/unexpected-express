@@ -1242,6 +1242,7 @@ describe('unexpectedExpress', function () {
                 "//\n" +
                 "// {\n" +
                 "//   foo: 'quux' // should equal 'baz'\n" +
+                "//               //\n" +
                 "//               // -quux\n" +
                 "//               // +baz\n" +
                 "// }"
