@@ -803,11 +803,34 @@ describe('unexpectedExpress', function () {
         );
     });
 
+    it('should throw an error when a response object is an array', function () {
+        expect(function () {
+            expect(function (req, res, next) { next(); }, 'to yield exchange', {
+                request: '/foo',
+                response: []
+            });
+        }, 'to throw', /unexpected-express: Response object must be a number, string, buffer or object/);
+    });
+
+    it('should throw an error when a response object is specified but incomplete', function () {
+        expect(function () {
+            expect(function (req, res, next) { next(); }, 'to yield exchange', {
+                request: '/foo',
+                response: {
+                    foo: 'quux'
+                }
+            });
+        }, 'to throw', /unexpected-express: Response object specification incomplete/);
+    });
+
     it('should throw an error when a nonexistent property is added on the response object', function () {
         expect(function () {
             expect(function (req, res, next) { next(); }, 'to yield exchange satisfying', {
                 request: '/foo',
                 response: {
+                    body: {
+                        baz: 'xuuq'
+                    },
                     fooBar: 'quux'
                 }
             });
@@ -823,6 +846,21 @@ describe('unexpectedExpress', function () {
                 fooBar: 'quuuux'
             }
         });
+    });
+
+    it('should assert the presence of any additional properties set on the response object', function () {
+        expect(function () {
+            expect(function (req, res, next) {
+                res.fooBar = 'quux';
+                next();
+            }, 'to yield exchange satisfying', {
+                request: '/foo',
+                response: {
+                    statusCode: 200,
+                    fooBar: 'quux'
+                }
+            });
+        }, 'to throw', /Property "fooBar" does not exist on the response object/);
     });
 
     it('should allow using locals on the response object', function () {
