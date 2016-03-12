@@ -4,10 +4,13 @@
   "description": "Extend the unexpected assertion library with support for testing Express middleware",
   "main": "lib/unexpectedExpress.js",
   "scripts": {
-    "coverage": "NODE_ENV=development istanbul cover _mocha -- --reporter dot",
+    "coverage": "NODE_ENV=development istanbul cover _mocha -- --reporter dot && echo google-chrome coverage/lcov-report/index.html",
     "lint": "jshint .",
-    "test": "mocha && npm run lint",
-    "travis": "npm test && npm run coverage && (<coverage/lcov.info coveralls || true)"
+    "test": "mocha --compilers md:unexpected-markdown test/*.js `find documentation -name '*.md'` && npm run lint",
+    "travis": "npm test && npm run coverage && (<coverage/lcov.info coveralls || true)",
+    "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
+    "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples",
+    "deploy-site": "deploy-site.sh"
   },
   "repository": {
     "type": "git",
@@ -41,7 +44,10 @@
     "magicpen": "4.1.0",
     "magicpen-prism": "1.0.0",
     "mocha": "2.3.3",
+    "sinon": "1.17.3",
     "unexpected": "10.10.0",
+    "unexpected-documentation-site-generator": "4.0.0",
+    "unexpected-markdown": "1.3.2",
     "unexpected-stream": "2.0.0"
   },
   "dependencies": {
