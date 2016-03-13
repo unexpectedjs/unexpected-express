@@ -41,36 +41,36 @@
 myMiddleware results in a response whose values match those in the properties
 listed in the <em>response</em> property:</p>
 <div class="code lang-javascript">
-  <div><span style="color: #FFAA27">var</span>&nbsp;expect&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #3CDAFF">'unexpected'</span><span style="color: #999">)</span></div>
+  <div><span style="color: #F92672">var</span>&nbsp;expect&nbsp;<span style="color: #F92672">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #E6DB74">'unexpected'</span><span style="color: #999">)</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>clone<span style="color: #999">()</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>installPlugin<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #3CDAFF">'unexpected-express'</span><span style="color: #999">));</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>installPlugin<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #E6DB74">'unexpected-express'</span><span style="color: #999">));</span></div>
 </div><div class="code lang-javascript">
-  <div><span style="color: #FFAA27">function</span>&nbsp;myMiddleware<span style="color: #999">(</span>req<span style="color: #999">,</span>&nbsp;res<span style="color: #999">,</span>&nbsp;next<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;contentType&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;req<span style="color: #999">.</span>headers<span style="color: #999">[</span><span style="color: #3CDAFF">'accept'</span><span style="color: #999">]</span>&nbsp;<span style="color: #3CDAFF">||</span>&nbsp;<span style="color: #3CDAFF">'text/plain'</span><span style="color: #999">;</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">if</span>&nbsp;<span style="color: #999">(</span>contentType&nbsp;<span style="color: #3CDAFF">!==</span>&nbsp;<span style="color: #3CDAFF">'text/plain'</span>&nbsp;&amp;&amp;&nbsp;contentType&nbsp;<span style="color: #3CDAFF">!==</span>&nbsp;<span style="color: #3CDAFF">'text/html'</span><span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;res<span style="color: #999">.</span>status<span style="color: #999">(</span><span style="color: white">400</span><span style="color: #999">).</span>end<span style="color: #999">();</span></div>
+  <div><span style="color: #F92672">function</span>&nbsp;myMiddleware<span style="color: #999">(</span>req<span style="color: #999">,</span>&nbsp;res<span style="color: #999">,</span>&nbsp;next<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;contentType&nbsp;<span style="color: #F92672">=</span>&nbsp;req<span style="color: #999">.</span>headers<span style="color: #999">[</span><span style="color: #E6DB74">'accept'</span><span style="color: #999">]</span>&nbsp;<span style="color: #F92672">||</span>&nbsp;<span style="color: #E6DB74">'text/plain'</span><span style="color: #999">;</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">if</span>&nbsp;<span style="color: #999">(</span>contentType&nbsp;<span style="color: #F92672">!==</span>&nbsp;<span style="color: #E6DB74">'text/plain'</span>&nbsp;&amp;&amp;&nbsp;contentType&nbsp;<span style="color: #F92672">!==</span>&nbsp;<span style="color: #E6DB74">'text/html'</span><span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;res<span style="color: #999">.</span>status<span style="color: #999">(</span><span style="color: #800080; font-weight: bold">400</span><span style="color: #999">).</span>end<span style="color: #999">();</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;res<span style="color: #999">.</span>type<span style="color: #999">(</span>contentType<span style="color: #999">);</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;body&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;<span style="color: #3CDAFF">'Here&nbsp;goes&nbsp;'</span>&nbsp;<span style="color: #3CDAFF">+</span>&nbsp;req<span style="color: #999">.</span>url&nbsp;<span style="color: #3CDAFF">+</span>&nbsp;<span style="color: #3CDAFF">'&nbsp;as&nbsp;'</span>&nbsp;<span style="color: #3CDAFF">+</span>&nbsp;contentType<span style="color: #999">;</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">if</span>&nbsp;<span style="color: #999">(</span>contentType&nbsp;<span style="color: #3CDAFF">===</span>&nbsp;<span style="color: #3CDAFF">'text/html'</span><span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;<span style="color: #3CDAFF">'&lt;html&gt;'</span>&nbsp;<span style="color: #3CDAFF">+</span>&nbsp;body<span style="color: #999">.</span>replace<span style="color: #999">(</span><span style="color: #C6FF3C">/&amp;/g</span><span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'&amp;amp;'</span><span style="color: #999">).</span>replace<span style="color: #999">(</span><span style="color: #C6FF3C">/&lt;/g</span><span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'&lt;'</span><span style="color: #999">)</span>&nbsp;<span style="color: #3CDAFF">+</span>&nbsp;<span style="color: #3CDAFF">'&lt;/html&gt;'</span><span style="color: #999">;</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;body&nbsp;<span style="color: #F92672">=</span>&nbsp;<span style="color: #E6DB74">'Here&nbsp;goes&nbsp;'</span>&nbsp;<span style="color: #F92672">+</span>&nbsp;req<span style="color: #999">.</span>url&nbsp;<span style="color: #F92672">+</span>&nbsp;<span style="color: #E6DB74">'&nbsp;as&nbsp;'</span>&nbsp;<span style="color: #F92672">+</span>&nbsp;contentType<span style="color: #999">;</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">if</span>&nbsp;<span style="color: #999">(</span>contentType&nbsp;<span style="color: #F92672">===</span>&nbsp;<span style="color: #E6DB74">'text/html'</span><span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body&nbsp;<span style="color: #F92672">=</span>&nbsp;<span style="color: #E6DB74">'&lt;html&gt;'</span>&nbsp;<span style="color: #F92672">+</span>&nbsp;body<span style="color: #999">.</span>replace<span style="color: #999">(</span><span style="color: #E6DB74">/&amp;/g</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'&amp;amp;'</span><span style="color: #999">).</span>replace<span style="color: #999">(</span><span style="color: #E6DB74">/&lt;/g</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'&lt;'</span><span style="color: #999">)</span>&nbsp;<span style="color: #F92672">+</span>&nbsp;<span style="color: #E6DB74">'&lt;/html&gt;'</span><span style="color: #999">;</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;res<span style="color: #999">.</span>send<span style="color: #999">(</span>body<span style="color: #999">);</span></div>
   <div><span style="color: #999">}</span></div>
 </div><div class="code lang-javascript">
-  <div><span style="color: #FFAA27">return</span>&nbsp;expect<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #3CDAFF">'express'</span><span style="color: #999">)().</span>use<span style="color: #999">(</span>myMiddleware<span style="color: #999">),</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;yield&nbsp;exchange'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
+  <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span>express<span style="color: #999">().</span>use<span style="color: #999">(</span>myMiddleware<span style="color: #999">),</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;exchange'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;request<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'/blah'</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'/blah'</span><span style="color: #999">,</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headers<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'text/plain'</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'text/plain'</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">},</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;response<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statusCode<span style="color: #999">:</span>&nbsp;<span style="color: white">200</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statusCode<span style="color: #999">:</span>&nbsp;<span style="color: #800080; font-weight: bold">200</span><span style="color: #999">,</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headers<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #3CDAFF">'Content-Type'</span><span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'text/plain;&nbsp;charset=utf-8'</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #E6DB74">'Content-Type'</span><span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'text/plain;&nbsp;charset=utf-8'</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">},</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'Here&nbsp;goes&nbsp;/blah&nbsp;as&nbsp;text/plain'</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'Here&nbsp;goes&nbsp;/blah&nbsp;as&nbsp;text/plain'</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
   <div><span style="color: #999">});</span></div>
 </div><h2 id="extended-assertions">Extended assertions</h2>
@@ -81,21 +81,21 @@ assertions.</p>
 <p>For example, imagine a middleware that generates a timestamp on returned requests
 and while you may not know what the value will be, you wish to assert its presence:</p>
 <div class="code lang-javascript">
-  <div><span style="color: #FFAA27">function</span>&nbsp;secondMiddleware<span style="color: #999">(</span>req<span style="color: #999">,</span>&nbsp;res<span style="color: #999">,</span>&nbsp;next<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;res<span style="color: #999">.</span>type<span style="color: #999">(</span><span style="color: #3CDAFF">'json'</span><span style="color: #999">);</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;body&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;<span style="color: #999">{};</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">.</span>timestamp&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;Date<span style="color: #999">.</span>now<span style="color: #999">();</span></div>
+  <div><span style="color: #F92672">function</span>&nbsp;secondMiddleware<span style="color: #999">(</span>req<span style="color: #999">,</span>&nbsp;res<span style="color: #999">,</span>&nbsp;next<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;res<span style="color: #999">.</span>type<span style="color: #999">(</span><span style="color: #E6DB74">'json'</span><span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;body&nbsp;<span style="color: #F92672">=</span>&nbsp;<span style="color: #999">{};</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">.</span>timestamp&nbsp;<span style="color: #F92672">=</span>&nbsp;Date<span style="color: #999">.</span>now<span style="color: #999">();</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;res<span style="color: #999">.</span>send<span style="color: #999">(</span>body<span style="color: #999">);</span></div>
   <div><span style="color: #999">}</span></div>
 </div><div class="code lang-javascript">
-  <div><span style="color: #FFAA27">return</span>&nbsp;expect<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #3CDAFF">'express'</span><span style="color: #999">)().</span>use<span style="color: #999">(</span>secondMiddleware<span style="color: #999">),</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;yield&nbsp;exchange'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;request<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'GET&nbsp;/other'</span><span style="color: #999">,</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;response<span style="color: #999">:</span>&nbsp;<span style="color: white">200</span></div>
-  <div><span style="color: #999">}).</span>then<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>context<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span>express<span style="color: #999">().</span>use<span style="color: #999">(</span>secondMiddleware<span style="color: #999">),</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;exchange'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;request<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'GET&nbsp;/other'</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;response<span style="color: #999">:</span>&nbsp;<span style="color: #800080; font-weight: bold">200</span></div>
+  <div><span style="color: #999">}).</span>then<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>context<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;&nbsp;<span style="color: gray">&nbsp;//&nbsp;retrieve&nbsp;the&nbsp;response&nbsp;body</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;body&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;context<span style="color: #999">.</span>httpResponse<span style="color: #999">.</span>body<span style="color: #999">;</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;body&nbsp;<span style="color: #F92672">=</span>&nbsp;context<span style="color: #999">.</span>httpResponse<span style="color: #999">.</span>body<span style="color: #999">;</span></div>
   <div>&nbsp;</div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;expect<span style="color: #999">(</span>body<span style="color: #999">.</span>timestamp<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;defined'</span><span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;expect<span style="color: #999">(</span>body<span style="color: #999">.</span>timestamp<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;defined'</span><span style="color: #999">);</span></div>
   <div><span style="color: #999">});</span></div>
 </div><p>The context object provided to the <code>then()</code> callback will be provided a context
 object exposes the following properties on which assertions can be made:</p>
@@ -110,56 +110,56 @@ object exposes the following properties on which assertions can be made:</p>
 own custom assertion around that to increase DRYness and put the request
 properties into the subject&#39;s spot:</p>
 <div class="code lang-javascript">
-  <div>expect<span style="color: #999">.</span>addAssertion<span style="color: #999">(</span><span style="color: #3CDAFF">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>expect<span style="color: #999">,</span>&nbsp;subject<span style="color: #999">,</span>&nbsp;value<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;expect<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #3CDAFF">'express'</span><span style="color: #999">)().</span>use<span style="color: #999">(</span>myMiddleware<span style="color: #999">),</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;yield&nbsp;exchange'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>expect<span style="color: #999">.</span>addAssertion<span style="color: #999">(</span><span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>expect<span style="color: #999">,</span>&nbsp;subject<span style="color: #999">,</span>&nbsp;value<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span>express<span style="color: #999">().</span>use<span style="color: #999">(</span>myMiddleware<span style="color: #999">),</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;exchange'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request<span style="color: #999">:</span>&nbsp;subject<span style="color: #999">,</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response<span style="color: #999">:</span>&nbsp;value</div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">});</span></div>
   <div><span style="color: #999">});</span></div>
 </div><div class="code lang-javascript">
-  <div><span style="color: #FFAA27">return</span>&nbsp;expect<span style="color: #999">(</span><span style="color: #3CDAFF">'/barf'</span><span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'Here&nbsp;goes&nbsp;/barf&nbsp;as&nbsp;text/plain'</span><span style="color: #999">);</span></div>
+  <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span><span style="color: #E6DB74">'/barf'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'Here&nbsp;goes&nbsp;/barf&nbsp;as&nbsp;text/plain'</span><span style="color: #999">);</span></div>
 </div><div class="code lang-javascript">
-  <div><span style="color: #FFAA27">return</span>&nbsp;expect<span style="color: #999">({</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;url<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'/quux'</span><span style="color: #999">,</span></div>
+  <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">({</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;url<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'/quux'</span><span style="color: #999">,</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;headers<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'text/html'</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'text/html'</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
-  <div><span style="color: #999">},</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'&lt;html&gt;Here&nbsp;goes&nbsp;/quux&nbsp;as&nbsp;text/html&lt;/html&gt;'</span></div>
+  <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'&lt;html&gt;Here&nbsp;goes&nbsp;/quux&nbsp;as&nbsp;text/html&lt;/html&gt;'</span></div>
   <div><span style="color: #999">});</span></div>
 </div><div class="code lang-javascript">
   <div><span style="color: gray">//&nbsp;should&nbsp;entitify&nbsp;less&nbsp;than&nbsp;and&nbsp;ampersand&nbsp;chars&nbsp;in&nbsp;text/html</span></div>
-  <div><span style="color: #FFAA27">return</span>&nbsp;expect<span style="color: #999">({</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;url<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'/&lt;h&amp;ey&lt;'</span><span style="color: #999">,</span></div>
+  <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">({</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;url<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'/&lt;h&amp;ey&lt;'</span><span style="color: #999">,</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;headers<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'text/html'</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'text/html'</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
-  <div><span style="color: #999">},</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'&lt;html&gt;Here&nbsp;goes&nbsp;/&lt;h&amp;amp;ey&lt;&nbsp;as&nbsp;text/html&lt;/html&gt;'</span></div>
+  <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'&lt;html&gt;Here&nbsp;goes&nbsp;/&lt;h&amp;amp;ey&lt;&nbsp;as&nbsp;text/html&lt;/html&gt;'</span></div>
   <div><span style="color: #999">});</span></div>
 </div><div class="code lang-javascript">
   <div><span style="color: gray">//&nbsp;should&nbsp;not&nbsp;entitify&nbsp;in&nbsp;text/plain</span></div>
-  <div><span style="color: #FFAA27">return</span>&nbsp;expect<span style="color: #999">(</span><span style="color: #3CDAFF">'/&lt;hey'</span><span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'Here&nbsp;goes&nbsp;/&lt;hey&nbsp;as&nbsp;text/plain'</span><span style="color: #999">);</span></div>
+  <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span><span style="color: #E6DB74">'/&lt;hey'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'Here&nbsp;goes&nbsp;/&lt;hey&nbsp;as&nbsp;text/plain'</span><span style="color: #999">);</span></div>
 </div><div class="code lang-javascript">
   <div><span style="color: gray">//&nbsp;should&nbsp;return&nbsp;a&nbsp;400&nbsp;if&nbsp;asked&nbsp;for&nbsp;an&nbsp;unsupported&nbsp;Content-Type</span></div>
-  <div><span style="color: #FFAA27">return</span>&nbsp;expect<span style="color: #999">({</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;url<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'/something'</span><span style="color: #999">,</span></div>
+  <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">({</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;url<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'/something'</span><span style="color: #999">,</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;headers<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'text/calendar'</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'text/calendar'</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
-  <div><span style="color: #999">},</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: white">400</span><span style="color: #999">);</span></div>
+  <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #800080; font-weight: bold">400</span><span style="color: #999">);</span></div>
 </div><p>To read more about adding custom assertions please see the unexpected
 documentation <a href="http://unexpected.js.org/api/addAssertion/">here</a>.</p>
 <h2 id="reporting">Reporting</h2>
 <p>You&#39;ll get a nice diff when expectations aren&#39;t met:</p>
 <div class="code lang-javascript">
-  <div><span style="color: #FFAA27">return</span>&nbsp;expect<span style="color: #999">(</span><span style="color: #3CDAFF">'/baz'</span><span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;statusCode<span style="color: #999">:</span>&nbsp;<span style="color: white">404</span><span style="color: #999">,</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">'I&nbsp;could&nbsp;not&nbsp;find&nbsp;/baz'</span></div>
+  <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span><span style="color: #E6DB74">'/baz'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;statusCode<span style="color: #999">:</span>&nbsp;<span style="color: #800080; font-weight: bold">404</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'I&nbsp;could&nbsp;not&nbsp;find&nbsp;/baz'</span></div>
   <div><span style="color: #999">});</span></div>
 </div><div class="output">
-  <div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #3CDAFF">'/baz'</span></div>
-  <div><span style="color: red; font-weight: bold">to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of</span>&nbsp;{&nbsp;<span style="color: #939393">statusCode</span>:&nbsp;404,&nbsp;<span style="color: #939393">body</span>:&nbsp;<span style="color: #3CDAFF">'I&nbsp;could&nbsp;not&nbsp;find&nbsp;/baz'</span>&nbsp;}</div>
+  <div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #E6DB74">'/baz'</span></div>
+  <div><span style="color: red; font-weight: bold">to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of</span>&nbsp;{&nbsp;<span style="color: #A6E22E">statusCode</span>:&nbsp;404,&nbsp;<span style="color: #A6E22E">body</span>:&nbsp;<span style="color: #E6DB74">'I&nbsp;could&nbsp;not&nbsp;find&nbsp;/baz'</span>&nbsp;}</div>
   <div>&nbsp;</div>
   <div><div style="display: inline-block; vertical-align: top">
   <div><div style="display: inline-block; vertical-align: top">
