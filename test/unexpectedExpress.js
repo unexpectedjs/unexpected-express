@@ -508,7 +508,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             res.end();
         }), 'to yield exchange satisfying', {
-            response: new Buffer([])
+            response: { body: new Buffer([]) }
         });
     });
 
@@ -517,7 +517,7 @@ describe('unexpectedExpress', function () {
             res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
             res.end();
         }), 'to yield exchange satisfying', {
-            response: ''
+            response: { body: '' }
         });
     });
 
