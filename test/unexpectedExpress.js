@@ -744,22 +744,14 @@ describe('unexpectedExpress', function () {
                         statusCode: 200
                     }
                 });
-            }, 'to throw',
-                "expected express app\n" +
-                "to yield exchange satisfying { request: '/foo', response: { url: '/barbar', statusCode: 200 } }\n" +
-                "\n" +
-                "GET /foo HTTP/1.1\n" +
-                "\n" +
-                "HTTP/1.1 200 OK\n" +
-                "X-Powered-By: Express\n" +
-                'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
-                "Connection: keep-alive\n" +
-                "Transfer-Encoding: chunked\n" +
-                "// url: expected '/bar' to equal '/barbar'\n" +
-                "//\n" +
-                "// -/bar\n" +
-                "// +/barbar"
-            );
+            }, 'to throw', function (err) {
+                expect(err.getErrorMessage('text').toString(), 'to contain',
+                    "// url: expected '/bar' to equal '/barbar'\n" +
+                    "//\n" +
+                    "// -/bar\n" +
+                    "// +/barbar"
+                );
+            });
         });
     });
 
