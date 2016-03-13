@@ -36,7 +36,7 @@ function myMiddleware(req, res, next) {
 }
 ```
 ```js#async:true
-return expect(require('express')().use(myMiddleware), 'to yield exchange', {
+return expect(express().use(myMiddleware), 'to yield exchange', {
     request: {
         url: '/blah',
         headers: {
@@ -73,7 +73,7 @@ function secondMiddleware(req, res, next) {
 }
 ```
 ```js#async:true
-return expect(require('express')().use(secondMiddleware), 'to yield exchange', {
+return expect(express().use(secondMiddleware), 'to yield exchange', {
     request: 'GET /other',
     response: 200
 }).then(function (context) {
@@ -101,7 +101,7 @@ properties into the subject's spot:
 
 ```js#async:true
 expect.addAssertion('to yield a response of', function (expect, subject, value) {
-    return expect(require('express')().use(myMiddleware), 'to yield exchange', {
+    return expect(express().use(myMiddleware), 'to yield exchange', {
         request: subject,
         response: value
     });
