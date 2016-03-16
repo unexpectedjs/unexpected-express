@@ -932,6 +932,7 @@ describe('unexpectedExpress', function () {
             'X-Powered-By: Express\n' +
             'Content-Type: application/json\n' +
             'ETag: "abc123" // should equal "foo456"\n' +
+            '               //\n' +
             '               // -"abc123"\n' +
             '               // +"foo456"\n' +
             'Content-Length: 11\n' +
@@ -970,6 +971,7 @@ describe('unexpectedExpress', function () {
             'X-Powered-By: Express\n' +
             'Content-Type: application/json\n' +
             'ETag: "abc123" // should equal "foo456"\n' +
+            '               //\n' +
             '               // -"abc123"\n' +
             '               // +"foo456"\n' +
             'Content-Length: 11\n' +
