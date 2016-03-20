@@ -5,7 +5,7 @@
   "main": "lib/unexpectedExpress.js",
   "scripts": {
     "coverage": "NODE_ENV=development istanbul cover _mocha -- --reporter dot && echo google-chrome coverage/lcov-report/index.html",
-    "lint": "jshint .",
+    "lint": "eslint .",
     "test": "mocha --compilers md:unexpected-markdown test/*.js `find documentation -name '*.md'` && npm run lint",
     "travis": "npm test && npm run coverage && (<coverage/lcov.info coveralls || true)",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
@@ -38,9 +38,10 @@
   "devDependencies": {
     "body-parser": "1.0.2",
     "coveralls": "2.11.1",
+    "eslint": "2.4.0",
+    "eslint-config-onelint": "1.0.2",
     "express": "4.1.1",
     "istanbul": "0.3.0",
-    "jshint": "2.5.2",
     "magicpen": "4.1.0",
     "magicpen-prism": "1.0.0",
     "mocha": "2.3.3",
