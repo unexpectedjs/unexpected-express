@@ -1209,13 +1209,10 @@ describe('unexpectedExpress', function () {
     });
 
     it('should pick up the response headers despite express sending back a 404 due to no matching route', function () {
-        return expect(
-            express()
-                .use(function (req, res, next) {
-                    res.setHeader('Foo', 'bar');
-                    next();
-                }),
-            'to yield exchange satisfying', {
+        return expect(express().use(function (req, res, next) {
+            res.setHeader('Foo', 'bar');
+            next();
+        }), 'to yield exchange satisfying', {
             response: {
                 statusCode: 404,
                 headers: {
@@ -1230,13 +1227,10 @@ describe('unexpectedExpress', function () {
     it('should display metadata alongside with the exchange diff', function () {
         return expect(
             expect.promise(function () {
-                return expect(
-                    express()
-                        .use(function (req, res, next) {
-                            res.locals.foo = 'quux';
-                            next();
-                        }),
-                    'to yield exchange satisfying', {
+                return expect(express().use(function (req, res, next) {
+                    res.locals.foo = 'quux';
+                    next();
+                }), 'to yield exchange satisfying', {
                     response: {
                         statusCode: 200,
                         headers: {
