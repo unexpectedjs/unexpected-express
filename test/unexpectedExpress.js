@@ -1267,4 +1267,20 @@ describe('unexpectedExpress', function () {
                 "// }"
         );
     });
+
+    // This is a regression test for not waiting long enough for the complete
+    // response to be written to the socket because it's still corked by the time
+    // end is called. Seems like this change of behavior got introduced with 0.12.
+    it('should get the complete response body when it is written as a buffer right before a separate end call', function () {
+        return expect(express().use(function (req, res, next) {
+            res.set('Content-Type', 'text/plain; charset=utf-8');
+            res.write(new Buffer([0x62, 0x6F, 0x64, 0x79]));
+            res.end();
+        }), 'to yield exchange satisfying', {
+            request: 'GET /',
+            response: {
+                body: 'body'
+            }
+        });
+    });
 });
