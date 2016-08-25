@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="static/bug-icon-black.ico">
     <title>unexpected-express</title>
 </head>
-<body class="sidebar-hidden">
+<body class="sidebar-hidden theme-dark"> 
     <header>
         <div class="logo-icon"></div>
         <nav>
@@ -32,7 +32,7 @@
         </div>
     </header>
 
-<div class="main theme-dark" tabindex="-1">
+<div class="main" tabindex="-1">
     <div class="content">
         <h1 id="unexpected-express">Unexpected-express</h1>
 <p><img src="trainWreck.jpg" alt="Unexpected Express (train)"></p>
@@ -48,12 +48,12 @@ listed in the <em>response</em> property:</p>
   <div><span style="color: #F92672">function</span>&nbsp;myMiddleware<span style="color: #999">(</span>req<span style="color: #999">,</span>&nbsp;res<span style="color: #999">,</span>&nbsp;next<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;contentType&nbsp;<span style="color: #F92672">=</span>&nbsp;req<span style="color: #999">.</span>headers<span style="color: #999">[</span><span style="color: #E6DB74">'accept'</span><span style="color: #999">]</span>&nbsp;<span style="color: #F92672">||</span>&nbsp;<span style="color: #E6DB74">'text/plain'</span><span style="color: #999">;</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">if</span>&nbsp;<span style="color: #999">(</span>contentType&nbsp;<span style="color: #F92672">!==</span>&nbsp;<span style="color: #E6DB74">'text/plain'</span>&nbsp;&amp;&amp;&nbsp;contentType&nbsp;<span style="color: #F92672">!==</span>&nbsp;<span style="color: #E6DB74">'text/html'</span><span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;res<span style="color: #999">.</span>status<span style="color: #999">(</span><span style="color: #800080; font-weight: bold">400</span><span style="color: #999">).</span>end<span style="color: #999">();</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;res<span style="color: #999">.</span>status<span style="color: #999">(</span><span style="color: #66D9EF; font-weight: bold">400</span><span style="color: #999">).</span>end<span style="color: #999">();</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;res<span style="color: #999">.</span>type<span style="color: #999">(</span>contentType<span style="color: #999">);</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;body&nbsp;<span style="color: #F92672">=</span>&nbsp;<span style="color: #E6DB74">'Here&nbsp;goes&nbsp;'</span>&nbsp;<span style="color: #F92672">+</span>&nbsp;req<span style="color: #999">.</span>url&nbsp;<span style="color: #F92672">+</span>&nbsp;<span style="color: #E6DB74">'&nbsp;as&nbsp;'</span>&nbsp;<span style="color: #F92672">+</span>&nbsp;contentType<span style="color: #999">;</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">if</span>&nbsp;<span style="color: #999">(</span>contentType&nbsp;<span style="color: #F92672">===</span>&nbsp;<span style="color: #E6DB74">'text/html'</span><span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body&nbsp;<span style="color: #F92672">=</span>&nbsp;<span style="color: #E6DB74">'&lt;html&gt;'</span>&nbsp;<span style="color: #F92672">+</span>&nbsp;body<span style="color: #999">.</span>replace<span style="color: #999">(</span><span style="color: #E6DB74">/&amp;/g</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'&amp;amp;'</span><span style="color: #999">).</span>replace<span style="color: #999">(</span><span style="color: #E6DB74">/&lt;/g</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'&lt;'</span><span style="color: #999">)</span>&nbsp;<span style="color: #F92672">+</span>&nbsp;<span style="color: #E6DB74">'&lt;/html&gt;'</span><span style="color: #999">;</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body&nbsp;<span style="color: #F92672">=</span>&nbsp;<span style="color: #E6DB74">'&lt;html&gt;'</span>&nbsp;<span style="color: #F92672">+</span>&nbsp;body<span style="color: #999">.</span>replace<span style="color: #999">(</span><span style="color: #AE81FF">/&amp;/g</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'&amp;amp;'</span><span style="color: #999">).</span>replace<span style="color: #999">(</span><span style="color: #AE81FF">/&lt;/g</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'&lt;'</span><span style="color: #999">)</span>&nbsp;<span style="color: #F92672">+</span>&nbsp;<span style="color: #E6DB74">'&lt;/html&gt;'</span><span style="color: #999">;</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;res<span style="color: #999">.</span>send<span style="color: #999">(</span>body<span style="color: #999">);</span></div>
   <div><span style="color: #999">}</span></div>
@@ -66,7 +66,7 @@ listed in the <em>response</em> property:</p>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">},</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;response<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statusCode<span style="color: #999">:</span>&nbsp;<span style="color: #800080; font-weight: bold">200</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statusCode<span style="color: #999">:</span>&nbsp;<span style="color: #66D9EF; font-weight: bold">200</span><span style="color: #999">,</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headers<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #E6DB74">'Content-Type'</span><span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'text/plain;&nbsp;charset=utf-8'</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">},</span></div>
@@ -90,9 +90,9 @@ and while you may not know what the value will be, you wish to assert its presen
 </div><div class="code lang-javascript">
   <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span>express<span style="color: #999">().</span>use<span style="color: #999">(</span>secondMiddleware<span style="color: #999">),</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;exchange'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;request<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'GET&nbsp;/other'</span><span style="color: #999">,</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;response<span style="color: #999">:</span>&nbsp;<span style="color: #800080; font-weight: bold">200</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;response<span style="color: #999">:</span>&nbsp;<span style="color: #66D9EF; font-weight: bold">200</span></div>
   <div><span style="color: #999">}).</span>then<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>context<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;<span style="color: gray">&nbsp;//&nbsp;retrieve&nbsp;the&nbsp;response&nbsp;body</span></div>
+  <div>&nbsp;&nbsp;&nbsp;<span style="color: #888">&nbsp;//&nbsp;retrieve&nbsp;the&nbsp;response&nbsp;body</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;body&nbsp;<span style="color: #F92672">=</span>&nbsp;context<span style="color: #999">.</span>httpResponse<span style="color: #999">.</span>body<span style="color: #999">;</span></div>
   <div>&nbsp;</div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;expect<span style="color: #999">(</span>body<span style="color: #999">.</span>timestamp<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;defined'</span><span style="color: #999">);</span></div>
@@ -128,7 +128,7 @@ properties into the subject&#39;s spot:</p>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'&lt;html&gt;Here&nbsp;goes&nbsp;/quux&nbsp;as&nbsp;text/html&lt;/html&gt;'</span></div>
   <div><span style="color: #999">});</span></div>
 </div><div class="code lang-javascript">
-  <div><span style="color: gray">//&nbsp;should&nbsp;entitify&nbsp;less&nbsp;than&nbsp;and&nbsp;ampersand&nbsp;chars&nbsp;in&nbsp;text/html</span></div>
+  <div><span style="color: #888">//&nbsp;should&nbsp;entitify&nbsp;less&nbsp;than&nbsp;and&nbsp;ampersand&nbsp;chars&nbsp;in&nbsp;text/html</span></div>
   <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">({</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;url<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'/&lt;h&amp;ey&lt;'</span><span style="color: #999">,</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;headers<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
@@ -138,28 +138,28 @@ properties into the subject&#39;s spot:</p>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'&lt;html&gt;Here&nbsp;goes&nbsp;/&lt;h&amp;amp;ey&lt;&nbsp;as&nbsp;text/html&lt;/html&gt;'</span></div>
   <div><span style="color: #999">});</span></div>
 </div><div class="code lang-javascript">
-  <div><span style="color: gray">//&nbsp;should&nbsp;not&nbsp;entitify&nbsp;in&nbsp;text/plain</span></div>
+  <div><span style="color: #888">//&nbsp;should&nbsp;not&nbsp;entitify&nbsp;in&nbsp;text/plain</span></div>
   <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span><span style="color: #E6DB74">'/&lt;hey'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'Here&nbsp;goes&nbsp;/&lt;hey&nbsp;as&nbsp;text/plain'</span><span style="color: #999">);</span></div>
 </div><div class="code lang-javascript">
-  <div><span style="color: gray">//&nbsp;should&nbsp;return&nbsp;a&nbsp;400&nbsp;if&nbsp;asked&nbsp;for&nbsp;an&nbsp;unsupported&nbsp;Content-Type</span></div>
+  <div><span style="color: #888">//&nbsp;should&nbsp;return&nbsp;a&nbsp;400&nbsp;if&nbsp;asked&nbsp;for&nbsp;an&nbsp;unsupported&nbsp;Content-Type</span></div>
   <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">({</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;url<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'/something'</span><span style="color: #999">,</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;headers<span style="color: #999">:</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'text/calendar'</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">}</span></div>
-  <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #800080; font-weight: bold">400</span><span style="color: #999">);</span></div>
+  <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #66D9EF; font-weight: bold">400</span><span style="color: #999">);</span></div>
 </div><p>To read more about adding custom assertions please see the unexpected
 documentation <a href="http://unexpected.js.org/api/addAssertion/">here</a>.</p>
 <h2 id="reporting">Reporting</h2>
 <p>You&#39;ll get a nice diff when expectations aren&#39;t met:</p>
 <div class="code lang-javascript">
   <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span><span style="color: #E6DB74">'/baz'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;statusCode<span style="color: #999">:</span>&nbsp;<span style="color: #800080; font-weight: bold">404</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;statusCode<span style="color: #999">:</span>&nbsp;<span style="color: #66D9EF; font-weight: bold">404</span><span style="color: #999">,</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;body<span style="color: #999">:</span>&nbsp;<span style="color: #E6DB74">'I&nbsp;could&nbsp;not&nbsp;find&nbsp;/baz'</span></div>
   <div><span style="color: #999">});</span></div>
 </div><div class="output">
-  <div><span style="color: red; font-weight: bold">expected</span>&nbsp;<span style="color: #E6DB74">'/baz'</span></div>
-  <div><span style="color: red; font-weight: bold">to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of</span>&nbsp;{&nbsp;<span style="color: #A6E22E">statusCode</span>:&nbsp;404,&nbsp;<span style="color: #A6E22E">body</span>:&nbsp;<span style="color: #E6DB74">'I&nbsp;could&nbsp;not&nbsp;find&nbsp;/baz'</span>&nbsp;}</div>
+  <div><span style="color: #F92672; font-weight: bold">expected</span>&nbsp;<span style="color: #E6DB74">'/baz'</span></div>
+  <div><span style="color: #F92672; font-weight: bold">to&nbsp;yield&nbsp;a&nbsp;response&nbsp;of</span>&nbsp;{&nbsp;<span style="color: #CCC">statusCode</span>:&nbsp;<span style="color: #66D9EF">404</span>,&nbsp;<span style="color: #CCC">body</span>:&nbsp;<span style="color: #E6DB74">'I&nbsp;could&nbsp;not&nbsp;find&nbsp;/baz'</span>&nbsp;}</div>
   <div>&nbsp;</div>
   <div><div style="display: inline-block; vertical-align: top">
   <div><div style="display: inline-block; vertical-align: top">
@@ -172,15 +172,15 @@ documentation <a href="http://unexpected.js.org/api/addAssertion/">here</a>.</p>
   <div>&nbsp;</div>
   <div><div style="display: inline-block; vertical-align: top">
   <div><span style="color: blue">HTTP</span><span style="color: cyan">/1.1</span>&nbsp;<span style="color: cyan">200</span>&nbsp;<span style="color: yellow">OK</span>&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div><span style="color: red; font-weight: bold">//</span></div>
-  <div><span style="color: red; font-weight: bold">//</span></div>
-  <div><span style="color: red; font-weight: bold">//</span></div>
-  <div><span style="color: red; font-weight: bold">//</span></div>
+  <div><span style="color: #F92672; font-weight: bold">//</span></div>
+  <div><span style="color: #F92672; font-weight: bold">//</span></div>
+  <div><span style="color: #F92672; font-weight: bold">//</span></div>
+  <div><span style="color: #F92672; font-weight: bold">//</span></div>
 </div>&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div><span style="color: red; font-weight: bold">should&nbsp;be</span>&nbsp;<span style="color: cyan">404</span>&nbsp;<span style="color: yellow">Not&nbsp;Found</span></div>
+  <div><span style="color: #F92672; font-weight: bold">should&nbsp;be</span>&nbsp;<span style="color: cyan">404</span>&nbsp;<span style="color: yellow">Not&nbsp;Found</span></div>
   <div>&nbsp;</div>
-  <div><span style="color: red">HTTP/1.1&nbsp;</span><span style="background-color: red; color: black">200</span><span style="color: red">&nbsp;</span><span style="background-color: red; color: black">OK</span></div>
-  <div><span style="color: green">HTTP/1.1&nbsp;</span><span style="background-color: green; color: black">404</span><span style="color: green">&nbsp;</span><span style="background-color: green; color: black">Not&nbsp;Found</span></div>
+  <div><span style="color: #F92672">HTTP/1.1&nbsp;</span><span style="background-color: #F92672; color: black">200</span><span style="color: #F92672">&nbsp;</span><span style="background-color: #F92672; color: black">OK</span></div>
+  <div><span style="color: #A6E22E">HTTP/1.1&nbsp;</span><span style="background-color: #A6E22E; color: black">404</span><span style="color: #A6E22E">&nbsp;</span><span style="background-color: #A6E22E; color: black">Not&nbsp;Found</span></div>
 </div></div>
   <div><div style="display: inline-block; vertical-align: top">
   <div><div style="display: inline-block; vertical-align: top">
@@ -192,8 +192,8 @@ documentation <a href="http://unexpected.js.org/api/addAssertion/">here</a>.</p>
   <div><span style="color: gray">Connection:</span>&nbsp;<span style="color: cyan">keep-alive</span></div>
 </div></div>
   <div>&nbsp;</div>
-  <div><span style="background-color: red; color: black">Here</span><span style="color: red">&nbsp;</span><span style="background-color: red; color: black">goes</span><span style="color: red">&nbsp;</span><span style="background-color: red; color: black">/baz</span><span style="color: red">&nbsp;</span><span style="background-color: red; color: black">as</span><span style="color: red">&nbsp;</span><span style="background-color: red; color: black">text</span><span style="color: red">/</span><span style="background-color: red; color: black">plain</span></div>
-  <div><span style="background-color: green; color: black">I</span><span style="color: green">&nbsp;</span><span style="background-color: green; color: black">could</span><span style="color: green">&nbsp;</span><span style="background-color: green; color: black">not</span><span style="color: green">&nbsp;</span><span style="background-color: green; color: black">find</span><span style="color: green">&nbsp;/</span><span style="background-color: green; color: black">baz</span></div>
+  <div><span style="background-color: #F92672; color: black">Here</span><span style="color: #F92672">&nbsp;</span><span style="background-color: #F92672; color: black">goes</span><span style="color: #F92672">&nbsp;</span><span style="background-color: #F92672; color: black">/baz</span><span style="color: #F92672">&nbsp;</span><span style="background-color: #F92672; color: black">as</span><span style="color: #F92672">&nbsp;</span><span style="background-color: #F92672; color: black">text</span><span style="color: #F92672">/</span><span style="background-color: #F92672; color: black">plain</span></div>
+  <div><span style="background-color: #A6E22E; color: black">I</span><span style="color: #A6E22E">&nbsp;</span><span style="background-color: #A6E22E; color: black">could</span><span style="color: #A6E22E">&nbsp;</span><span style="background-color: #A6E22E; color: black">not</span><span style="color: #A6E22E">&nbsp;</span><span style="background-color: #A6E22E; color: black">find</span><span style="color: #A6E22E">&nbsp;/</span><span style="background-color: #A6E22E; color: black">baz</span></div>
 </div></div>
 </div></div>
 </div></div>
@@ -212,7 +212,7 @@ documentation <a href="http://unexpected.js.org/api/addAssertion/">here</a>.</p>
     <a class="github-ribbon" href="https://github.com/unexpectedjs/unexpected-express"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 </div>
 <script type="text/javascript">
-    baseUrl = '';
+    baseUrl = '.';
 </script>
 <script type="text/javascript" src="static/toggleSidebar.js"></script>
 <script type="text/javascript" src="static/rememberScrollPosition.js"></script>
