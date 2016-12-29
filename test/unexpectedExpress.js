@@ -123,6 +123,16 @@ describe('unexpectedExpress', function () {
         }), 'to yield exchange satisfying', {response: 404});
     });
 
+    it('should not break when req.setTimeout is called', function () {
+        return expect(express().use(function (req, res, next) {
+            req.setTimeout(10);
+            res.status(200).end();
+        }), 'to yield exchange satisfying', {
+            request: 'GET /',
+            response: 200
+        });
+    });
+
     it('should allow overriding the HTTP version', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.httpVersion, 'to equal', '2.0');
