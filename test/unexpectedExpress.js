@@ -7,7 +7,9 @@ var unexpected = require('unexpected'),
     bodyParser = require('body-parser'),
     BufferedStream = require('bufferedstream'),
     FormData = require('form-data'),
-    express = require('express');
+    express = require('express'),
+    fs = require('fs'),
+    mockFs = require('mock-fs');
 
 describe('unexpectedExpress', function () {
     var expect = unexpected.clone()
@@ -601,6 +603,50 @@ describe('unexpectedExpress', function () {
                 }
             }
         });
+    });
+
+    it('should support sending a multipart/form-data request via formData readStreams', function () {
+        mockFs({
+            'attachment.html': '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <title>Document</title>\n</head>\n<body>\n    \n</body>\n</html>',
+            'attachment.png': new Buffer([8, 6, 7, 5, 3, 0, 9])
+        });
+
+        return expect(express().use(function (req, res, next) {
+            var contentTypeRegExp = /^multipart\/form-data; boundary=([\-\d]+)$/,
+                contentType = req.header('Content-Type');
+
+            expect(contentType, 'to match', contentTypeRegExp);
+
+            var boundary = contentType.match(contentTypeRegExp)[1];
+
+            expect(
+                req,
+                'to yield output satisfying',
+                'when decoded as', 'utf-8',
+                'to equal',
+                '--' + boundary + '\r\n' +
+                'Content-Disposition: form-data; name="html"; filename="attachment.html"\r\n' +
+                'Content-Type: text/html\r\n' +
+                '\r\n' +
+                '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <title>Document</title>\n</head>\n<body>\n    \n</body>\n</html>\r\n' +
+                '--' + boundary + '\r\n' +
+                'Content-Disposition: form-data; name="png"; filename="attachment.png"\r\n' +
+                'Content-Type: image/png\r\n' +
+                '\r\n' +
+                '\x08\x06\x07\x05\x03\x00\t\r\n' +
+                '--' + boundary + '--'
+            ).then(function () {
+                res.status(200).end();
+            }).caught(next);
+        }), 'to yield exchange satisfying', {
+            request: {
+                formData: {
+                    html: fs.createReadStream('attachment.html'),
+                    png: fs.createReadStream('attachment.png')
+                }
+            }
+        })
+        .finally(mockFs.restore);
     });
 
     it('should complain if the body and formData request options occur together', function () {
