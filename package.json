@@ -47,7 +47,7 @@
     "mocha": "2.3.3",
     "mock-fs": "4.0.0",
     "sinon": "1.17.3",
-    "unexpected": "10.26.0",
+    "unexpected": "unexpectedjs/unexpected#d10718ac1a1e3dc90f3dadacafd391132e4ebc94",
     "unexpected-documentation-site-generator": "^4.2.3",
     "unexpected-markdown": "1.7.1",
     "unexpected-stream": "2.0.4"
