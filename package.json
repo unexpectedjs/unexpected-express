@@ -58,6 +58,6 @@
     "is-stream": "^1.1.0",
     "messy": "^6.6.1",
     "underscore": "1.6.0",
-    "unexpected-messy": "^6.0.0"
+    "unexpected-messy": "unexpectedjs/unexpected-messy#ee9720dd98d30ca59f72ec93cd25bb5355ec654f"
   }
 }
