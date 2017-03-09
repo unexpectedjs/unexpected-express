@@ -43,7 +43,7 @@
     "express": "4.1.1",
     "istanbul": "0.3.0",
     "magicpen": "4.3.1",
-    "magicpen-prism": "2.2.1",
+    "magicpen-prism": "2.3.0",
     "mocha": "2.3.3",
     "mock-fs": "4.0.0",
     "sinon": "1.17.3",
