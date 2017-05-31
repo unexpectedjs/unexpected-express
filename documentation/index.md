@@ -154,6 +154,66 @@ return expect({
 To read more about adding custom assertions please see the unexpected
 documentation [here](http://unexpected.js.org/api/addAssertion/).
 
+
+Testing POST requests
+---------------------
+
+There are three commonly used way to POST content to a backend: JSON POST-request (`Content-Type = application/json`), HTML form POST-request (`Content-Type = application/x-www-form-urlencoded`) and multipart POST-request typically used for file uploads (`Content-Type = multipart/form-data`).
+
+### JSON
+
+To test JSON POST-requests you can use the `request` objects `data`-property:
+
+```js#async:true
+return expect(express().use(myMiddleware), 'to yield exchange', {
+    request: {
+        url: 'POST /api/',
+        data: {
+            title: 'Hello World'
+        }
+    },
+    response: 200
+});
+```
+
+### HTML form POST
+
+To test HTML form POST-requests you can use the `request` objects `form`-property:
+
+```js#async:true
+return expect(express().use(myMiddleware), 'to yield exchange', {
+    request: {
+        url: 'POST /api/',
+        form: {
+            title: 'Hello World'
+        }
+    },
+    response: 200
+});
+```
+
+### Multipart (file upload) form POST
+
+To test multipart form POST-requests you can use the `request` objects `formData`-property:
+
+```js#async:true
+return expect(express().use(myMiddleware), 'to yield exchange', {
+    request: {
+        url: 'POST /api/',
+        formData: {
+            title: 'Hello World',
+            attachment: {
+                value: new Buffer([0x00, 0x01]),
+                contentType: 'foo/bar',
+                filename: 'blabla'
+            }
+        }
+    },
+    response: 200
+});
+```
+
+
 Reporting
 ---------
 
