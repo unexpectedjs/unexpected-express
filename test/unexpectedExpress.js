@@ -554,6 +554,45 @@ describe('unexpectedExpress', function () {
         });
     });
 
+    it('should support sending a application/x-www-form-urlencoded request via form: {...}', function () {
+        return expect(express().use(function (req, res, next) {
+            expect(
+                req,
+                'to yield output satisfying',
+                'when decoded as', 'utf-8',
+                'to equal',
+                'foo=bar&hello=world'
+            ).then(function () {
+                res.status(200).end();
+            }).caught(next);
+        }), 'to yield exchange satisfying', {
+            request: {
+                form: {
+                    foo: 'bar',
+                    hello: 'world'
+                }
+            }
+        });
+    });
+
+    it('should support sending a application/x-www-form-urlencoded request via form: "..."', function () {
+        return expect(express().use(function (req, res, next) {
+            expect(
+                req,
+                'to yield output satisfying',
+                'when decoded as', 'utf-8',
+                'to equal',
+                'foo=bar&hello=world'
+            ).then(function () {
+                res.status(200).end();
+            }).caught(next);
+        }), 'to yield exchange satisfying', {
+            request: {
+                form: 'foo=bar&hello=world'
+            }
+        });
+    });
+
     it('should support sending a multipart/form-data request via formData: {...}', function () {
         return expect(express().use(function (req, res, next) {
             var contentTypeRegExp = /^multipart\/form-data; boundary=([\-\d]+)$/,
