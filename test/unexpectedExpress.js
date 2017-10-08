@@ -50,14 +50,31 @@ describe('unexpectedExpress', function () {
 
     it('should add parameters from the query option to the url', function () {
         return expect(express().use(function (req, res, next) {
-            expect(req.url, 'to equal', '/foo?bar=hey%C3%A6%C3%B8%C3%A5&baz=blah&baz=yeah');
+            expect(req.url, 'to equal', '/foo?bar=hey%C3%A6%C3%B8%C3%A5&baz=blah');
             res.status(200).end();
         }), 'to yield exchange satisfying', {
             request: {
                 url: '/foo',
                 query: {
                     bar: 'heyæøå',
-                    baz: ['blah', 'yeah']
+                    baz: 'blah'
+                }
+            },
+            response: 200
+        });
+    });
+
+    it('should support serializing nested objects', function () {
+        return expect(express().use(function (req, res, next) {
+            expect(req.url, 'to equal', '/foo?bar%5Bquux%5D=123');
+            res.status(200).end();
+        }), 'to yield exchange satisfying', {
+            request: {
+                url: '/foo',
+                query: {
+                    bar: {
+                        quux: 123
+                    }
                 }
             },
             response: 200
