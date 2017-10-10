@@ -109,7 +109,7 @@ expect.addAssertion('<object|string> to yield a response of <object|number>', fu
 ```
 
 ```js#async:true
-return expect('/barf', 'to yield a response of', 'Here goes /barf as text/plain');
+return expect('/barf', 'to yield a response of', { body: 'Here goes /barf as text/plain' });
 ```
 
 ```js#async:true
@@ -137,7 +137,7 @@ return expect({
 
 ```js
 // should not entitify in text/plain
-return expect('/<hey', 'to yield a response of', 'Here goes /<hey as text/plain');
+return expect('/<hey', 'to yield a response of', { body: 'Here goes /<hey as text/plain' });
 ```
 
 ```js#async:true
