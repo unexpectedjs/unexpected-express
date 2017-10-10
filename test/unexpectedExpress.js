@@ -28,6 +28,20 @@ describe('unexpectedExpress', function () {
 
     expect.output.installPlugin(require('magicpen-prism'));
 
+    it('should fail if an unsupported top-level option is specified', function () {
+        return expect(function () {
+            return expect(express().use(function (req, res, next) {
+                res.status(200).end();
+            }), 'to yield exchange satisfying', {
+                fooBar: 123,
+                request: {
+                    url: '/foo'
+                },
+                response: 200
+            });
+        }, 'to throw', /Property "fooBar" does not exist/);
+    });
+
     it('should populate req.headers with repeated headers like node.js', function () {
         return expect(express().use(function (req, res, next) {
             expect(req.headers, 'to have properties', {
@@ -454,8 +468,10 @@ describe('unexpectedExpress', function () {
 
             return expect(function () {
                 expect(app, 'to yield exchange satisfying', {
-                    response: 200,
-                    errorPassedToNext: err
+                    response: {
+                        statusCode: 200,
+                        errorPassedToNext: err
+                    }
                 });
             }, 'not to throw'); // not to throw "Can't render headers after they are sent to the client."
         });
@@ -465,7 +481,9 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             throw new Error('foobar');
         }), 'to yield exchange satisfying', {
-            errorPassedToNext: true
+            response: {
+                errorPassedToNext: true
+            }
         });
     });
 
@@ -473,7 +491,9 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             next(new Error('foobar'));
         }), 'to yield exchange satisfying', {
-            errorPassedToNext: true
+            response: {
+                errorPassedToNext: true
+            }
         });
     });
 
@@ -481,7 +501,9 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             res.status(200).end();
         }), 'to yield exchange satisfying', {
-            errorPassedToNext: false
+            response: {
+                errorPassedToNext: false
+            }
         });
     });
 
@@ -489,7 +511,9 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             next(new Error('foo bar quux'));
         }), 'to yield exchange satisfying', {
-            errorPassedToNext: 'foo bar quux'
+            response: {
+                errorPassedToNext: 'foo bar quux'
+            }
         });
     });
 
@@ -497,7 +521,9 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             next(new Error('foo'));
         }), 'to yield exchange satisfying', {
-            errorPassedToNext: new Error('foo')
+            response: {
+                errorPassedToNext: new Error('foo')
+            }
         });
     });
 
@@ -508,7 +534,9 @@ describe('unexpectedExpress', function () {
                     next(new Error('foo'));
                 });
             }), 'to yield exchange satisfying', {
-                errorPassedToNext: new Error('bar')
+                response: {
+                    errorPassedToNext: new Error('bar')
+                }
             }),
             'to be rejected'
         );
@@ -518,7 +546,9 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             next(new Error('foo bar quux'));
         }), 'to yield exchange satisfying', {
-            errorPassedToNext: 'foo bar quux'
+            response: {
+                errorPassedToNext: 'foo bar quux'
+            }
         });
     });
 
@@ -526,9 +556,9 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             next(404);
         }), 'to yield exchange satisfying', {
-            errorPassedToNext: true,
             response: {
-                statusCode: 404
+                statusCode: 404,
+                errorPassedToNext: true
             }
         });
     });
