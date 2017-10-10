@@ -925,6 +925,20 @@ describe('unexpectedExpress', function () {
         }, 'to throw', /unexpected-express: Response object specification incomplete/);
     });
 
+    it('should fail if an unsupported request option is specified', function () {
+        return expect(function () {
+            return expect(express().use(function (req, res, next) {
+                res.status(200).end();
+            }), 'to yield exchange satisfying', {
+                request: {
+                    url: '/foo',
+                    fooBar: 'quux'
+                },
+                response: 200
+            });
+        }, 'to throw', /Property "fooBar" does not exist on the request object/);
+    });
+
     it('should throw an error when a nonexistent property is added on the response object', function () {
         expect(function () {
             expect(function (req, res, next) { next(); }, 'to yield exchange satisfying', {
@@ -937,17 +951,6 @@ describe('unexpectedExpress', function () {
                 }
             });
         }, 'to throw', /Property "fooBar" does not exist on the response object/);
-    });
-
-    it('should extend the req object with any additional properties set on the request object', function () {
-        return expect(function (req, res, next) {
-            expect(req, 'to have property', 'fooBar', 'quuuux');
-            next();
-        }, 'to yield exchange satisfying', {
-            request: {
-                fooBar: 'quuuux'
-            }
-        });
     });
 
     it('should assert the presence of any additional properties set on the response object', function () {
