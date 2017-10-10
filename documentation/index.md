@@ -100,7 +100,7 @@ own custom assertion around that to increase DRYness and put the request
 properties into the subject's spot:
 
 ```js#async:true
-expect.addAssertion('to yield a response of', function (expect, subject, value) {
+expect.addAssertion('<object|string> to yield a response of <object|number>', function (expect, subject, value) {
     return expect(express().use(myMiddleware), 'to yield exchange', {
         request: subject,
         response: value
