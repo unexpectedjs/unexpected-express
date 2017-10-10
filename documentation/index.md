@@ -168,7 +168,7 @@ To test JSON POST-requests you can use the `request` objects `data`-property:
 return expect(express().use(myMiddleware), 'to yield exchange', {
     request: {
         url: 'POST /api/',
-        data: {
+        body: {
             title: 'Hello World'
         }
     },
