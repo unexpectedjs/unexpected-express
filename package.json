@@ -52,12 +52,12 @@
     "unexpected-stream": "2.0.4"
   },
   "dependencies": {
-    "bufferedstream": "1.6.0",
-    "form-data": "0.2.0",
+    "bufferedstream": "^1.6.0",
+    "form-data": "^0.2.0",
     "is-stream": "^1.1.0",
     "messy": "^6.6.1",
     "qs": "^6.5.1",
-    "underscore": "1.6.0",
-    "unexpected-messy": "7.0.0"
+    "underscore": "^1.6.0",
+    "unexpected-messy": "^7.0.0"
   }
 }
