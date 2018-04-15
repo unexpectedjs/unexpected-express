@@ -40,7 +40,7 @@
     "eslint": "4.19.1",
     "eslint-config-onelint": "3.0.0",
     "express": "4.1.1",
-    "istanbul": "^0.3.0",
+    "istanbul": "^0.4.5",
     "magicpen": "^4.3.1",
     "magicpen-prism": "^2.3.0",
     "mocha": "^2.3.3",
