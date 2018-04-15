@@ -48,8 +48,8 @@
     "sinon": "^1.17.3",
     "unexpected": "^10.27.0",
     "unexpected-documentation-site-generator": "^4.2.3",
-    "unexpected-markdown": "1.7.1",
-    "unexpected-stream": "2.0.4"
+    "unexpected-markdown": "^1.7.1",
+    "unexpected-stream": "^2.0.4"
   },
   "dependencies": {
     "bufferedstream": "^1.6.0",
