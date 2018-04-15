@@ -227,12 +227,12 @@ describe('unexpectedExpress', function () {
                 }),
                 'when rejected',
                 'to have message',
-                    "expected express app to yield exchange satisfying\n" +
-                    "{\n" +
+                'expected express app to yield exchange satisfying\n' +
+                    '{\n' +
                     "  request: '/foo/bar/',\n" +
-                    "  response: { rawBody: Buffer([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F]) }\n"  +
-                    "}\n" +
-                    "\n" +
+                    '  response: { rawBody: Buffer([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F]) }\n'  +
+                    '}\n' +
+                    '\n' +
                     'GET /foo/bar/ HTTP/1.1\n' +
                     '\n' +
                     'HTTP/1.1 200 OK\n' +
@@ -732,7 +732,7 @@ describe('unexpectedExpress', function () {
                 }
             }
         })
-        .finally(mockFs.restore);
+            .finally(mockFs.restore);
     });
 
     it('should complain if the body and formData request options occur together', function () {
@@ -889,9 +889,9 @@ describe('unexpectedExpress', function () {
             }, 'to throw', function (err) {
                 expect(err.getErrorMessage('text').toString(), 'to contain',
                     "// url: expected '/bar' to equal '/barbar'\n" +
-                    "//\n" +
-                    "// -/bar\n" +
-                    "// +/barbar"
+                    '//\n' +
+                    '// -/bar\n' +
+                    '// +/barbar'
                 );
             });
         });
@@ -1035,18 +1035,18 @@ describe('unexpectedExpress', function () {
                 response: 200
             });
         }, 'to throw',
-            "expected express app to yield exchange satisfying { request: '/', response: 200 }\n" +
-            "\n" +
-            "GET / HTTP/1.1\n" +
-            "\n" +
-            "HTTP/1.1 404 Not Found // should be 200 OK\n" +
-            "                       //\n" +
-            "                       // -HTTP/1.1 404 Not Found\n" +
-            "                       // +HTTP/1.1 200 OK\n" +
-            "X-Powered-By: Express\n" +
+        "expected express app to yield exchange satisfying { request: '/', response: 200 }\n" +
+            '\n' +
+            'GET / HTTP/1.1\n' +
+            '\n' +
+            'HTTP/1.1 404 Not Found // should be 200 OK\n' +
+            '                       //\n' +
+            '                       // -HTTP/1.1 404 Not Found\n' +
+            '                       // +HTTP/1.1 200 OK\n' +
+            'X-Powered-By: Express\n' +
             'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
-            "Connection: keep-alive\n" +
-            "Transfer-Encoding: chunked"
+            'Connection: keep-alive\n' +
+            'Transfer-Encoding: chunked'
         );
     });
 
@@ -1065,9 +1065,9 @@ describe('unexpectedExpress', function () {
                 }
             });
         }, 'to throw',
-            "expected express app\n" +
+        'expected express app\n' +
             "to yield exchange satisfying { request: '/', response: { headers: { ETag: '\"foo456\"' } } }\n" +
-            "\n" +
+            '\n' +
             'GET / HTTP/1.1\n' +
             '\n' +
             'HTTP/1.1 200 OK\n' +
@@ -1105,8 +1105,8 @@ describe('unexpectedExpress', function () {
                 }
             });
         }, 'to throw',
-            "expected '/' to yield a response of { headers: { ETag: '\"foo456\"' } }\n" +
-            "\n" +
+        "expected '/' to yield a response of { headers: { ETag: '\"foo456\"' } }\n" +
+            '\n' +
             'GET / HTTP/1.1\n' +
             '\n' +
             'HTTP/1.1 200 OK\n' +
@@ -1328,24 +1328,24 @@ describe('unexpectedExpress', function () {
                 }),
                 'when rejected',
                 'to have message',
-                    "expected express app\n" +
+                'expected express app\n' +
                     "to yield exchange satisfying { response: { body: expect.it('when delayed a little bit', 'to equal', ...) } }\n" +
-                    "\n" +
-                    "GET / HTTP/1.1\n" +
-                    "\n" +
-                    "HTTP/1.1 200 OK\n" +
-                    "X-Powered-By: Express\n" +
-                    "Content-Type: application/json\n" +
-                    "Content-Length: 11\n" +
-                    "ETag: \"-1305345262\"\n" +
+                    '\n' +
+                    'GET / HTTP/1.1\n' +
+                    '\n' +
+                    'HTTP/1.1 200 OK\n' +
+                    'X-Powered-By: Express\n' +
+                    'Content-Type: application/json\n' +
+                    'Content-Length: 11\n' +
+                    'ETag: "-1305345262"\n' +
                     'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
-                    "Connection: keep-alive\n" +
-                    "\n" +
-                    "expected { foo: 123 } when delayed a little bit to equal { foo: 789 }\n" +
-                    "\n" +
-                    "{\n" +
-                    "  foo: 123 // should equal 789\n" +
-                    "}"
+                    'Connection: keep-alive\n' +
+                    '\n' +
+                    'expected { foo: 123 } when delayed a little bit to equal { foo: 789 }\n' +
+                    '\n' +
+                    '{\n' +
+                    '  foo: 123 // should equal 789\n' +
+                    '}'
             );
         });
     });
@@ -1385,28 +1385,28 @@ describe('unexpectedExpress', function () {
                 });
             }),
             'to be rejected with',
-                "expected express app\n" +
+            'expected express app\n' +
                 "to yield exchange satisfying { response: { statusCode: 200, headers: { Foo: 'bar' }, locals: { foo: 'baz' } } }\n" +
-                "\n" +
-                "GET / HTTP/1.1\n" +
-                "\n" +
-                "HTTP/1.1 404 Not Found // should be 200 OK\n" +
-                "                       //\n" +
-                "                       // -HTTP/1.1 404 Not Found\n" +
-                "                       // +HTTP/1.1 200 OK\n" +
-                "X-Powered-By: Express\n" +
+                '\n' +
+                'GET / HTTP/1.1\n' +
+                '\n' +
+                'HTTP/1.1 404 Not Found // should be 200 OK\n' +
+                '                       //\n' +
+                '                       // -HTTP/1.1 404 Not Found\n' +
+                '                       // +HTTP/1.1 200 OK\n' +
+                'X-Powered-By: Express\n' +
                 'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
-                "Connection: keep-alive\n" +
-                "Transfer-Encoding: chunked\n" +
-                "// missing Foo: bar\n" +
+                'Connection: keep-alive\n' +
+                'Transfer-Encoding: chunked\n' +
+                '// missing Foo: bar\n' +
                 "// locals: expected { foo: 'quux' } to satisfy { foo: 'baz' }\n" +
-                "//\n" +
-                "// {\n" +
+                '//\n' +
+                '// {\n' +
                 "//   foo: 'quux' // should equal 'baz'\n" +
-                "//               //\n" +
-                "//               // -quux\n" +
-                "//               // +baz\n" +
-                "// }"
+                '//               //\n' +
+                '//               // -quux\n' +
+                '//               // +baz\n' +
+                '// }'
         );
     });
 
