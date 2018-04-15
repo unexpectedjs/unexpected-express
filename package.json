@@ -38,7 +38,7 @@
     "body-parser": "^1.0.2",
     "coveralls": "^2.11.1",
     "eslint": "4.19.1",
-    "eslint-config-onelint": "1.2.0",
+    "eslint-config-onelint": "3.0.0",
     "express": "4.1.1",
     "istanbul": "^0.3.0",
     "magicpen": "^4.3.1",
