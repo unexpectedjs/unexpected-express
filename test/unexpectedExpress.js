@@ -290,6 +290,7 @@ describe('unexpectedExpress', function () {
         setImmediate(function () {
             requestBodyStream.end('foo=bar&baz=quux');
         });
+        requestBodyStream.resume();
         return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
         }), 'to yield exchange satisfying', {
@@ -311,6 +312,7 @@ describe('unexpectedExpress', function () {
         setImmediate(function () {
             requestBodyStream.end(new Buffer('foo=bar&baz=quux', 'utf-8'));
         });
+        requestBodyStream.resume();
         return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
             res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
         }), 'to yield exchange satisfying', {
