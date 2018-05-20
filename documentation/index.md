@@ -239,7 +239,7 @@ HTTP/1.1 200 OK // should be 404 Not Found
 X-Powered-By: Express
 Content-Type: text/plain; charset=utf-8
 Content-Length: 28
-ETag: "2131014325"
+ETag: W/"1c-HFUAMbnVgCT4McocftsoE3lehW4"
 Date: Sat, 12 Mar 2016 22:56:04 GMT
 Connection: keep-alive
 

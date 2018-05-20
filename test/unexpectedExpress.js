@@ -239,7 +239,7 @@ describe('unexpectedExpress', function () {
                     'X-Powered-By: Express\n' +
                     'Content-Type: text/html; charset=utf-8\n' +
                     'Content-Length: 6\n' +
-                    'ETag: "-1628037227"\n' +
+                    'ETag: W/"6-iEPX+SQWIR3p67lj/0zigSWTKHg"\n' +
                     'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
                     'Connection: keep-alive\n' +
                     '\n' +
@@ -1074,7 +1074,7 @@ describe('unexpectedExpress', function () {
             '\n' +
             'HTTP/1.1 200 OK\n' +
             'X-Powered-By: Express\n' +
-            'Content-Type: application/json\n' +
+            'Content-Type: application/json; charset=utf-8\n' +
             'ETag: "abc123" // should equal "foo456"\n' +
             '               //\n' +
             '               // -"abc123"\n' +
@@ -1113,7 +1113,7 @@ describe('unexpectedExpress', function () {
             '\n' +
             'HTTP/1.1 200 OK\n' +
             'X-Powered-By: Express\n' +
-            'Content-Type: application/json\n' +
+            'Content-Type: application/json; charset=utf-8\n' +
             'ETag: "abc123" // should equal "foo456"\n' +
             '               //\n' +
             '               // -"abc123"\n' +
@@ -1127,44 +1127,26 @@ describe('unexpectedExpress', function () {
     });
 
     it('should fail if the middleware calls the next function more than once', function () {
-        expect(function () {
-            expect(function (req, res, next) {
+        return expect(function () {
+            return expect(function (req, res, next) {
                 next();
                 next();
             }, 'to yield exchange satisfying', {
                 request: {},
                 response: {}
             });
-        }, 'to throw', 'next called more than once');
-    });
-
-    it('should fail if the middleware calls the next function, continues with the next middleware and calls next again', function () {
-        var app = express();
-        app.use(function (req, res, next) {
-            next();
-            next(new Error('wat'));
-        });
-        app.get(/.*/, function (req, res) {
-            res.send('Send some data');
-        });
-
-        expect(function () {
-            expect(app, 'to yield exchange satisfying', {
-                request: {},
-                response: {}
-            });
-        }, 'to throw', 'wat');
+        }, 'to error', 'next called more than once');
     });
 
     it('should not remove the origin of uncaught exceptions from middleware', function () {
-        expect(function () {
-            expect(express().use(function (req, res, next) {
+        return expect(function () {
+            return expect(express().use(function (req, res, next) {
                 JSON.parse('INVALIDJSON');
             }), 'to yield exchange satisfying', {
                 request: {},
                 response: {}
             });
-        }, 'to throw', function (err) {
+        }, 'to error', function (err) {
             expect(err.stack, 'to contain', 'test/unexpectedExpress.js');
         });
     });
@@ -1337,9 +1319,9 @@ describe('unexpectedExpress', function () {
                     '\n' +
                     'HTTP/1.1 200 OK\n' +
                     'X-Powered-By: Express\n' +
-                    'Content-Type: application/json\n' +
+                    'Content-Type: application/json; charset=utf-8\n' +
                     'Content-Length: 11\n' +
-                    'ETag: "-1305345262"\n' +
+                    'ETag: W/"b-MqXQsTMhQKye6DxXrQR7aiQcPhE"\n' +
                     'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
                     'Connection: keep-alive\n' +
                     '\n' +
