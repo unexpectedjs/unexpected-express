@@ -668,7 +668,7 @@ describe('unexpectedExpress', function () {
                 'Content-Type: quux/baz\r\n' +
                 '\r\n' +
                 '\x02\x03\r\n' +
-                '--' + boundary + '--'
+                '--' + boundary + '--\r\n'
             ).then(function () {
                 res.status(200).end();
             }).caught(next);
@@ -720,7 +720,7 @@ describe('unexpectedExpress', function () {
                 'Content-Type: image/png\r\n' +
                 '\r\n' +
                 '\x08\x06\x07\x05\x03\x00\t\r\n' +
-                '--' + boundary + '--'
+                '--' + boundary + '--\r\n'
             ).then(function () {
                 res.status(200).end();
             }).caught(next);
@@ -770,7 +770,7 @@ describe('unexpectedExpress', function () {
                 'Content-Disposition: form-data; name="quux"\r\n' +
                 '\r\n' +
                 'æøå☺\r\n' +
-                '--' + boundary + '--'
+                '--' + boundary + '--\r\n'
             ).then(function () {
                 res.status(200).end();
             }).caught(next);
