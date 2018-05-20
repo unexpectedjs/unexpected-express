@@ -1136,24 +1136,6 @@ describe('unexpectedExpress', function () {
         }, 'to error', 'next called more than once');
     });
 
-    it('should fail if the middleware calls the next function, continues with the next middleware and calls next again', function () {
-        var app = express();
-        app.use(function (req, res, next) {
-            next();
-            next(new Error('wat'));
-        });
-        app.get(/.*/, function (req, res) {
-            res.send('Send some data');
-        });
-
-        return expect(function () {
-            return expect(app, 'to yield exchange satisfying', {
-                request: {},
-                response: {}
-            });
-        }, 'to error', 'wat');
-    });
-
     it('should not remove the origin of uncaught exceptions from middleware', function () {
         return expect(function () {
             return expect(express().use(function (req, res, next) {
