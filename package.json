@@ -45,7 +45,7 @@
     "magicpen-prism": "^2.3.0",
     "mocha": "^5.1.0",
     "mock-fs": "^4.0.0",
-    "sinon": "^6.0.0",
+    "sinon": "^7.0.0",
     "unexpected": "^10.27.0",
     "unexpected-documentation-site-generator": "^4.2.3",
     "unexpected-markdown": "^1.7.1",
