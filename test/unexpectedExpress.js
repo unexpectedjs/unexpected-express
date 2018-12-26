@@ -15,11 +15,10 @@ describe('unexpectedExpress', function () {
     var expect = unexpected.clone()
         .installPlugin(require('unexpected-stream'))
         .installPlugin(require('../lib/unexpectedExpress'))
-        .addAssertion('when delayed a little bit', function (expect, subject) {
-            var that = this;
+        .addAssertion('<any> when delayed a little bit <assertion>', function (expect, subject) {
             return expect.promise(function (run) {
                 setTimeout(run(function () {
-                    return that.shift(expect, subject, 0);
+                    return expect.shift(subject);
                 }), 1);
             });
         });
