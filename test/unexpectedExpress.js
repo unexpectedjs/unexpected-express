@@ -888,14 +888,14 @@ describe('unexpectedExpress', function () {
                         statusCode: 200
                     }
                 });
-            }, 'to throw', function (err) {
+            }, 'to throw', expect.it(function (err) {
                 expect(err.getErrorMessage('text').toString(), 'to contain',
                     "// url: expected '/bar' to equal '/barbar'\n" +
                     '//\n' +
                     '// -/bar\n' +
                     '// +/barbar'
                 );
-            });
+            }));
         });
     });
 
@@ -1146,9 +1146,9 @@ describe('unexpectedExpress', function () {
                 request: {},
                 response: {}
             });
-        }, 'to error', function (err) {
+        }, 'to error', expect.it(function (err) {
             expect(err.stack, 'to contain', 'test/unexpectedExpress.js');
-        });
+        }));
     });
 
     it('should not remove the origin of an Error passed asynchronously to next', function () {
@@ -1165,11 +1165,11 @@ describe('unexpectedExpress', function () {
                 response: {}
             }),
             'to be rejected with',
-            function (err) {
+            expect.it(function (err) {
                 expect(err.stack.split('\n'), 'to satisfy', {
                     1: /test\/unexpectedExpress\.js/
                 });
-            }
+            })
         );
     });
 
@@ -1187,11 +1187,11 @@ describe('unexpectedExpress', function () {
                 response: {}
             }),
             'to be rejected with',
-            function (err) {
+            expect.it(function (err) {
                 expect(err.stack.split('\n'), 'to satisfy', {
                     1: /test\/unexpectedExpress\.js/
                 });
-            }
+            })
         );
     });
 
@@ -1214,9 +1214,7 @@ describe('unexpectedExpress', function () {
                     }
                 }),
                 'to be rejected with',
-                function (err) {
-                    expect(err, 'to be an object');
-                }
+                expect.it('to be an object')
             );
         });
 
