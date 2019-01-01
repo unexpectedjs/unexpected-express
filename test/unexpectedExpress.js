@@ -251,8 +251,8 @@ describe('unexpectedExpress', function () {
     });
 
     it('supports the request body to be specified as a string', function () {
-        return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
-            res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
+        return expect(express().use(bodyParser.urlencoded({extended: true})).use(function (req, res, next) {
+            res.send('Hello ' + req.body.foo + ' and ' + req.body.baz);
         }), 'to yield exchange satisfying', {
             request: {
                 headers: {
@@ -268,8 +268,8 @@ describe('unexpectedExpress', function () {
     });
 
     it('supports the request body to be specified as a Buffer', function () {
-        return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
-            res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
+        return expect(express().use(bodyParser.urlencoded({extended: true})).use(function (req, res, next) {
+            res.send('Hello ' + req.body.foo + ' and ' + req.body.baz);
         }), 'to yield exchange satisfying', {
             request: {
                 headers: {
@@ -290,8 +290,8 @@ describe('unexpectedExpress', function () {
             requestBodyStream.end('foo=bar&baz=quux');
         });
         requestBodyStream.resume();
-        return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
-            res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
+        return expect(express().use(bodyParser.urlencoded({extended: true})).use(function (req, res, next) {
+            res.send('Hello ' + req.body.foo + ' and ' + req.body.baz);
         }), 'to yield exchange satisfying', {
             request: {
                 headers: {
@@ -312,8 +312,8 @@ describe('unexpectedExpress', function () {
             requestBodyStream.end(new Buffer('foo=bar&baz=quux', 'utf-8'));
         });
         requestBodyStream.resume();
-        return expect(express().use(bodyParser.urlencoded()).use(function (req, res, next) {
-            res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
+        return expect(express().use(bodyParser.urlencoded({extended: true})).use(function (req, res, next) {
+            res.send('Hello ' + req.body.foo + ' and ' + req.body.baz);
         }), 'to yield exchange satisfying', {
             request: {
                 headers: {
@@ -331,7 +331,7 @@ describe('unexpectedExpress', function () {
     it('supports the unchunked request body to be specified', function () {
         return expect(express().use(bodyParser.json()).use(function (req, res, next) {
             expect(req.body, 'to equal', {foo: 123});
-            res.send(200);
+            res.sendStatus(200);
         }), 'to yield exchange satisfying', {
             request: {
                 headers: {
@@ -346,7 +346,7 @@ describe('unexpectedExpress', function () {
     it('supports the raw request body to be specified', function () {
         return expect(express().use(bodyParser.json()).use(function (req, res, next) {
             expect(req.body, 'to equal', {foo: 123});
-            res.send(200);
+            res.sendStatus(200);
         }), 'to yield exchange satisfying', {
             request: {
                 headers: {
@@ -364,7 +364,7 @@ describe('unexpectedExpress', function () {
             requestBodyStream.end(new Buffer('foo=bar&baz=quux', 'utf-8'));
         });
         return expect(express().use(bodyParser.json()).use(function (req, res, next) {
-            res.send('Hello ' + req.param('foo') + ' and ' + req.param('baz'));
+            res.send('Hello ' + req.body.foo + ' and ' + req.body.baz);
         }), 'to yield exchange satisfying', {
             request: {
                 body: {foo: 'bar', baz: 'quux'}
@@ -582,7 +582,7 @@ describe('unexpectedExpress', function () {
     });
 
     it('should make a request body provided as an object appear as application/json parsed in req.body when using the bodyParser middleware', function () {
-        return expect(express().use(bodyParser()).use(function (req, res, next) {
+        return expect(express().use(bodyParser.json()).use(function (req, res, next) {
             expect(req.header('Content-Type'), 'to equal', 'application/json');
             expect(req.body, 'to equal', {
                 foo: {
@@ -750,7 +750,7 @@ describe('unexpectedExpress', function () {
         formData.append('foo', 'bar');
         formData.append('quux', 'æøå☺');
 
-        return expect(express().use(bodyParser()).use(function (req, res, next) {
+        return expect(express().use(bodyParser.urlencoded({extended: true})).use(function (req, res, next) {
             var contentTypeRegExp = /^multipart\/form-data; boundary=([\-\d]+)$/,
                 contentType = req.header('Content-Type');
 
@@ -1274,7 +1274,7 @@ describe('unexpectedExpress', function () {
                     chunks.push(chunk);
                 }).on('end', function () {
                     expect(Buffer.concat(chunks), 'to equal', new Buffer([1, 2, 3, 4]));
-                    res.send(200);
+                    res.sendStatus(200);
                 });
             }, 10);
         });
