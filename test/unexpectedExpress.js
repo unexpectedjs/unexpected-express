@@ -196,8 +196,8 @@ describe('unexpectedExpress', function () {
     it('should interpret response given as a Buffer as the expected response body', function () {
         return expect(express().use(function (req, res, next) {
             res.header('Content-Type', 'application/octet-stream');
-            res.send(new Buffer([1, 2]));
-        }), 'to yield exchange satisfying', {request: '/foo/bar/', response: new Buffer([1, 2])});
+            res.send(Buffer.from([1, 2]));
+        }), 'to yield exchange satisfying', {request: '/foo/bar/', response: Buffer.from([1, 2])});
     });
 
     describe('when matching the raw body', function () {
@@ -207,7 +207,7 @@ describe('unexpectedExpress', function () {
             }), 'to yield exchange satisfying', {
                 request: '/foo/bar/',
                 response: {
-                    rawBody: new Buffer('foobar', 'utf-8')
+                    rawBody: Buffer.from('foobar', 'utf-8')
                 }
             });
         });
@@ -221,7 +221,7 @@ describe('unexpectedExpress', function () {
                 }), 'to yield exchange satisfying', {
                     request: '/foo/bar/',
                     response: {
-                        rawBody: new Buffer('barfoo', 'utf-8')
+                        rawBody: Buffer.from('barfoo', 'utf-8')
                     }
                 }),
                 'when rejected',
@@ -275,7 +275,7 @@ describe('unexpectedExpress', function () {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: new Buffer('foo=bar&baz=quux', 'utf-8')
+                body: Buffer.from('foo=bar&baz=quux', 'utf-8')
             },
             response: {
                 statusCode: 200,
@@ -309,7 +309,7 @@ describe('unexpectedExpress', function () {
     it('supports the request body to be specified as a stream that emits Buffers', function () {
         var requestBodyStream = new BufferedStream();
         setImmediate(function () {
-            requestBodyStream.end(new Buffer('foo=bar&baz=quux', 'utf-8'));
+            requestBodyStream.end(Buffer.from('foo=bar&baz=quux', 'utf-8'));
         });
         requestBodyStream.resume();
         return expect(express().use(bodyParser.urlencoded({extended: true})).use(function (req, res, next) {
@@ -337,7 +337,7 @@ describe('unexpectedExpress', function () {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                unchunkedBody: new Buffer(JSON.stringify({foo: 123}), 'utf-8')
+                unchunkedBody: Buffer.from(JSON.stringify({foo: 123}), 'utf-8')
             },
             response: 200
         });
@@ -352,7 +352,7 @@ describe('unexpectedExpress', function () {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                rawBody: new Buffer(JSON.stringify({foo: 123}), 'utf-8')
+                rawBody: Buffer.from(JSON.stringify({foo: 123}), 'utf-8')
             },
             response: 200
         });
@@ -361,7 +361,7 @@ describe('unexpectedExpress', function () {
     it('supports the request body to be specified as an object (JSON)', function () {
         var requestBodyStream = new BufferedStream();
         setImmediate(function () {
-            requestBodyStream.end(new Buffer('foo=bar&baz=quux', 'utf-8'));
+            requestBodyStream.end(Buffer.from('foo=bar&baz=quux', 'utf-8'));
         });
         return expect(express().use(bodyParser.json()).use(function (req, res, next) {
             res.send('Hello ' + req.body.foo + ' and ' + req.body.baz);
@@ -568,7 +568,7 @@ describe('unexpectedExpress', function () {
         return expect(express().use(function (req, res, next) {
             res.end();
         }), 'to yield exchange satisfying', {
-            response: { body: new Buffer([]) }
+            response: { body: Buffer.from([]) }
         });
     });
 
@@ -678,12 +678,12 @@ describe('unexpectedExpress', function () {
                 formData: {
                     abc: 'def',
                     attachment: {
-                        value: new Buffer([0x00, 0x01]),
+                        value: Buffer.from([0x00, 0x01]),
                         contentType: 'foo/bar',
                         filename: 'blabla'
                     },
                     attachment2: {
-                        value: new Buffer([0x02, 0x03]),
+                        value: Buffer.from([0x02, 0x03]),
                         contentType: 'quux/baz',
                         fileName: 'yay'
                     }
@@ -695,7 +695,7 @@ describe('unexpectedExpress', function () {
     it('should support sending a multipart/form-data request via formData readStreams', function () {
         mockFs({
             'attachment.html': '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <title>Document</title>\n</head>\n<body>\n    \n</body>\n</html>',
-            'attachment.png': new Buffer([8, 6, 7, 5, 3, 0, 9])
+            'attachment.png': Buffer.from([8, 6, 7, 5, 3, 0, 9])
         });
 
         return expect(express().use(function (req, res, next) {
@@ -1273,7 +1273,7 @@ describe('unexpectedExpress', function () {
                 req.on('data', function (chunk) {
                     chunks.push(chunk);
                 }).on('end', function () {
-                    expect(Buffer.concat(chunks), 'to equal', new Buffer([1, 2, 3, 4]));
+                    expect(Buffer.concat(chunks), 'to equal', Buffer.from([1, 2, 3, 4]));
                     res.sendStatus(200);
                 });
             }, 10);
@@ -1281,7 +1281,7 @@ describe('unexpectedExpress', function () {
 
         return expect(app, 'to yield exchange satisfying', {
             request: {
-                body: new Buffer([1, 2, 3, 4])
+                body: Buffer.from([1, 2, 3, 4])
             },
             response: 200
         });
@@ -1397,7 +1397,7 @@ describe('unexpectedExpress', function () {
     it('should get the complete response body when it is written as a buffer right before a separate end call', function () {
         return expect(express().use(function (req, res, next) {
             res.set('Content-Type', 'text/plain; charset=utf-8');
-            res.write(new Buffer([0x62, 0x6F, 0x64, 0x79]));
+            res.write(Buffer.from([0x62, 0x6F, 0x64, 0x79]));
             res.end();
         }), 'to yield exchange satisfying', {
             request: 'GET /',
