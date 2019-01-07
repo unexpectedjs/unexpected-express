@@ -859,7 +859,7 @@ describe('unexpectedExpress', function() {
   it('should support sending a multipart/form-data request via formData: {...}', function() {
     return expect(
       express().use(function(req, res, next) {
-        var contentTypeRegExp = /^multipart\/form-data; boundary=([\-\d]+)$/;
+        var contentTypeRegExp = /^multipart\/form-data; boundary=([-\d]+)$/;
 
         var contentType = req.header('Content-Type');
 
@@ -932,7 +932,7 @@ describe('unexpectedExpress', function() {
 
     return expect(
       express().use(function(req, res, next) {
-        var contentTypeRegExp = /^multipart\/form-data; boundary=([\-\d]+)$/;
+        var contentTypeRegExp = /^multipart\/form-data; boundary=([-\d]+)$/;
 
         var contentType = req.header('Content-Type');
 
@@ -1003,7 +1003,7 @@ describe('unexpectedExpress', function() {
       express()
         .use(bodyParser.urlencoded({ extended: true }))
         .use(function(req, res, next) {
-          var contentTypeRegExp = /^multipart\/form-data; boundary=([\-\d]+)$/;
+          var contentTypeRegExp = /^multipart\/form-data; boundary=([-\d]+)$/;
 
           var contentType = req.header('Content-Type');
 
