@@ -4,7 +4,7 @@
   "description": "Extend the unexpected assertion library with support for testing Express middleware",
   "main": "lib/unexpectedExpress.js",
   "scripts": {
-    "coverage": "NODE_ENV=development istanbul cover _mocha -- --reporter dot && echo google-chrome coverage/lcov-report/index.html",
+    "coverage": "NODE_ENV=development nyc --reporter=lcov --reporter=text --all -- npm test && echo google-chrome coverage/lcov-report/index.html",
     "lint": "eslint .",
     "test": "mocha --require unexpected-markdown test/*.js `find documentation -name '*.md'` && npm run lint",
     "ci": "npm test && npm run coverage && (<coverage/lcov.info coveralls || true)",
@@ -41,11 +41,11 @@
     "eslint-config-pretty-standard": "^2.0.0",
     "eslint-plugin-prettier": "^3.0.1",
     "express": "4.16.4",
-    "istanbul": "^0.4.5",
     "magicpen": "^5.12.0",
     "magicpen-prism": "^2.3.0",
     "mocha": "^5.1.0",
     "mock-fs": "^4.0.0",
+    "nyc": "^13.1.0",
     "prettier": "^1.15.3",
     "sinon": "^7.0.0",
     "unexpected": "^11.0.0-3",
@@ -61,5 +61,10 @@
     "qs": "^6.5.1",
     "underscore": "^1.6.0",
     "unexpected-messy": "^8.0.0"
+  },
+  "nyc": {
+    "include": [
+      "lib/**"
+    ]
   }
 }
