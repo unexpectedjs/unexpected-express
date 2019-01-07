@@ -6,8 +6,8 @@
   "scripts": {
     "coverage": "NODE_ENV=development nyc --reporter=lcov --reporter=text --all -- npm test && echo google-chrome coverage/lcov-report/index.html",
     "lint": "eslint .",
-    "test": "mocha --require unexpected-markdown test/*.js `find documentation -name '*.md'` && npm run lint",
-    "ci": "npm test && npm run coverage",
+    "test": "mocha --require unexpected-markdown test/*.js `find documentation -name '*.md'`",
+    "ci": "npm test && npm run lint && npm run coverage",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples",
     "deploy-site": "deploy-site.sh"
