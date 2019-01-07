@@ -4,17 +4,11 @@ if (typeof setImmediate === 'undefined') {
   setImmediate = process.nextTick;
 }
 const unexpected = require('unexpected');
-
 const bodyParser = require('body-parser');
-
 const BufferedStream = require('bufferedstream');
-
 const FormData = require('form-data');
-
 const express = require('express');
-
 const fs = require('fs');
-
 const mockFs = require('mock-fs');
 
 describe('unexpectedExpress', () => {
