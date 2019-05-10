@@ -285,7 +285,7 @@ describe('unexpectedExpress', () => {
         'expected express app to yield exchange satisfying\n' +
           '{\n' +
           "  request: '/foo/bar/',\n" +
-          '  response: { rawBody: Buffer([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F]) }\n' +
+          '  response: { rawBody: Buffer.from([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F]) }\n' +
           '}\n' +
           '\n' +
           'GET /foo/bar/ HTTP/1.1\n' +
@@ -299,7 +299,7 @@ describe('unexpectedExpress', () => {
           'Connection: keep-alive\n' +
           '\n' +
           'foobar\n' +
-          '// should have raw body satisfying Buffer([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F])\n' +
+          '// should have raw body satisfying Buffer.from([0x62, 0x61, 0x72, 0x66, 0x6F, 0x6F])\n' +
           '// -66 6F 6F 62 61 72                                │foobar│\n' +
           '// +62 61 72 66 6F 6F                                │barfoo│'
       ));
