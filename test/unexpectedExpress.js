@@ -1,8 +1,3 @@
-/*global describe, it, setImmediate:true, setTimeout*/
-
-if (typeof setImmediate === 'undefined') {
-  setImmediate = process.nextTick;
-}
 const unexpected = require('unexpected');
 const bodyParser = require('body-parser');
 const BufferedStream = require('bufferedstream');
