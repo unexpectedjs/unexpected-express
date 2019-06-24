@@ -61,7 +61,7 @@
     "messy": "^6.6.1",
     "qs": "^6.5.1",
     "underscore": "^1.6.0",
-    "unexpected-messy": "^8.0.0"
+    "unexpected-messy": "^9.0.0"
   },
   "nyc": {
     "include": [
