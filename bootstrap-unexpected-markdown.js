@@ -1,5 +1,5 @@
 /* eslint no-unused-vars: "off" */
-/*global unexpected:true, express:true*/
+/* global unexpected:true, express:true */
 unexpected = require('unexpected').clone();
 express = require('express');
 unexpected.output.preferredWidth = 80;
