@@ -305,7 +305,7 @@ describe('unexpectedExpress', () => {
       express()
         .use(bodyParser.urlencoded({ extended: true }))
         .use((req, res, next) => {
-          res.send(`Hello ${  req.body.foo  } and ${  req.body.baz}`);
+          res.send(`Hello ${req.body.foo} and ${req.body.baz}`);
         }),
       'to yield exchange satisfying',
       {
@@ -327,7 +327,7 @@ describe('unexpectedExpress', () => {
       express()
         .use(bodyParser.urlencoded({ extended: true }))
         .use((req, res, next) => {
-          res.send(`Hello ${  req.body.foo  } and ${  req.body.baz}`);
+          res.send(`Hello ${req.body.foo} and ${req.body.baz}`);
         }),
       'to yield exchange satisfying',
       {
@@ -354,7 +354,7 @@ describe('unexpectedExpress', () => {
       express()
         .use(bodyParser.urlencoded({ extended: true }))
         .use((req, res, next) => {
-          res.send(`Hello ${  req.body.foo  } and ${  req.body.baz}`);
+          res.send(`Hello ${req.body.foo} and ${req.body.baz}`);
         }),
       'to yield exchange satisfying',
       {
@@ -382,7 +382,7 @@ describe('unexpectedExpress', () => {
       express()
         .use(bodyParser.urlencoded({ extended: true }))
         .use((req, res, next) => {
-          res.send(`Hello ${  req.body.foo  } and ${  req.body.baz}`);
+          res.send(`Hello ${req.body.foo} and ${req.body.baz}`);
         }),
       'to yield exchange satisfying',
       {
@@ -449,7 +449,7 @@ describe('unexpectedExpress', () => {
       express()
         .use(bodyParser.json())
         .use((req, res, next) => {
-          res.send(`Hello ${  req.body.foo  } and ${  req.body.baz}`);
+          res.send(`Hello ${req.body.foo} and ${req.body.baz}`);
         }),
       'to yield exchange satisfying',
       {
@@ -814,29 +814,21 @@ describe('unexpectedExpress', () => {
           'when decoded as',
           'utf-8',
           'to equal',
-          `--${ 
-            boundary 
-            }\r\n` +
+          `--${boundary}\r\n` +
             `Content-Disposition: form-data; name="abc"\r\n` +
             `\r\n` +
             `def\r\n` +
-            `--${ 
-            boundary 
-            }\r\n` +
+            `--${boundary}\r\n` +
             `Content-Disposition: form-data; name="attachment"; filename="blabla"\r\n` +
             `Content-Type: foo/bar\r\n` +
             `\r\n` +
             `\x00\x01\r\n` +
-            `--${ 
-            boundary 
-            }\r\n` +
+            `--${boundary}\r\n` +
             `Content-Disposition: form-data; name="attachment2"; filename="yay"\r\n` +
             `Content-Type: quux/baz\r\n` +
             `\r\n` +
             `\x02\x03\r\n` +
-            `--${ 
-            boundary 
-            }--\r\n`
+            `--${boundary}--\r\n`
         )
           .then(() => {
             res.status(200).end();
@@ -886,23 +878,17 @@ describe('unexpectedExpress', () => {
           'when decoded as',
           'utf-8',
           'to equal',
-          `--${ 
-            boundary 
-            }\r\n` +
+          `--${boundary}\r\n` +
             `Content-Disposition: form-data; name="html"; filename="attachment.html"\r\n` +
             `Content-Type: text/html\r\n` +
             `\r\n` +
             `<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <title>Document</title>\n</head>\n<body>\n    \n</body>\n</html>\r\n` +
-            `--${ 
-            boundary 
-            }\r\n` +
+            `--${boundary}\r\n` +
             `Content-Disposition: form-data; name="png"; filename="attachment.png"\r\n` +
             `Content-Type: image/png\r\n` +
             `\r\n` +
             `\x08\x06\x07\x05\x03\x00\t\r\n` +
-            `--${ 
-            boundary 
-            }--\r\n`
+            `--${boundary}--\r\n`
         )
           .then(() => {
             res.status(200).end();
@@ -957,21 +943,15 @@ describe('unexpectedExpress', () => {
             'when decoded as',
             'utf-8',
             'to equal',
-            `--${ 
-              boundary 
-              }\r\n` +
+            `--${boundary}\r\n` +
               `Content-Disposition: form-data; name="foo"\r\n` +
               `\r\n` +
               `bar\r\n` +
-              `--${ 
-              boundary 
-              }\r\n` +
+              `--${boundary}\r\n` +
               `Content-Disposition: form-data; name="quux"\r\n` +
               `\r\n` +
               `æøå☺\r\n` +
-              `--${ 
-              boundary 
-              }--\r\n`
+              `--${boundary}--\r\n`
           )
             .then(() => {
               res.status(200).end();
