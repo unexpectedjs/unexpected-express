@@ -1470,28 +1470,6 @@ describe('unexpectedExpress', () => {
     );
   });
 
-  it('should not remove the origin of an Error passed asynchronously to next', () => {
-    const app = express();
-    app.use((req, res, next) => {
-      setImmediate(() => {
-        next(new Error('MockError'));
-      });
-    });
-
-    return expect(
-      expect(app, 'to yield exchange satisfying', {
-        request: {},
-        response: {}
-      }),
-      'to be rejected with',
-      expect.it(err => {
-        expect(err.stack.split('\n'), 'to satisfy', {
-          1: /test\/unexpectedExpress\.js/
-        });
-      })
-    );
-  });
-
   describe('with errorPassedToNext set to an object', () => {
     it('should report if the test failed due to no error being passed to next', () => {
       const app = express();
