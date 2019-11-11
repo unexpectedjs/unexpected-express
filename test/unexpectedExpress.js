@@ -15,7 +15,10 @@ describe('unexpectedExpress', () => {
       '<any> when delayed a little bit <assertion>',
       (expect, subject) =>
         expect.promise(run => {
-          setTimeout(run(() => expect.shift(subject)), 1);
+          setTimeout(
+            run(() => expect.shift(subject)),
+            1
+          );
         })
     );
 
@@ -910,10 +913,14 @@ describe('unexpectedExpress', () => {
   it('should complain if the body and formData request options occur together', () => {
     expect(
       () => {
-        expect(express().use(() => {}), 'to yield exchange satisfying', {
-          request: { body: 'abc', formData: {} },
-          response: 200
-        });
+        expect(
+          express().use(() => {}),
+          'to yield exchange satisfying',
+          {
+            request: { body: 'abc', formData: {} },
+            response: 200
+          }
+        );
       },
       'to throw',
       'unexpected-express: The "body" and "formData" options are not supported together'
