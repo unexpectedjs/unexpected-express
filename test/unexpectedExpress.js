@@ -1383,11 +1383,13 @@ describe('unexpectedExpress', () => {
       res.setHeader('ETag', '"abc123"');
       res.send({ foo: 123 });
     };
-    expect.addAssertion('to yield a response of', (expect, subject, value) =>
-      expect(express().use(middleware), 'to yield exchange satisfying', {
-        request: subject,
-        response: value
-      })
+    expect.addAssertion(
+      '<string> to yield a response of <object>',
+      (expect, subject, value) =>
+        expect(express().use(middleware), 'to yield exchange satisfying', {
+          request: subject,
+          response: value
+        })
     );
 
     expect(
