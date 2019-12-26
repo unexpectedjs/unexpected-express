@@ -9,8 +9,8 @@ const mockFs = require('mock-fs');
 describe('unexpectedExpress', () => {
   const expect = unexpected
     .clone()
-    .installPlugin(require('unexpected-stream'))
-    .installPlugin(require('../lib/unexpectedExpress'))
+    .use(require('unexpected-stream'))
+    .use(require('../lib/unexpectedExpress'))
     .addAssertion(
       '<any> when delayed a little bit <assertion>',
       (expect, subject) =>
@@ -24,7 +24,7 @@ describe('unexpectedExpress', () => {
 
   expect.output.preferredWidth = 80;
 
-  expect.output.installPlugin(require('magicpen-prism'));
+  expect.output.use(require('magicpen-prism'));
 
   it('should fail if an unsupported top-level option is specified', () =>
     expect(
