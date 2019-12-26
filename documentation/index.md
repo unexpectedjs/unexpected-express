@@ -203,7 +203,7 @@ return expect(express().use(myMiddleware), 'to yield exchange', {
         formData: {
             title: 'Hello World',
             attachment: {
-                value: new Buffer([0x00, 0x01]),
+                value: Buffer.from([0x00, 0x01]),
                 contentType: 'foo/bar',
                 filename: 'blabla'
             }
