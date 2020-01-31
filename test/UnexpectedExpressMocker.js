@@ -7,15 +7,18 @@ const UnexpectedExpressMocker = require('../lib/UnexpectedExpressMocker');
 
 describe('UnexpectedExpressMocker', () => {
   it('should resolve with the context', async () => {
-    const mocker = new UnexpectedExpressMocker({
-      request: 'POST /foo/bar',
-      response: 204
-    });
     const app = express().post('/foo/bar', (req, res) => {
       res.status(204).send();
     });
+    const mocker = new UnexpectedExpressMocker(app);
 
-    const context = await expect(() => mocker.mock(app), 'to be fulfilled');
+    const context = await expect(
+      () =>
+        mocker.mock({
+          request: 'POST /foo/bar'
+        }),
+      'to be fulfilled'
+    );
 
     expect(context, 'to exhaustively satisfy', {
       req: expect.it('to be a', http.IncomingMessage),
@@ -28,15 +31,14 @@ describe('UnexpectedExpressMocker', () => {
   });
 
   it('should allow being passed a middleware', () => {
-    const mocker = new UnexpectedExpressMocker({
-      request: 'POST /foo/bar',
-      response: 204
+    const mocker = new UnexpectedExpressMocker((req, res) => {
+      res.status(204).send();
     });
 
     return expect(
       () =>
-        mocker.mock((req, res) => {
-          res.status(204).send();
+        mocker.mock({
+          request: 'POST /foo/bar'
         }),
       'to be fulfilled'
     );
