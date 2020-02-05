@@ -66,6 +66,26 @@ describe('UnexpectedExpressMocker', () => {
       });
     });
 
+    it('should resolve with an error with status wrapped as an ExplicitRouteError', async () => {
+      const error = new Error('boom');
+      error.status = 418;
+      const mocker = new UnexpectedExpressMocker((req, res) => {
+        throw error;
+      });
+
+      const context = await mocker.mock({
+        request: 'POST /foo/bar'
+      });
+
+      return expect(context, 'to satisfy', {
+        metadata: {
+          errorPassedToNext: expect
+            .it('to be a', errors.ExplicitRouteError)
+            .and('to satisfy', { data: { error } })
+        }
+      });
+    });
+
     it('should resolve with an arbitrary error wrapped as a UnknownRouteError', async () => {
       const error = new Error('boom');
       const mocker = new UnexpectedExpressMocker((req, res) => {
