@@ -549,6 +549,23 @@ describe('unexpectedExpress', () => {
         }
       ));
 
+    it('should resolve with the unwrapped error in the context', async () => {
+      const err = new Error('foobar');
+      err.statusCode = 412;
+      const context = await expect(
+        express().use((req, res, next) => {
+          next(err);
+        }),
+        'to yield exchange satisfying',
+        {
+          request: 'GET /',
+          response: 412
+        }
+      );
+
+      expect(context.metadata.errorPassedToNext, 'to equal', err);
+    });
+
     it('should not mess with headers that were already set', () =>
       expect(
         express().use((req, res, next) => {
