@@ -22,8 +22,8 @@ describe('UnexpectedExpressMocker', () => {
     );
 
     expect(context, 'to exhaustively satisfy', {
-      req: expect.it('to be a', http.IncomingMessage),
-      res: expect.it('to be a', http.ServerResponse),
+      req: expect.it('to be an', http.IncomingMessage),
+      res: expect.it('to be an', http.ServerResponse),
       metadata: expect.it('to be an object'),
       httpRequest: expect.it('to be a', messy.HttpRequest),
       httpResponse: expect.it('to be a', messy.HttpResponse),
@@ -60,7 +60,7 @@ describe('UnexpectedExpressMocker', () => {
       return expect(context, 'to satisfy', {
         metadata: {
           errorPassedToNext: expect
-            .it('to be a', errors.ExplicitRouteError)
+            .it('to be an', errors.ExplicitRouteError)
             .and('to satisfy', { data: { error } })
         }
       });
@@ -80,7 +80,7 @@ describe('UnexpectedExpressMocker', () => {
       return expect(context, 'to satisfy', {
         metadata: {
           errorPassedToNext: expect
-            .it('to be a', errors.ExplicitRouteError)
+            .it('to be an', errors.ExplicitRouteError)
             .and('to satisfy', { data: { error } })
         }
       });
@@ -99,7 +99,7 @@ describe('UnexpectedExpressMocker', () => {
       return expect(context, 'to satisfy', {
         metadata: {
           errorPassedToNext: expect
-            .it('to be a', errors.UnknownRouteError)
+            .it('to be an', errors.UnknownRouteError)
             .and('to satisfy', { data: { error } })
         }
       });
@@ -119,7 +119,7 @@ describe('UnexpectedExpressMocker', () => {
       return expect(context, 'to satisfy', {
         metadata: {
           errorPassedToNext: expect
-            .it('to be a', errors.SilentRouteError)
+            .it('to be an', errors.SilentRouteError)
             .and('to satisfy', { data: { error } })
         }
       });
