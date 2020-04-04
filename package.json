@@ -4,10 +4,10 @@
   "description": "Extend the unexpected assertion library with support for testing Express middleware",
   "main": "lib/unexpectedExpress.js",
   "scripts": {
-    "coverage": "NODE_ENV=development nyc --reporter=lcov --reporter=text --all -- npm test && echo google-chrome coverage/lcov-report/index.html",
+    "coverage": "nyc --reporter=lcov --reporter=text --all -- npm test && echo google-chrome coverage/lcov-report/index.html",
     "lint": "eslint . && prettier --check '**/*.{js,md}'",
     "test": "mocha --require unexpected-markdown test/*.js `find documentation -name '*.md'`",
-    "ci": "npm test && npm run lint && npm run coverage",
+    "test:ci": "npm run coverage",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples",
     "deploy-site": "deploy-site.sh"
