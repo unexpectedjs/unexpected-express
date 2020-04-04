@@ -1,5 +1,4 @@
-Unexpected-express
-==================
+# Unexpected-express
 
 Plugin for [Unexpected](https://github.com/unexpectedjs/unexpected) that makes it easy to test [Express.js](https://github.com/visionmedia/express/) middleware. Uses the [unexpected-messy](https://github.com/unexpectedjs/unexpected-messy) plugin to do most of the heavy lifting.
 

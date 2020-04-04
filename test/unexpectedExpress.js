@@ -14,7 +14,7 @@ describe('unexpectedExpress', () => {
     .addAssertion(
       '<any> when delayed a little bit <assertion>',
       (expect, subject) =>
-        expect.promise(run => {
+        expect.promise((run) => {
           setTimeout(
             run(() => expect.shift(subject)),
             1
@@ -37,9 +37,9 @@ describe('unexpectedExpress', () => {
           {
             fooBar: 123,
             request: {
-              url: '/foo'
+              url: '/foo',
             },
-            response: 200
+            response: 200,
           }
         ),
       'to throw',
@@ -52,7 +52,7 @@ describe('unexpectedExpress', () => {
         expect(req.headers, 'to have properties', {
           'content-type': 'text/html',
           'set-cookie': ['foo=bar', 'baz=quux'],
-          'cache-control': 'public, no-cache'
+          'cache-control': 'public, no-cache',
         });
         next();
       }),
@@ -62,10 +62,10 @@ describe('unexpectedExpress', () => {
           headers: {
             'Content-Type': 'text/html',
             'Set-Cookie': ['foo=bar', 'baz=quux'],
-            'Cache-Control': ['public', 'no-cache']
-          }
+            'Cache-Control': ['public', 'no-cache'],
+          },
         },
-        response: 404
+        response: 404,
       }
     ));
 
@@ -81,10 +81,10 @@ describe('unexpectedExpress', () => {
           url: '/foo',
           query: {
             bar: 'heyæøå',
-            baz: 'blah'
-          }
+            baz: 'blah',
+          },
         },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -100,11 +100,11 @@ describe('unexpectedExpress', () => {
           url: '/foo',
           query: {
             bar: {
-              quux: 123
-            }
-          }
+              quux: 123,
+            },
+          },
         },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -117,7 +117,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: 'foo',
-        response: 200
+        response: 200,
       }
     ));
 
@@ -132,10 +132,10 @@ describe('unexpectedExpress', () => {
         request: {
           url: '/foo?hey=there',
           query: {
-            bar: 'hey'
-          }
+            bar: 'hey',
+          },
         },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -149,9 +149,9 @@ describe('unexpectedExpress', () => {
       {
         request: {
           url: '/foo',
-          query: 'foo=bar%F8'
+          query: 'foo=bar%F8',
         },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -196,7 +196,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: 'GET /',
-        response: 200
+        response: 200,
       }
     ));
 
@@ -211,9 +211,9 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: {
-          httpVersion: '2.0'
+          httpVersion: '2.0',
         },
-        response: 404
+        response: 404,
       }
     ));
 
@@ -257,8 +257,8 @@ describe('unexpectedExpress', () => {
         {
           request: '/foo/bar/',
           response: {
-            rawBody: Buffer.from('foobar', 'utf-8')
-          }
+            rawBody: Buffer.from('foobar', 'utf-8'),
+          },
         }
       ));
 
@@ -274,8 +274,8 @@ describe('unexpectedExpress', () => {
           {
             request: '/foo/bar/',
             response: {
-              rawBody: Buffer.from('barfoo', 'utf-8')
-            }
+              rawBody: Buffer.from('barfoo', 'utf-8'),
+            },
           }
         ),
         'when rejected',
@@ -314,14 +314,14 @@ describe('unexpectedExpress', () => {
       {
         request: {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: 'foo=bar&baz=quux'
+          body: 'foo=bar&baz=quux',
         },
         response: {
           statusCode: 200,
-          body: 'Hello bar and quux'
-        }
+          body: 'Hello bar and quux',
+        },
       }
     ));
 
@@ -336,14 +336,14 @@ describe('unexpectedExpress', () => {
       {
         request: {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: Buffer.from('foo=bar&baz=quux', 'utf-8')
+          body: Buffer.from('foo=bar&baz=quux', 'utf-8'),
         },
         response: {
           statusCode: 200,
-          body: 'Hello bar and quux'
-        }
+          body: 'Hello bar and quux',
+        },
       }
     ));
 
@@ -363,14 +363,14 @@ describe('unexpectedExpress', () => {
       {
         request: {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: requestBodyStream
+          body: requestBodyStream,
         },
         response: {
           statusCode: 200,
-          body: 'Hello bar and quux'
-        }
+          body: 'Hello bar and quux',
+        },
       }
     );
   });
@@ -391,14 +391,14 @@ describe('unexpectedExpress', () => {
       {
         request: {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: requestBodyStream
+          body: requestBodyStream,
         },
         response: {
           statusCode: 200,
-          body: 'Hello bar and quux'
-        }
+          body: 'Hello bar and quux',
+        },
       }
     );
   });
@@ -415,11 +415,11 @@ describe('unexpectedExpress', () => {
       {
         request: {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          unchunkedBody: Buffer.from(JSON.stringify({ foo: 123 }), 'utf-8')
+          unchunkedBody: Buffer.from(JSON.stringify({ foo: 123 }), 'utf-8'),
         },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -435,11 +435,11 @@ describe('unexpectedExpress', () => {
       {
         request: {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          rawBody: Buffer.from(JSON.stringify({ foo: 123 }), 'utf-8')
+          rawBody: Buffer.from(JSON.stringify({ foo: 123 }), 'utf-8'),
         },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -457,12 +457,12 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: {
-          body: { foo: 'bar', baz: 'quux' }
+          body: { foo: 'bar', baz: 'quux' },
         },
         response: {
           statusCode: 200,
-          body: 'Hello bar and quux'
-        }
+          body: 'Hello bar and quux',
+        },
       }
     );
   });
@@ -478,7 +478,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: 'PUT /',
-        response: 200
+        response: 200,
       }
     ));
 
@@ -492,8 +492,8 @@ describe('unexpectedExpress', () => {
       {
         request: 'PUT /',
         response: {
-          requestDestroyed: true
-        }
+          requestDestroyed: true,
+        },
       }
     ));
 
@@ -506,7 +506,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: { https: true },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -518,7 +518,7 @@ describe('unexpectedExpress', () => {
       },
       'to yield exchange satisfying',
       {
-        request: 'GET /foo?bar=baz'
+        request: 'GET /foo?bar=baz',
       }
     ));
 
@@ -530,7 +530,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: 'GET /',
-        response: 200
+        response: 200,
       }
     ));
 
@@ -545,7 +545,7 @@ describe('unexpectedExpress', () => {
         'to yield exchange satisfying',
         {
           request: 'GET /',
-          response: 412
+          response: 412,
         }
       ));
 
@@ -559,7 +559,7 @@ describe('unexpectedExpress', () => {
         'to yield exchange satisfying',
         {
           request: 'GET /',
-          response: 412
+          response: 412,
         }
       );
 
@@ -580,9 +580,9 @@ describe('unexpectedExpress', () => {
           response: {
             statusCode: 412,
             headers: {
-              Foo: 'bar'
-            }
-          }
+              Foo: 'bar',
+            },
+          },
         }
       ));
 
@@ -600,8 +600,8 @@ describe('unexpectedExpress', () => {
         expect(app, 'to yield exchange satisfying', {
           response: {
             statusCode: 200,
-            errorPassedToNext: err
-          }
+            errorPassedToNext: err,
+          },
         });
       }, 'not to throw'); // not to throw "Can't render headers after they are sent to the client."
     });
@@ -615,8 +615,8 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         response: {
-          errorPassedToNext: true
-        }
+          errorPassedToNext: true,
+        },
       }
     ));
 
@@ -628,8 +628,8 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         response: {
-          errorPassedToNext: true
-        }
+          errorPassedToNext: true,
+        },
       }
     ));
 
@@ -641,8 +641,8 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         response: {
-          errorPassedToNext: false
-        }
+          errorPassedToNext: false,
+        },
       }
     ));
 
@@ -654,8 +654,8 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         response: {
-          errorPassedToNext: 'foo bar quux'
-        }
+          errorPassedToNext: 'foo bar quux',
+        },
       }
     ));
 
@@ -667,8 +667,8 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         response: {
-          errorPassedToNext: new Error('foo')
-        }
+          errorPassedToNext: new Error('foo'),
+        },
       }
     ));
 
@@ -683,8 +683,8 @@ describe('unexpectedExpress', () => {
         'to yield exchange satisfying',
         {
           response: {
-            errorPassedToNext: new Error('bar')
-          }
+            errorPassedToNext: new Error('bar'),
+          },
         }
       ),
       'to be rejected'
@@ -698,8 +698,8 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         response: {
-          errorPassedToNext: 'foo bar quux'
-        }
+          errorPassedToNext: 'foo bar quux',
+        },
       }
     ));
 
@@ -712,8 +712,8 @@ describe('unexpectedExpress', () => {
       {
         response: {
           statusCode: 404,
-          errorPassedToNext: true
-        }
+          errorPassedToNext: true,
+        },
       }
     ));
 
@@ -724,7 +724,7 @@ describe('unexpectedExpress', () => {
       }),
       'to yield exchange satisfying',
       {
-        response: { body: Buffer.from([]) }
+        response: { body: Buffer.from([]) },
       }
     ));
 
@@ -736,7 +736,7 @@ describe('unexpectedExpress', () => {
       }),
       'to yield exchange satisfying',
       {
-        response: { body: '' }
+        response: { body: '' },
       }
     ));
 
@@ -748,8 +748,8 @@ describe('unexpectedExpress', () => {
           expect(req.header('Content-Type'), 'to equal', 'application/json');
           expect(req.body, 'to equal', {
             foo: {
-              bar: 'quux'
-            }
+              bar: 'quux',
+            },
           });
           res.status(200).end();
         }),
@@ -758,11 +758,11 @@ describe('unexpectedExpress', () => {
         request: {
           body: {
             foo: {
-              bar: 'quux'
-            }
-          }
+              bar: 'quux',
+            },
+          },
         },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -787,9 +787,9 @@ describe('unexpectedExpress', () => {
         request: {
           form: {
             foo: 'bar',
-            hello: 'world'
-          }
-        }
+            hello: 'world',
+          },
+        },
       }
     ));
 
@@ -812,8 +812,8 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: {
-          form: 'foo=bar&hello=world'
-        }
+          form: 'foo=bar&hello=world',
+        },
       }
     ));
 
@@ -863,15 +863,15 @@ describe('unexpectedExpress', () => {
             attachment: {
               value: Buffer.from([0x00, 0x01]),
               contentType: 'foo/bar',
-              filename: 'blabla'
+              filename: 'blabla',
             },
             attachment2: {
               value: Buffer.from([0x02, 0x03]),
               contentType: 'quux/baz',
-              fileName: 'yay'
-            }
-          }
-        }
+              fileName: 'yay',
+            },
+          },
+        },
       }
     ));
 
@@ -879,7 +879,7 @@ describe('unexpectedExpress', () => {
     mockFs({
       'attachment.html':
         '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <title>Document</title>\n</head>\n<body>\n    \n</body>\n</html>',
-      'attachment.png': Buffer.from([8, 6, 7, 5, 3, 0, 9])
+      'attachment.png': Buffer.from([8, 6, 7, 5, 3, 0, 9]),
     });
 
     return expect(
@@ -920,9 +920,9 @@ describe('unexpectedExpress', () => {
         request: {
           formData: {
             html: fs.createReadStream('attachment.html'),
-            png: fs.createReadStream('attachment.png')
-          }
-        }
+            png: fs.createReadStream('attachment.png'),
+          },
+        },
       }
     ).finally(mockFs.restore);
   });
@@ -935,7 +935,7 @@ describe('unexpectedExpress', () => {
           'to yield exchange satisfying',
           {
             request: { body: 'abc', formData: {} },
-            response: 200
+            response: 200,
           }
         );
       },
@@ -985,9 +985,9 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: {
-          body: formData
+          body: formData,
         },
-        response: 200
+        response: 200,
       }
     );
   });
@@ -1001,7 +1001,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: '/foo/',
-        response: 200
+        response: 200,
       }
     ));
 
@@ -1014,7 +1014,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: { remoteAddress: '99.88.77.66' },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -1027,7 +1027,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: { ip: '99.88.77.66' },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -1042,7 +1042,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: 'http://www.example.com:5432/foo/bar/?hey=there',
-        response: 200
+        response: 200,
       }
     ));
 
@@ -1056,7 +1056,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: 'DELETE /foo/bar/',
-        response: 200
+        response: 200,
       }
     ));
 
@@ -1070,11 +1070,11 @@ describe('unexpectedExpress', () => {
       {
         request: {
           headers: {
-            Host: 'blabla.com'
+            Host: 'blabla.com',
           },
-          url: 'http://www.example.com:5432/foo/bar/?hey=there'
+          url: 'http://www.example.com:5432/foo/bar/?hey=there',
         },
-        response: 200
+        response: 200,
       }
     ));
 
@@ -1087,7 +1087,7 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: 'https://www.example.com:5432/foo/bar/',
-        response: 200
+        response: 200,
       }
     ));
 
@@ -1103,8 +1103,8 @@ describe('unexpectedExpress', () => {
           request: '/foo',
           response: {
             url: '/bar',
-            statusCode: 200
-          }
+            statusCode: 200,
+          },
         }
       ));
 
@@ -1121,13 +1121,13 @@ describe('unexpectedExpress', () => {
               request: '/foo',
               response: {
                 url: '/barbar',
-                statusCode: 200
-              }
+                statusCode: 200,
+              },
             }
           );
         },
         'to throw',
-        expect.it(err => {
+        expect.it((err) => {
           expect(
             err.getErrorMessage('text').toString(),
             'to contain',
@@ -1155,9 +1155,9 @@ describe('unexpectedExpress', () => {
           request: '/foo',
           response: {
             headers: {
-              'X-Foo': undefined
-            }
-          }
+              'X-Foo': undefined,
+            },
+          },
         }
       ),
       'to be rejected'
@@ -1177,9 +1177,9 @@ describe('unexpectedExpress', () => {
           request: '/foo',
           response: {
             headers: {
-              'x-fOO': undefined
-            }
-          }
+              'x-fOO': undefined,
+            },
+          },
         }
       ),
       'to be rejected'
@@ -1195,7 +1195,7 @@ describe('unexpectedExpress', () => {
           'to yield exchange',
           {
             request: '/foo',
-            response: []
+            response: [],
           }
         );
       },
@@ -1215,8 +1215,8 @@ describe('unexpectedExpress', () => {
           {
             request: '/foo',
             response: {
-              foo: 'quux'
-            }
+              foo: 'quux',
+            },
           }
         );
       },
@@ -1237,10 +1237,10 @@ describe('unexpectedExpress', () => {
             request: '/foo',
             response: {
               body: {
-                baz: 'xuuq'
+                baz: 'xuuq',
               },
-              fooBar: 'quux'
-            }
+              fooBar: 'quux',
+            },
           }
         );
       },
@@ -1258,8 +1258,8 @@ describe('unexpectedExpress', () => {
       'to yield exchange satisfying',
       {
         request: {
-          fooBar: 'quuuux'
-        }
+          fooBar: 'quuuux',
+        },
       }
     ));
 
@@ -1276,8 +1276,8 @@ describe('unexpectedExpress', () => {
             request: '/foo',
             response: {
               statusCode: 200,
-              fooBar: 'quux'
-            }
+              fooBar: 'quux',
+            },
           }
         );
       },
@@ -1297,9 +1297,9 @@ describe('unexpectedExpress', () => {
         request: 'GET /',
         response: {
           locals: {
-            foo: 'bar'
-          }
-        }
+            foo: 'bar',
+          },
+        },
       }
     ));
 
@@ -1314,10 +1314,10 @@ describe('unexpectedExpress', () => {
         request: {
           res: {
             locals: {
-              foo: 'bar'
-            }
-          }
-        }
+              foo: 'bar',
+            },
+          },
+        },
       }
     ));
 
@@ -1335,7 +1335,7 @@ describe('unexpectedExpress', () => {
           'to yield exchange satisfying',
           {
             request: '/',
-            response: 200
+            response: 200,
           }
         ),
       'to throw',
@@ -1368,9 +1368,9 @@ describe('unexpectedExpress', () => {
             request: '/',
             response: {
               headers: {
-                ETag: '"foo456"'
-              }
-            }
+                ETag: '"foo456"',
+              },
+            },
           }
         ),
       'to throw',
@@ -1405,7 +1405,7 @@ describe('unexpectedExpress', () => {
       (expect, subject, value) =>
         expect(express().use(middleware), 'to yield exchange satisfying', {
           request: subject,
-          response: value
+          response: value,
         })
     );
 
@@ -1413,8 +1413,8 @@ describe('unexpectedExpress', () => {
       () => {
         expect('/', 'to yield a response of', {
           headers: {
-            ETag: '"foo456"'
-          }
+            ETag: '"foo456"',
+          },
         });
       },
       'to throw',
@@ -1448,7 +1448,7 @@ describe('unexpectedExpress', () => {
           'to yield exchange satisfying',
           {
             request: {},
-            response: {}
+            response: {},
           }
         ),
       'to error',
@@ -1465,11 +1465,11 @@ describe('unexpectedExpress', () => {
           'to yield exchange satisfying',
           {
             request: {},
-            response: {}
+            response: {},
           }
         ),
       'to error',
-      expect.it(err => {
+      expect.it((err) => {
         expect(err.stack, 'to contain', 'test/unexpectedExpress.js');
       })
     ));
@@ -1485,12 +1485,12 @@ describe('unexpectedExpress', () => {
     return expect(
       expect(app, 'to yield exchange satisfying', {
         request: {},
-        response: {}
+        response: {},
       }),
       'to be rejected with',
-      expect.it(err => {
+      expect.it((err) => {
         expect(err.stack.split('\n'), 'to satisfy', {
-          1: /test\/unexpectedExpress\.js/
+          1: /test\/unexpectedExpress\.js/,
         });
       })
     );
@@ -1510,9 +1510,9 @@ describe('unexpectedExpress', () => {
           request: {},
           response: {
             errorPassedToNext: {
-              foo: 'bar'
-            }
-          }
+              foo: 'bar',
+            },
+          },
         }),
         'to be rejected with',
         expect.it('to be an object')
@@ -1527,9 +1527,9 @@ describe('unexpectedExpress', () => {
         request: {},
         response: {
           errorPassedToNext: {
-            foo: 'bar'
-          }
-        }
+            foo: 'bar',
+          },
+        },
       });
     });
   });
@@ -1545,8 +1545,8 @@ describe('unexpectedExpress', () => {
     return expect(app, 'to yield exchange satisfying', {
       request: {},
       response: {
-        body: '<>'
-      }
+        body: '<>',
+      },
     });
   });
 
@@ -1560,8 +1560,8 @@ describe('unexpectedExpress', () => {
     return expect(app, 'to yield exchange satisfying', {
       request: {},
       response: {
-        body: '>'
-      }
+        body: '>',
+      },
     });
   });
 
@@ -1571,7 +1571,7 @@ describe('unexpectedExpress', () => {
       setTimeout(() => {
         const chunks = [];
         req
-          .on('data', chunk => {
+          .on('data', (chunk) => {
             chunks.push(chunk);
           })
           .on('end', () => {
@@ -1587,9 +1587,9 @@ describe('unexpectedExpress', () => {
 
     return expect(app, 'to yield exchange satisfying', {
       request: {
-        body: Buffer.from([1, 2, 3, 4])
+        body: Buffer.from([1, 2, 3, 4]),
       },
-      response: 200
+      response: 200,
     });
   });
 
@@ -1603,9 +1603,9 @@ describe('unexpectedExpress', () => {
         {
           response: {
             body: expect.it('when delayed a little bit', 'to equal', {
-              foo: 123
-            })
-          }
+              foo: 123,
+            }),
+          },
         }
       ));
 
@@ -1619,9 +1619,9 @@ describe('unexpectedExpress', () => {
           {
             response: {
               body: expect.it('when delayed a little bit', 'to equal', {
-                foo: 789
-              })
-            }
+                foo: 789,
+              }),
+            },
           }
         ),
         'when rejected',
@@ -1658,11 +1658,11 @@ describe('unexpectedExpress', () => {
         response: {
           statusCode: 404,
           headers: {
-            Foo: 'bar'
-          }
-        }
+            Foo: 'bar',
+          },
+        },
       }
-    ).then(context => {
+    ).then((context) => {
       expect(context.res.headersSent, 'to be true');
     }));
 
@@ -1679,12 +1679,12 @@ describe('unexpectedExpress', () => {
             response: {
               statusCode: 200,
               headers: {
-                Foo: 'bar'
+                Foo: 'bar',
               },
               locals: {
-                foo: 'baz'
-              }
-            }
+                foo: 'baz',
+              },
+            },
           }
         )
       ),
@@ -1727,8 +1727,8 @@ describe('unexpectedExpress', () => {
       {
         request: 'GET /',
         response: {
-          body: 'body'
-        }
+          body: 'body',
+        },
       }
     ));
 });

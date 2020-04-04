@@ -16,7 +16,7 @@ describe('UnexpectedExpressMocker', () => {
     const context = await expect(
       () =>
         mocker.mock({
-          request: 'POST /foo/bar'
+          request: 'POST /foo/bar',
         }),
       'to be fulfilled'
     );
@@ -27,7 +27,7 @@ describe('UnexpectedExpressMocker', () => {
       metadata: expect.it('to be an object'),
       httpRequest: expect.it('to be a', messy.HttpRequest),
       httpResponse: expect.it('to be a', messy.HttpResponse),
-      httpExchange: expect.it('to be a', messy.HttpExchange)
+      httpExchange: expect.it('to be a', messy.HttpExchange),
     });
   });
 
@@ -39,7 +39,7 @@ describe('UnexpectedExpressMocker', () => {
     return expect(
       () =>
         mocker.mock({
-          request: 'POST /foo/bar'
+          request: 'POST /foo/bar',
         }),
       'to be fulfilled'
     );
@@ -54,15 +54,15 @@ describe('UnexpectedExpressMocker', () => {
       });
 
       const context = await mocker.mock({
-        request: 'POST /foo/bar'
+        request: 'POST /foo/bar',
       });
 
       return expect(context, 'to satisfy', {
         metadata: {
           errorPassedToNext: expect
             .it('to be an', errors.ExplicitRouteError)
-            .and('to satisfy', { data: { error } })
-        }
+            .and('to satisfy', { data: { error } }),
+        },
       });
     });
 
@@ -74,15 +74,15 @@ describe('UnexpectedExpressMocker', () => {
       });
 
       const context = await mocker.mock({
-        request: 'POST /foo/bar'
+        request: 'POST /foo/bar',
       });
 
       return expect(context, 'to satisfy', {
         metadata: {
           errorPassedToNext: expect
             .it('to be an', errors.ExplicitRouteError)
-            .and('to satisfy', { data: { error } })
-        }
+            .and('to satisfy', { data: { error } }),
+        },
       });
     });
 
@@ -93,15 +93,15 @@ describe('UnexpectedExpressMocker', () => {
       });
 
       const context = await mocker.mock({
-        request: 'POST /foo/bar'
+        request: 'POST /foo/bar',
       });
 
       return expect(context, 'to satisfy', {
         metadata: {
           errorPassedToNext: expect
             .it('to be an', errors.UnknownRouteError)
-            .and('to satisfy', { data: { error } })
-        }
+            .and('to satisfy', { data: { error } }),
+        },
       });
     });
 
@@ -113,15 +113,15 @@ describe('UnexpectedExpressMocker', () => {
       });
 
       const context = await mocker.mock({
-        request: 'POST /foo/bar'
+        request: 'POST /foo/bar',
       });
 
       return expect(context, 'to satisfy', {
         metadata: {
           errorPassedToNext: expect
             .it('to be an', errors.SilentRouteError)
-            .and('to satisfy', { data: { error } })
-        }
+            .and('to satisfy', { data: { error } }),
+        },
       });
     });
   });

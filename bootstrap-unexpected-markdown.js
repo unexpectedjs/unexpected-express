@@ -7,5 +7,5 @@ unexpected.installPlugin(require('./lib/unexpectedExpress'));
 
 require('sinon').useFakeTimers({
   now: 1457823364125,
-  toFake: ['Date']
+  toFake: ['Date'],
 });
