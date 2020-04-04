@@ -5,7 +5,7 @@
   "main": "lib/unexpectedExpress.js",
   "scripts": {
     "coverage": "NODE_ENV=development nyc --reporter=lcov --reporter=text --all -- npm test && echo google-chrome coverage/lcov-report/index.html",
-    "lint": "eslint . && prettier --check '**/*.js'",
+    "lint": "eslint . && prettier --check '**/*.{js,md}'",
     "test": "mocha --require unexpected-markdown test/*.js `find documentation -name '*.md'`",
     "ci": "npm test && npm run lint && npm run coverage",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
