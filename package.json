@@ -53,7 +53,7 @@
     "prettier": "~2.0.2",
     "sinon": "^9.0.0",
     "unexpected": "^11.12.1",
-    "unexpected-documentation-site-generator": "^6.0.0",
+    "unexpected-documentation-site-generator": "^7.0.1",
     "unexpected-markdown": "^5.0.0",
     "unexpected-stream": "^4.0.0"
   },
