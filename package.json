@@ -10,7 +10,7 @@
     "test:ci": "npm run coverage",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples",
-    "deploy-site": "deploy-site.sh",
+    "deploy-site": "deploy-site",
     "preversion": "offline-github-changelog --next=${npm_package_version} > CHANGELOG.md && git add CHANGELOG.md"
   },
   "repository": {
