@@ -67,7 +67,7 @@
     "lodash": "^4.0.0",
     "messy": "^6.6.1",
     "qs": "^6.5.1",
-    "unexpected-messy": "^9.0.0"
+    "unexpected-messy": "^10.0.0"
   },
   "nyc": {
     "include": [
