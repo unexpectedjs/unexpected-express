@@ -33,6 +33,7 @@ function myMiddleware(req, res, next) {
     body =
       '<html>' + body.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</html>';
   }
+  res.setHeader('Date', 'Sat, 12 Mar 2016 22:56:04 GMT');
   res.send(body);
 }
 ```
@@ -253,9 +254,9 @@ HTTP/1.1 200 OK // should be 404 Not Found
                 // +HTTP/1.1 404 Not Found
 X-Powered-By: Express
 Content-Type: text/plain; charset=utf-8
+Date: Sat, 12 Mar 2016 22:56:04 GMT
 Content-Length: 28
 ETag: W/"1c-HFUAMbnVgCT4McocftsoE3lehW4"
-Date: Sat, 12 Mar 2016 22:56:04 GMT
 Connection: keep-alive
 
 -Here goes /baz as text/plain
