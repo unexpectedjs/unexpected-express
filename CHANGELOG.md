@@ -1,3 +1,10 @@
+### v13.0.1 (2020-11-22)
+
+- [Update unexpected-messy to ^10.0.0](https://github.com/unexpectedjs/unexpected-express/commit/bb63db6ff6492a1bdd7a207ec165ab47982ce609) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Update mocha to ^8.2.1, switch to .mocharc.json](https://github.com/unexpectedjs/unexpected-express/commit/29e4f980f6680d324bb16c032a253060b950d208) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Fix deploy-site invocation](https://github.com/unexpectedjs/unexpected-express/commit/d5f5f2934ee616a6ef355ef4d073ddae21ae19cc) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Add CHANGELOG.md + offline-github-changelog integration](https://github.com/unexpectedjs/unexpected-express/commit/e95554fe139a90042d74287d302be55221376c98) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+
 ### v13.0.0 (2020-11-22)
 
 #### Pull requests
