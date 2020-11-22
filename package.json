@@ -10,7 +10,8 @@
     "test:ci": "npm run coverage",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples",
-    "deploy-site": "deploy-site.sh"
+    "deploy-site": "deploy-site.sh",
+    "preversion": "offline-github-changelog --next=${npm_package_version} > CHANGELOG.md && git add CHANGELOG.md"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,7 @@
     "mocha": "^7.0.0",
     "mock-fs": "^4.0.0",
     "nyc": "^15.0.0",
+    "offline-github-changelog": "^2.0.0",
     "prettier": "~2.1.0",
     "sinon": "^9.0.0",
     "unexpected": "^12.0.0",

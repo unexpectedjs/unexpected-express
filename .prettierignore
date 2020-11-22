@@ -1,7 +1,11 @@
-package.json
-
 /testdata/
 /node_modules/
 /coverage/
 /site-build/
 /.nyc_output/
+
+# Don't fight npm i --save
+/package.json
+
+# Generated
+/CHANGELOG.md

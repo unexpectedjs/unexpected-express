@@ -269,6 +269,10 @@ Connection: keep-alive
 - Request bodies can be provided as either strings, objects (implies JSON), Buffer instances, or streams.
 - Request body streams that are instances of https://github.com/felixge/node-form-data are special cased to implicitly set the `Content-Type` header correctly.
 
+## Releases
+
+[Changelog](https://github.com/unexpectedjs/unexpected-express/blob/master/CHANGELOG.md)
+
 ## License
 
 Unexpected-express is licensed under a standard 3-clause BSD license
