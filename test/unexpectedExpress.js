@@ -267,6 +267,7 @@ describe('unexpectedExpress', () => {
         expect(
           express().use((req, res, next) => {
             setImmediate(() => {
+              res.setHeader('Date', 'Sat, 12 Mar 2016 22:56:04 GMT');
               res.send('foobar');
             });
           }),
@@ -290,10 +291,10 @@ describe('unexpectedExpress', () => {
           '\n' +
           'HTTP/1.1 200 OK\n' +
           'X-Powered-By: Express\n' +
+          'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
           'Content-Type: text/html; charset=utf-8\n' +
           'Content-Length: 6\n' +
           'ETag: W/"6-iEPX+SQWIR3p67lj/0zigSWTKHg"\n' +
-          'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
           'Connection: keep-alive\n' +
           '\n' +
           'foobar\n' +
@@ -1327,6 +1328,7 @@ describe('unexpectedExpress', () => {
         expect(
           express()
             .use((req, res, next) => {
+              res.setHeader('Date', 'Sat, 12 Mar 2016 22:56:04 GMT');
               next();
             })
             .get('/foo', (req, res) => {
@@ -1361,6 +1363,7 @@ describe('unexpectedExpress', () => {
           express().use((req, res, next) => {
             res.setHeader('Content-Type', 'application/json');
             res.setHeader('ETag', '"abc123"');
+            res.setHeader('Date', 'Sat, 12 Mar 2016 22:56:04 GMT');
             res.send({ foo: 123 });
           }),
           'to yield exchange satisfying',
@@ -1386,8 +1389,8 @@ describe('unexpectedExpress', () => {
         '               //\n' +
         '               // -"abc123"\n' +
         '               // +"foo456"\n' +
-        'Content-Length: 11\n' +
         'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
+        'Content-Length: 11\n' +
         'Connection: keep-alive\n' +
         '\n' +
         '{ foo: 123 }'
@@ -1398,6 +1401,7 @@ describe('unexpectedExpress', () => {
     const middleware = (req, res, next) => {
       res.setHeader('Content-Type', 'application/json');
       res.setHeader('ETag', '"abc123"');
+      res.setHeader('Date', 'Sat, 12 Mar 2016 22:56:04 GMT');
       res.send({ foo: 123 });
     };
     expect.addAssertion(
@@ -1429,8 +1433,8 @@ describe('unexpectedExpress', () => {
         '               //\n' +
         '               // -"abc123"\n' +
         '               // +"foo456"\n' +
-        'Content-Length: 11\n' +
         'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
+        'Content-Length: 11\n' +
         'Connection: keep-alive\n' +
         '\n' +
         '{ foo: 123 }'
@@ -1613,6 +1617,7 @@ describe('unexpectedExpress', () => {
       expect(
         expect(
           express().use((req, res, next) => {
+            res.setHeader('Date', 'Sat, 12 Mar 2016 22:56:04 GMT');
             res.send({ foo: 123 });
           }),
           'to yield exchange satisfying',
@@ -1633,10 +1638,10 @@ describe('unexpectedExpress', () => {
           '\n' +
           'HTTP/1.1 200 OK\n' +
           'X-Powered-By: Express\n' +
+          'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
           'Content-Type: application/json; charset=utf-8\n' +
           'Content-Length: 11\n' +
           'ETag: W/"b-MqXQsTMhQKye6DxXrQR7aiQcPhE"\n' +
-          'Date: Sat, 12 Mar 2016 22:56:04 GMT\n' +
           'Connection: keep-alive\n' +
           '\n' +
           'expected { foo: 123 } when delayed a little bit to equal { foo: 789 }\n' +
@@ -1671,6 +1676,7 @@ describe('unexpectedExpress', () => {
       expect.promise(() =>
         expect(
           express().use((req, res, next) => {
+            res.setHeader('Date', 'Sat, 12 Mar 2016 22:56:04 GMT');
             res.locals.foo = 'quux';
             next();
           }),
