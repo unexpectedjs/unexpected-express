@@ -1,3 +1,0 @@
--R spec
---check-leaks
---require ./bootstrap-unexpected-markdown
