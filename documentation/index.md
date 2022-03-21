@@ -180,7 +180,7 @@ There are three commonly used way to POST content to a backend: JSON POST-reques
 
 ### JSON
 
-To test JSON POST-requests you can use the `request` objects `data`-property:
+To test JSON POST-requests you can use the `request` object's `body` property:
 
 ```js#async:true
 return expect(express().use(myMiddleware), 'to yield exchange', {
