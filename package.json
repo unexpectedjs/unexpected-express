@@ -54,7 +54,7 @@
     "prettier": "~2.5.0",
     "unexpected": "^12.0.0",
     "unexpected-documentation-site-generator": "^6.0.0",
-    "unexpected-markdown": "^5.0.0",
+    "unexpected-markdown": "^4.0.0",
     "unexpected-stream": "^5.0.0"
   },
   "dependencies": {
