@@ -1,3 +1,31 @@
+### v13.0.1 (2022-04-28)
+
+#### Pull requests
+
+- [#145](https://github.com/unexpectedjs/unexpected-express/pull/145) Fix typo on the front page of the documentation site ([Nguyen Lam](mailto:nguyen.lam@tradeshift.com))
+- [#142](https://github.com/unexpectedjs/unexpected-express/pull/142) Upgrade eslint-plugin-mocha to version 10.0.1 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#141](https://github.com/unexpectedjs/unexpected-express/pull/141) Upgrade prettier to version 2.5.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#139](https://github.com/unexpectedjs/unexpected-express/pull/139) Upgrade eslint to version 8.1.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#138](https://github.com/unexpectedjs/unexpected-express/pull/138) Upgrade eslint-plugin-promise to version 5.1.1 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#133](https://github.com/unexpectedjs/unexpected-express/pull/133) Upgrade prettier to version 2.4.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#126](https://github.com/unexpectedjs/unexpected-express/pull/126) Upgrade eslint-plugin-mocha to version 9.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#124](https://github.com/unexpectedjs/unexpected-express/pull/124) Upgrade unexpected-messy to version 11.0.1 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#117](https://github.com/unexpectedjs/unexpected-express/pull/117) Upgrade form-data to version 4.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#116](https://github.com/unexpectedjs/unexpected-express/pull/116) Upgrade magicpen-prism to version 5.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#115](https://github.com/unexpectedjs/unexpected-express/pull/115) Upgrade eslint-config-prettier to version 7.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#113](https://github.com/unexpectedjs/unexpected-express/pull/113) Upgrade messy to version 7.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#114](https://github.com/unexpectedjs/unexpected-express/pull/114) Upgrade eslint-plugin-standard to version 5.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#111](https://github.com/unexpectedjs/unexpected-express/pull/111) Upgrade prettier to version 2.2.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+#### Commits to master
+
+- [npm i --save-dev unexpected-stream@latest](https://github.com/unexpectedjs/unexpected-express/commit/6a79817bce817030f2c3323123ddc7bcbdead4f8) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Update unexpected the dev dep to ^13.0.0, allow 13 for the peer dep](https://github.com/unexpectedjs/unexpected-express/commit/8f4ff91fe3a93afea7a1b4b5668c27d26442b708) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Update unexpected-messy to ^11.1.0](https://github.com/unexpectedjs/unexpected-express/commit/996ff7d2adee52892ce69a4e1de38710490b8216) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [npm i --save-dev eslint-plugin-promise@latest](https://github.com/unexpectedjs/unexpected-express/commit/da2e37c1be2d719c625296b573e390a84094cb9a) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [npm i --save-dev eslint-plugin-n eslint-config-standard@latest && npm uninstall eslint-plugin-node eslint-plugin-standard](https://github.com/unexpectedjs/unexpected-express/commit/e37d77418bdf69ce1a2a53ed4056895d7d3f8059) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [+15 more](https://github.com/unexpectedjs/unexpected-express/compare/v13.0.1...v13.0.1)
+
 ### v13.0.1 (2020-11-22)
 
 - [Update unexpected-messy to ^10.0.0](https://github.com/unexpectedjs/unexpected-express/commit/bb63db6ff6492a1bdd7a207ec165ab47982ce609) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
@@ -285,7 +313,6 @@
 - [formData: {...}: Don't mangle buffer values.](https://github.com/unexpectedjs/unexpected-express/commit/aa5f32166a13a139717ddf050eeb825059d25215) ([Andreas Lind](mailto:andreas@one.com))
 
 ### v7.7.0
-
 - [Un-skipping leading slash test that now works as of a recent messy upgrade.](https://github.com/unexpectedjs/unexpected-express/commit/f0a3bbcc4874ef00b7c5937cf4686013b4c2a5a9) ([Andreas Lind](mailto:andreas@one.com))
 - [Include the version property in the plugin spec.](https://github.com/unexpectedjs/unexpected-express/commit/209c323d9be4c49d08349c4d1478cd35f51043ef) ([Andreas Lind](mailto:andreas@one.com))
 - [Revert "Turns out that actually didn't work in npm 2 :\("](https://github.com/unexpectedjs/unexpected-express/commit/5272e95d88ce03501c8c97547bb285f92f3565ca) ([Andreas Lind](mailto:andreas@one.com))
@@ -748,5 +775,5 @@
 - [+8 more](https://github.com/unexpectedjs/unexpected-express/compare/v0.1.0...v0.1.2)
 
 ### v0.1.0
-
 - [Initial commit, release 0.1.0.](https://github.com/unexpectedjs/unexpected-express/commit/2d4b5e4e909192482ff299efdec65a1b22c60ad6) ([Andreas Lind Petersen](mailto:andreas@one.com))
+
