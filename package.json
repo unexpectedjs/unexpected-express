@@ -54,7 +54,7 @@
     "unexpected": "^13.0.0",
     "unexpected-documentation-site-generator": "^6.0.0",
     "unexpected-markdown": "^5.0.0",
-    "unexpected-stream": "^5.0.0"
+    "unexpected-stream": "^5.1.0"
   },
   "dependencies": {
     "bufferedstream": "^3.1.1",
