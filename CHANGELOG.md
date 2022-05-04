@@ -1,4 +1,10 @@
-### v13.0.1 (2022-04-28)
+### v13.1.0 (2022-05-04)
+
+- [#100](https://github.com/unexpectedjs/unexpected-express/pull/100) Upgrade unexpected-documentation-site-generator to version 7.1.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#147](https://github.com/unexpectedjs/unexpected-express/pull/147) Support node.js version 18 ([Gustav Nikolaj Olsen](mailto:gno@one.com))
+- [#146](https://github.com/unexpectedjs/unexpected-express/pull/146) Support node.js version 16 ([Gustav Nikolaj Olsen](mailto:gno@one.com))
+
+### v13.1.0 (2022-04-28)
 
 #### Pull requests
 
@@ -24,7 +30,7 @@
 - [Update unexpected-messy to ^11.1.0](https://github.com/unexpectedjs/unexpected-express/commit/996ff7d2adee52892ce69a4e1de38710490b8216) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
 - [npm i --save-dev eslint-plugin-promise@latest](https://github.com/unexpectedjs/unexpected-express/commit/da2e37c1be2d719c625296b573e390a84094cb9a) ([Andreas Lind](mailto:andreas.lind@workday.com))
 - [npm i --save-dev eslint-plugin-n eslint-config-standard@latest && npm uninstall eslint-plugin-node eslint-plugin-standard](https://github.com/unexpectedjs/unexpected-express/commit/e37d77418bdf69ce1a2a53ed4056895d7d3f8059) ([Andreas Lind](mailto:andreas.lind@workday.com))
-- [+15 more](https://github.com/unexpectedjs/unexpected-express/compare/v13.0.1...v13.0.1)
+- [+15 more](https://github.com/unexpectedjs/unexpected-express/compare/v13.0.1...v13.1.0)
 
 ### v13.0.1 (2020-11-22)
 
