@@ -52,7 +52,7 @@
     "offline-github-changelog": "^1.7.0",
     "prettier": "~2.5.0",
     "unexpected": "^13.0.0",
-    "unexpected-documentation-site-generator": "^6.0.0",
+    "unexpected-documentation-site-generator": "^7.1.0",
     "unexpected-markdown": "^5.0.0",
     "unexpected-stream": "^5.1.0"
   },
