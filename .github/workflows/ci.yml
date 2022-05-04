@@ -5,7 +5,7 @@ name: Tests
 
 jobs:
   test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     name: Node ${{ matrix.node }}
     strategy:
       matrix:
