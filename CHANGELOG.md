@@ -1,4 +1,14 @@
-### v13.1.0 (2022-05-04)
+### v13.1.2 (2022-08-24)
+
+#### Pull requests
+
+- [#148](https://github.com/unexpectedjs/unexpected-express/pull/148) Update unexpected peer dep ([Luis Nunez](mailto:lnu@tradeshift.com))
+
+#### Commits to master
+
+- [Fix CHANGELOG generation in preversion script now that an npm env var changed](https://github.com/unexpectedjs/unexpected-express/commit/c8ab387f904ce0449bcdd25f6f6230bdafe84b43) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+
+### v13.1.1 (2022-05-04)
 
 - [#100](https://github.com/unexpectedjs/unexpected-express/pull/100) Upgrade unexpected-documentation-site-generator to version 7.1.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
 - [#147](https://github.com/unexpectedjs/unexpected-express/pull/147) Support node.js version 18 ([Gustav Nikolaj Olsen](mailto:gno@one.com))
