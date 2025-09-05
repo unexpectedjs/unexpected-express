@@ -15,6 +15,7 @@ jobs:
           - '14'
           - '16'
           - '18'
+          - '22'
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
